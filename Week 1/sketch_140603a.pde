@@ -337,7 +337,7 @@ object[] objList = new object[3];
 game myGame;
 
 void setup() {
-  size(displayWidth, displayHeight-150,);//P3D
+  size(displayWidth, displayHeight-150);//P3D
   
   //test level 1
   objList[0] = new object(0, (height/3)*2, (width/2), height/3);
