@@ -21,7 +21,7 @@ class Game {
     font = fontSet; 
 //    levelXMax = 0;
 //    levelXCurrent = 0;
-    loadLevel(1);
+    loadLevel(3);
   }
   
   void pause() {
@@ -100,6 +100,7 @@ class Game {
         objList[4].setColor(color(29,144,220));
         objList[5] = new Platform((width/3), (height/2)-200, (width/3)+300, (height/2)-200);
         objList[5].setColor(color(29,144,220));
+        me.setLocation(10,(height/3)*2-40);
      } 
      else if(levelNum == 2) {
         levelXMax = 20000;
@@ -112,7 +113,15 @@ class Game {
         objList[3] = new Platform((width/3), (height/2), (width/3)+300, (height/2));
         objList[4] = new Platform((width/3), (height/2)-100, (width/3)+300, (height/2)-100);
         objList[5] = new Platform((width/3), (height/2)-200, (width/3)+300, (height/2)-200); 
-       
+        me.setLocation(10,(height/3)*2-40);
+     }
+     else if(levelNum == 3) {
+        levelXMax = 20000;
+        levelXCurrent = 0;
+        objList = new Object[2];
+        objList[0] = new Grass(0, (height/3), 1000, (height/3)*2-100);
+        objList[1] = new Grass(1095, (height/3)*2, 2000, height/3);
+        me.setLocation(10,(height/3)-40);
      }
   }
   
@@ -166,11 +175,13 @@ class Hero {
   int fallSpeed;
   int runSpeed;
 
+  boolean canWallJump;
   
   boolean movingLeft;
   boolean movingRight;
+  boolean isCrouching;
   
-  boolean[] perks = new boolean[2];//array of perks, either locked or unlocked
+  boolean[] perks = new boolean[5];//array of perks, either locked or unlocked
 
  
  Hero() {
@@ -183,6 +194,8 @@ class Hero {
    runSpeed = 5;
    movingLeft = false;
    movingRight = false;
+   canWallJump = true;
+   isCrouching = false;
    setPerks();
  } 
   
@@ -232,12 +245,48 @@ class Hero {
       }
     fill(255);
     rect(x, y, w, h); 
+    if(movingLeft) {
+      fill(0);
+      line((x+8),(y+8),(x+8),(y+16));
+      line((x+16),(y+8),(x+16),(y+16));
+      if(!perks[2]) {
+        fill(255,0,0);
+        quad((x+w-1),(y+4),(x+w-6),(y+12),(x+w-14),(y+4),(x+w-9),(y+2));
+        quad((x+w-23),(y-7),(x+w-26),(y+2),(x+w-16),(y+3),(x+w-15),(y));
+        ellipse((x+w-14),(y+3),7,7);
+      }
+    }
+    else if(movingRight) {
+       fill(0);
+       line((x+24),(y+8),(x+24),(y+16));
+       line((x+32),(y+8),(x+32),(y+16)); 
+       if(!perks[2]) {
+         fill(255,0,0);
+         quad((x+1),(y+4),(x+6),(y+12),(x+14),(y+4),(x+9),(y+2));
+         quad((x+23),(y-7),(x+26),(y+2),(x+16),(y+3),(x+15),(y));
+         ellipse((x+14),(y+3),7,7);
+       }
+    }
+    else {
+       fill(0);
+       line((x+16),(y+8),(x+16),(y+16));
+       line((x+24),(y+8),(x+24),(y+16)); 
+       if(!perks[2]) {
+         fill(255,0,0);
+         quad((x+9),(y-7),(x+9),(y+5),(x+17),(y+1),(x+17),(y-3));
+         quad((x+w-9),(y-7),(x+w-9),(y+5),(x+w-17),(y+1),(x+w-17),(y-3));
+         ellipse((x+20),(y),7,7);
+       }
+    }
   }
   
   void setPerks() {
-    perks[0] = false;//move left
-    perks[1] = false;//jump
-    unlockAllPerks();
+    perks[0] = true;//move left
+    perks[1] = true;//jump
+    perks[2] = false;//gender, 0 = female, 1 = male
+    perks[3] = true;//wall jump
+    perks[4] = true;//crouch
+    //unlockAllPerks();
   }
   
   void unlockAllPerks() {
@@ -256,6 +305,7 @@ class Hero {
         for(int j=0;j<=fallSpeed;j++) {
            if(objList[i].intersectDown(x,y,x+w,y+h+j)) {
                isFalling = false; 
+               canWallJump = true;
                y += j-1;
                break;
            }
@@ -315,6 +365,32 @@ class Hero {
     if(perks[1] && (!isFalling)) {
       upForce = 16;
       isFalling = true; 
+      crouchOff();
+    }
+    else if(perks[3] && canWallJump) {
+      for(int i=0;i<objList.length;i++) {
+         if(objList[i].intersectLeft(x,y,x+w,y+h) || objList[i].intersectRight(x,y,x+w,y+h)) {
+           upForce = 16;
+           isFalling = true;
+           canWallJump = false;
+         }
+      } 
+    } 
+  }
+  
+  void crouchOn() {
+    if(perks[4] && !isCrouching && !isFalling) {
+        y += 20;
+        h -= 20;
+        isCrouching = true;
+    }
+  }
+  
+  void crouchOff() {
+    if(perks[4] && isCrouching) {
+       y -= 20;
+       h += 20;
+       isCrouching = false;
     }
   }
   
@@ -323,6 +399,11 @@ class Hero {
      moveLeft();
      moveRight();
       
+  }
+  
+  void setLocation(float xSet, float ySet) {
+     x = xSet;
+     y = ySet; 
   }
   
 }
@@ -410,7 +491,7 @@ class Object {
      boolean isIntersect = false;
      //check if it is vertically intersecting
      if(x2 >= x && x1 <= (x + w)) {
-       //check bottom of object
+       //check botto  m of object
        if(y2 <= y && y1 >= (y + h))
          isIntersect = true;
      }
@@ -420,9 +501,9 @@ class Object {
     boolean intersectLeft(float x1, float y1, float x2, float y2) {
      boolean isIntersect = false;
      //check if it is horizontally intersecting
-     if(y2 > (y+5) && y1 < (y + h)) {
+     if(y2 > (y) && y1 < (y + h)) {
        //check left of object
-       if(x2 >= (x) && x1 <= (x + w))
+       if(x2 >= (x+1) && x1 <= (x + w))
          isIntersect = true;
      }
      return isIntersect; 
@@ -433,7 +514,7 @@ class Object {
      //check if it is horizontally intersecting
      if(y2 > (y) && y1 < (y + h)) {
        //check right of object
-       if(x1 <= (x+w) && x2 >= x)
+       if(x1 <= (x+w-1) && x2 >= x)
          isIntersect = true;
      }
      return isIntersect; 
@@ -508,11 +589,11 @@ public class Grass extends Object {
             if(y+i+20 <= (y+h))
               quad(x+i,y,x+i+50,y,x,y+i+55,x,y+i+5);
             else {
-              quad(x+i,y,x+i+50,y,x+i-160,y+h,x+i-210,y+h);
+              quad(x+i,y,x+i+50,y,x+i-(h)+50,y+h,x+i-(h),y+h);
             }
         }
         for(int i=(int(y)+35);i<(y+h)-55;i += 110) {
-           quad(x+w,i,x+w,i+50,(x+(w/2))+(i)-270,y+h,(x+(w/2))+(i)-320,y+h); //this is screwy, oh well
+           quad(x+w,i,x+w,i+50,x+(w/1.36)+i-(h)+50,y+h,x+(w/1.36)+i-(h),y+h);
         }
     }
   }
@@ -570,8 +651,6 @@ public class Platform extends Object {
   
   void drawObj() {
     if(isOnScreen()) {
-      fill(color1);
-      rect(x, y, w, h); 
       if(direction == false) {
          if(x<xPos1)
             x += xRate;
@@ -602,6 +681,8 @@ public class Platform extends Object {
          else if(y>yPos2)
             y -= yRate;
       }
+      fill(color1);
+      rect(x, y, w, h); 
     }
   }
   
@@ -709,6 +790,9 @@ void keyPressed() {
     else if(keyCode == LEFT) {
       me.isLeft(true);
     }
+    else if(keyCode == DOWN) {
+      me.crouchOn(); 
+    }
 
   }
   else if(key == ' ') {
@@ -730,6 +814,9 @@ void keyReleased() {
     } 
     else if(keyCode == LEFT) {
       me.isLeft(false);
+    }
+    else if(keyCode == DOWN) {
+      me.crouchOff();  
     }
 
   }
