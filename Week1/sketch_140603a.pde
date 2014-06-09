@@ -73,16 +73,16 @@ class Game {
        fill(0);
        textFont(font, 32);
        text("Paused", (width/2)-55, (height/2)-90);
-       text("Menu", (width/2)-40, (height/2));
+       text("Cheat", (width/2)-45, (height/2));
     }
     else if(menuNum == 2) {
        fill(255);
-       rect((width/2)-150,(height/2)-175,300,350);
-       rect((width/2)-115,(height/2)-33,230,45);
+       rect((width/2)-150,(height/2)-150,300,175);
+       rect((width/2)-115,(height/2)-50,230,45);
        fill(0);
        textFont(font, 32);
-       text("Beat level", (width/2)-55, (height/2)-90);
-       text("Continue", (width/2)-40, (height/2));
+       text("Level Completed", (width/2)-125, (height/2)-90);
+       text("Continue", (width/2)-75, (height/2)-17);
     }
     else if(menuNum == 3) {
        fill(255);
@@ -90,6 +90,15 @@ class Game {
        rect((width/2)-250,(height/2)-50,230,175);
        rect((width/2)+25,(height/2)-50,225,175);
        printIntro();     
+    }
+    else if(menuNum == 4) {
+       fill(255);
+       rect((width/2)-150,(height/2)-150,300,175);
+       rect((width/2)-115,(height/2)-50,230,45);
+       fill(0);
+       textFont(font, 32);
+       text("Game Over", (width/2)-90, (height/2)-90);
+       text("Restart", (width/2)-55, (height/2)-17);
     }
   }
   
@@ -213,9 +222,10 @@ class Game {
      else if(levelNum == 4) {
         levelXMax = 20000;
         levelXCurrent = 0;
-        objList = new Object[2];
+        objList = new Object[3];
         objList[0] = new Grass(0, (height/3), 1000, (height/3)*2-100);
         objList[1] = new Grass(1095, (height/3)*2, 2000, height/3);
+        objList[2] = new Finish(1500,(height/3)*2,250,50);
         me.setLocation(10,(height/3)-40);
      }
      else if(levelNum == 5) {
@@ -260,7 +270,7 @@ class Game {
   }
   
   void gameOver() {
-     menuNum = 2;
+     menuNum = 4;
      paused = true; 
   }
   
@@ -305,9 +315,13 @@ class Game {
   }
   
   void beatLevel() {
-    //time();
-    paused = true;
-    menuNum = 2;
+    if(currentLevel == 4)
+      gameOver();
+    else {
+      //time();
+      paused = true;
+      menuNum = 2;
+    }
   }
   
   void nextLevel() {
@@ -357,6 +371,11 @@ class Game {
                myGame.togglePause(); 
             }
         }
+     }
+     if(menuNum == 4) {
+        if(pick == 0) {
+           restart();
+        } 
      }
      selected = 0;
   }
@@ -419,6 +438,12 @@ class Game {
       me.setLocation(startX,startY); 
   }
   
+  void restart() {
+     me = new Hero(); 
+     currentLevel = 1;
+     loadLevel(currentLevel);
+  }
+  
 //  float getStartX() {
 //      return start
 //  }
@@ -452,6 +477,7 @@ class Hero {
   boolean movingLeft;
   boolean movingRight;
   boolean isCrouching;
+  boolean waitingToUncrouch;
   
   boolean[] perks = new boolean[5];//array of perks, either locked or unlocked
 
@@ -469,6 +495,7 @@ class Hero {
    movingRight = false;
    canWallJump = true;
    isCrouching = false;
+   waitingToUncrouch = false;
    setPerks();
  } 
  
@@ -509,6 +536,8 @@ class Hero {
   void drawObj() {
     if(y>height)
        respawn();
+    if(waitingToUncrouch)
+       crouchOff();
     for(int i=0;i<objList.length;i++) {
          if(objList[i].isOnTop(x,y,x+w,y+h)) {
             x += objList[i].xChange();
@@ -672,9 +701,19 @@ class Hero {
   
   void crouchOff() {
     if(perks[4] && isCrouching) {
-       y -= 20;
-       h += 20;
-       isCrouching = false;
+      boolean canUncrouch = true;
+      for(int i=0;i<objList.length;i++) {
+         if(objList[i].intersectLeft(x,y-20,x+w,y+h)) {
+             canUncrouch = false;
+             waitingToUncrouch = true;
+         }
+       }
+       if(canUncrouch) {
+           y -= 20;
+           h += 20;
+           isCrouching = false; 
+           waitingToUncrouch = false;
+       }
     }
   }
   
@@ -1243,11 +1282,10 @@ void mouseClicked() {
     }
   }
   else if(myGame.getMenuNum() == 2) {
-      if((mouseX >= (width/2)-115) && (mouseX <= (width/2)+115) && (mouseY >= (height/2)-33) && mouseY <= ((height/2)+12)) {
+      if((mouseX >= (width/2)-115) && (mouseX <= (width/2)+115) && (mouseY >= (height/2)-50) && mouseY <= ((height/2)-5)) {
         myGame.pickSelection(0);
       }
   }
-  //rect((width/2)-115,(height/2)-33,230,45);
   else if(myGame.getMenuNum() == 3) {
     if((mouseX >= (width/2)-250 && mouseX <= (width/2)-20 && mouseY >= (height/2)-50 && mouseY <= (height/2)+125)) {
        myGame.pickSelection(0);
@@ -1256,8 +1294,11 @@ void mouseClicked() {
        myGame.pickSelection(1);
     } 
   }
-//  rect((width/2)-250,(height/2)-50,230,175);
-//       rect((width/2)+25,(height/2)-50,225,175);
+  else if(myGame.getMenuNum() == 4) {
+      if((mouseX >= (width/2)-115) && (mouseX <= (width/2)+115) && (mouseY >= (height/2)-50) && mouseY <= ((height/2)-5)) {
+        myGame.pickSelection(0);
+      }
+  }
 
 }
 
@@ -1300,7 +1341,12 @@ void keyPressed() {
         myGame.setSelected(0);
       }
     }
-    else {
+  else if(myGame.getMenuNum() == 4) {
+    if(key == ENTER || key == ' ') {
+        myGame.pickSelection(0);
+    }
+  }
+  else {
      if(key == ENTER || key == ' ') {
         myGame.pickSelection(myGame.getSelected());
      }
