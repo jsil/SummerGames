@@ -12,12 +12,15 @@ class Game {
    float startY;
    
    boolean draw1Frame;
+   boolean drawMe;
    
    int selected;
   
-  Game() {//don't use
+  Game() {
     paused = false;
     menuNum = 0;
+    draw1Frame = false;
+    drawMe = false;
     font = loadFont("Dialog-20.vlw");
     selected = 0;
     levelXMax = 0;
@@ -30,6 +33,7 @@ class Game {
     paused = false;
     menuNum = 0;
     draw1Frame = false;
+    drawMe = false;
     selected = 0;
    
     font = fontSet; 
@@ -216,7 +220,9 @@ class Game {
         objList[10] = new Object(2050, 60, 50, (height/3)*2-85);
         objList[10].setColor(color(100,72,44));
         objList[11] = new Finish(2650,(height/3)*2,250,50);
-        me.setLocation(10,(height/3)-40);
+        startX = 10;
+        startY = (height/3)*2-40;
+        reset();
         startText();
      }
      else if(levelNum == 4) {
@@ -226,7 +232,9 @@ class Game {
         objList[0] = new Grass(0, (height/3), 1000, (height/3)*2-100);
         objList[1] = new Grass(1095, (height/3)*2, 2000, height/3);
         objList[2] = new Finish(1500,(height/3)*2,250,50);
-        me.setLocation(10,(height/3)-40);
+        startX = 10;
+        startY = (height/3)-40;
+        reset();
      }
      else if(levelNum == 5) {
         levelXMax = 20000;
@@ -253,9 +261,10 @@ class Game {
         for(int i=0;i<objList.length;i++) {
               objList[i].drawObj(); 
         }
-        if(!draw1Frame)
+        if(!draw1Frame || drawMe)
           me.drawObj();
         draw1Frame = false;
+        drawMe = false;
       }
       drawHUD();
       time();
@@ -318,7 +327,8 @@ class Game {
     if(currentLevel == 4)
       gameOver();
     else {
-      //time();
+      draw1Frame = true;
+      drawMe = true;
       paused = true;
       menuNum = 2;
     }
@@ -453,6 +463,23 @@ class Game {
 //  }
   
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -638,8 +665,9 @@ class Hero {
     } else {
         boolean hitTop = false;
         for(int i=0;i<objList.length;i++) {
-         if(objList[i].intersectUp(x,y,x+w,y+h))
+         if(objList[i].intersectUp(x,y,x+w,y+h)) {
            hitTop = true;
+         }
         }
         if(!hitTop) {
           y -= upForce;
@@ -767,13 +795,41 @@ class Hero {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Object {
   float x;//horizontal location
   float y;//vertical location
   float w;//width
   float h;//height
   color color1;
-  boolean isOnTop;
+  boolean onTop;
   
   Object() {//don't use this
     x = 0;
@@ -834,24 +890,24 @@ class Object {
        if(y2 >= y && y1 <= (y-(y2-y1))) {
          isIntersect = true;
          if(y2 == y)
-           isOnTop = true;
+           onTop = true;
          else
-           isOnTop = false;
+           onTop = false;
        }
        else
-         isOnTop = false;
+         onTop = false;
      }
      else
-       isOnTop = false;
+       onTop = false;
      return isIntersect; 
   }
   
     boolean intersectUp(float x1, float y1, float x2, float y2) {
      boolean isIntersect = false;
      //check if it is vertically intersecting
-     if(x2 >= x && x1 <= (x + w)) {
-       //check botto  m of object
-       if(y2 <= y && y1 >= (y + h))
+     if(x2 >= (x + 1) && x1 <= (x + w - 1)) {
+       //check bottom of object
+       if(y2 >= y && y1 <= (y + h))
          isIntersect = true;
      }
      return isIntersect; 
@@ -878,32 +934,9 @@ class Object {
      }
      return isIntersect; 
   }
-  
-//    boolean intersectUp(float x1, float y1, float x2, float y2) {
-//     boolean isIntersect = false;
-//     //check if it is vertically intersecting
-//     if(x2 >= x && x1 <= (x + w)) {
-//       //check top of object
-//       if(y2 >= y && y1 <= (y + h))
-//         isIntersect = true;
-//       //check bottom of object
-//       if(y2 <= y && y1 >= (y + h))
-//         isIntersect = true;
-//     }
-//     //check if it is horizontally intersecting
-//     if(y2 >= y && y1 <= (y + h)) {
-//       //check left of object
-//       if(x2 >= x && x1 <= (x + w))
-//         isIntersect = true;
-//       //check right of object
-//       if(x2 <= x && x1 >= (x + w))
-//         isIntersect = true;
-//     }
-//     return isIntersect; 
-//  }
 
     boolean isOnTop(float x1,float y1, float x2, float y2) {
-       return isOnTop;//only applies to moving objects. These objects will have this function overloaded 
+       return onTop;//only applies to moving objects. These objects will have this function overloaded 
     }
     
     float xChange() {
@@ -914,17 +947,16 @@ class Object {
        return 0;//only applies to moving objects. These objects will have this function overloaded  
     }
     
-    boolean isCrushed(float x1, float y1, float x2, float y2) {
+    boolean isCrushed(float x1, float y1, float x2, float y2) {//only applies to dangerous moving objects. These objects will have this function overloaded  
        return false; 
     }
     
-    void setSpeed(int speedSet) {
+    void setSpeed(int speedSet) {//only applies to moving objects. These objects will have this function overloaded
     }
-    
-
-  
-  
+   
 }
+
+
 
 public class Grass extends Object {
   color color2;
@@ -1118,10 +1150,12 @@ public class Platform extends Object {
             return 0;
        }
     }
-    
-    
-  
+     
 }
+
+
+
+
 
 class MovingSpikes extends Object {
   boolean direction;
@@ -1192,6 +1226,11 @@ class MovingSpikes extends Object {
   
 }
 
+
+
+
+
+
 class Finish extends Object {
   
   Finish() {//don't use this
@@ -1209,10 +1248,26 @@ class Finish extends Object {
     h = float(hSet); 
     color1 = color(255);
   }
-    void drawObj() {
+  void drawObj() {
+    boolean colorPick = false; 
     if(isOnScreen()) {
-      fill(255,0,0);
-      rect(x-40, y, w+40, h); 
+      for(int i=0;i<=h;i+=15) {
+        if(i%2 == 0)
+          colorPick = false;
+        else
+          colorPick = true;
+        for(int j=0;j<w;j+=15) {
+          if(colorPick) {
+            fill(color1);
+            colorPick = false;
+          }
+          else {
+            fill(0);
+            colorPick = true;
+          }
+          rect(x+j-40, y+i, 15, 15);
+        } 
+      }
     }
   }
   
@@ -1225,17 +1280,17 @@ class Finish extends Object {
          isIntersect = true;
          if(y2 == y) {
            me.drawObj();//force character to be redrawn incase character is falling, so it can hit the ground first. fix this eventually
-           isOnTop = true;
+           onTop = true;
            myGame.beatLevel();
          }
          else
-           isOnTop = false;
+           onTop = false;
        }
        else
-         isOnTop = false;
+         onTop = false;
      }
      else
-       isOnTop = false;
+       onTop = false;
      return isIntersect; 
   }
   
@@ -1248,12 +1303,38 @@ class Finish extends Object {
   
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Hero me = new Hero();
 Object[] objList = new Object[0];
 Game myGame;
 
 void setup() {
   size(displayWidth, displayHeight);//P3D
+  //println("" + displayWidth + " " + displayHeight);
   
 
   
@@ -1269,7 +1350,6 @@ void draw(){
 }
 
 void mouseDragged() {
-
 
 }
 
@@ -1322,10 +1402,7 @@ void keyPressed() {
     
     else if(key == TAB) {
         myGame.togglePause();
-      }
-      else if(key == 'A') {
-        myGame.moveLevelRight(8); 
-      }
+    }
   }
   else if(myGame.getMenuNum() == 2) {
     if(key == ENTER || key == ' ') {
@@ -1341,6 +1418,10 @@ void keyPressed() {
         myGame.setSelected(0);
       }
     }
+    else if(key == ENTER || key == ' ') {
+        myGame.pickSelection(myGame.getSelected());
+    }
+  }
   else if(myGame.getMenuNum() == 4) {
     if(key == ENTER || key == ' ') {
         myGame.pickSelection(0);
@@ -1350,7 +1431,6 @@ void keyPressed() {
      if(key == ENTER || key == ' ') {
         myGame.pickSelection(myGame.getSelected());
      }
-    }
   }
 }
 
