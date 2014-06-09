@@ -1,27 +1,42 @@
 class Game {
    boolean paused;
    PFont font;
+   
    int menuNum;
+   int currentLevel;
+   
    float levelXMax;
    float levelXCurrent;
+   
+   float startX;
+   float startY;
+   
+   boolean draw1Frame;
+   
+   int selected;
   
   Game() {//don't use
     paused = false;
     menuNum = 0;
     font = loadFont("Dialog-20.vlw");
+    selected = 0;
     levelXMax = 0;
     levelXCurrent = 0;
-    loadLevel(1);
+    currentLevel = 1;
+    loadLevel(currentLevel);
   } 
   
   Game(PFont fontSet) {
     paused = false;
     menuNum = 0;
+    draw1Frame = false;
+    selected = 0;
    
     font = fontSet; 
 //    levelXMax = 0;
 //    levelXCurrent = 0;
-    loadLevel(3);
+    currentLevel = 1;
+    loadLevel(currentLevel);
   }
   
   void pause() {
@@ -66,8 +81,15 @@ class Game {
        rect((width/2)-115,(height/2)-33,230,45);
        fill(0);
        textFont(font, 32);
-       text("Paused2", (width/2)-55, (height/2)-90);
-       text("Menu2", (width/2)-40, (height/2));
+       text("Beat level", (width/2)-55, (height/2)-90);
+       text("Continue", (width/2)-40, (height/2));
+    }
+    else if(menuNum == 3) {
+       fill(255);
+       rect((width/2)-300,(height/2)-175,600,350);
+       rect((width/2)-250,(height/2)-50,230,175);
+       rect((width/2)+25,(height/2)-50,225,175);
+       printIntro();     
     }
   }
   
@@ -85,22 +107,48 @@ class Game {
   
   void loadLevel(int levelNum) {
      if(levelNum == 1) {  //test level 1
-        levelXMax = 20000;
+        levelXMax = 3000;
         levelXCurrent = 0;
-        objList = new Object[6];
-        objList[0] = new Object(0, (height/3)*2, (width/2), height/3);
-        objList[0].setColor(color(29,144,220));
-        objList[1] = new Object((width/2)+125, (height/3)*2, (width/2)-125, height/3);
-        objList[1].setColor(color(29,144,220));
-        objList[2] = new Platform((width/3), (height/2)+100, (width/3)+300, (height/2)+100);
-        objList[2].setColor(color(29,144,220));
-        objList[3] = new Platform((width/3), (height/2), (width/3)+300, (height/2));
-        objList[3].setColor(color(29,144,220));
-        objList[4] = new Platform((width/3), (height/2)-100, (width/3)+300, (height/2)-100);
-        objList[4].setColor(color(29,144,220));
-        objList[5] = new Platform((width/3), (height/2)-200, (width/3)+300, (height/2)-200);
-        objList[5].setColor(color(29,144,220));
-        me.setLocation(10,(height/3)*2-40);
+        objList = new Object[19];
+        objList[0] = new Object(0, (height/3)*2, 1000, height/3);
+        objList[1] = new Object(1000, (height/5)*2, 400, (height/5)*3);
+        objList[2] = new Object(1400, (height/4)*3, 850, height/3);
+        objList[3] = new Object(2250, (height/3), 450, (height/3)*2);
+        objList[4] = new Object(2700, (height/4)*3, 950, height/3);
+        objList[5] = new Object(3650, (height/3), 850, (height/3)*2);
+        objList[6] = new Object(800, (height/2), 100, 30);
+        objList[7] = new Object(1250, (height/4), 100, 30);
+        objList[8] = new Object(1450, (height/8), 100, 30);
+        objList[9] = new Object(1850, (height/3), 100, 30);
+        objList[10] = new Object(2000, (height/5), 100, 30);
+        objList[11] = new Object(1500, (height/4)*2, 100, 30);
+        objList[12] = new Object(1650, (height/5)*3, 100, 30);
+        objList[13] = new Platform(2750, (height/3), 2750, (height/3)*2);
+        objList[14] = new Object(2900, (height/4), 30, 30);
+        objList[15] = new Object(3150, (height/4), 30, 30);
+        objList[16] = new Object(3300, (height/4), 30, 30);
+        objList[17] = new Object(3500, (height/5), 30, 30);
+        objList[18] = new Finish(3900,(height/3),250,50);
+        
+        
+//        objList = new Object[7];
+//        objList[0] = new Object(0, (height/3)*2, (width/2), height/3);
+//        objList[0].setColor(color(29,144,220));
+//        objList[1] = new Object((width/2)+125, (height/3)*2, 50000, height/3);
+//        objList[1].setColor(color(29,144,220));
+//        objList[2] = new Platform((width/3), (height/2)+100, (width/3)+300, (height/2)+100);
+//        objList[2].setColor(color(29,144,220));
+//        objList[3] = new Platform((width/3), (height/2), (width/3)+300, (height/2));
+//        objList[3].setColor(color(29,144,220));
+//        objList[4] = new Platform((width/3), (height/2)-100, (width/3)+300, (height/2)-100);
+//        objList[4].setColor(color(29,144,220));
+//        objList[5] = new Platform((width/3), (height/2)-200, (width/3)+300, (height/2)-200);
+//        objList[5].setColor(color(29,144,220));
+//        objList[6] = new Finish(1200,(height/3)*2,250,50);
+        startX = 10;
+        startY = (height/3)*2-40;
+        reset();
+        startText();
      } 
      else if(levelNum == 2) {
         levelXMax = 20000;
@@ -123,14 +171,73 @@ class Game {
         objList[1] = new Grass(1095, (height/3)*2, 2000, height/3);
         me.setLocation(10,(height/3)-40);
      }
+     else if(levelNum == 4) {
+        levelXMax = 20000;
+        levelXCurrent = 0;
+        objList = new Object[2];
+        objList[0] = new Grass(0, (height/3), 1000, (height/3)*2-100);
+        objList[1] = new Grass(1095, (height/3)*2, 2000, height/3);
+        me.setLocation(10,(height/3)-40);
+     }
+     else if(levelNum == 5) {
+        levelXMax = 20000;
+        levelXCurrent = 0;
+        objList = new Object[2];
+        objList[0] = new Grass(0, (height/3), 1000, (height/3)*2-100);
+        objList[1] = new Grass(1095, (height/3)*2, 2000, height/3);
+        me.setLocation(10,(height/3)-40);
+     }
+     else if(levelNum == 6) {
+        levelXMax = 20000;
+        levelXCurrent = 0;
+        objList = new Object[2];
+        objList[0] = new Grass(0, (height/3), 1000, (height/3)*2-100);
+        objList[1] = new Grass(1095, (height/3)*2, 2000, height/3);
+        me.setLocation(10,(height/3)-40);
+     }
+  }
+  
+  void drawGame() {
+    if(!isPaused() || draw1Frame) {
+        background(128);
+        fill(255,255,255);
+        for(int i=0;i<objList.length;i++) {
+              objList[i].drawObj(); 
+        }
+        if(!draw1Frame)
+          me.drawObj();
+        draw1Frame = false;
+      }
+      drawHUD();
+      time();
+    
+  }
+  
+  void drawHUD() {
+    fill(255);
+     for(int i=0;i<me.getHealth();i++) {
+        rect(15+(i*30),15, 25, 25);
+     } 
+  }
+  
+  void gameOver() {
+     menuNum = 2;
+     paused = true; 
   }
   
   void moveLevelRight(float x) {
-     if(canMoveRight()) {
-       for(int i=0;i<objList.length;i++) {
-          objList[i].shiftLeft(x);
-          levelXCurrent += x;
-       } 
+     if(canMoveRight() && me.canMove(true)) {
+       //boolean checkObject = true;
+       //for(int i=0;i<objList.length;i++) {
+       //   if(objList[i].intersectRight(me.getX1()+x, me.getY1(), me.getX2()+x, me.getY2()))
+       //     checkObject = false;
+       //} 
+       //if(checkObject) {
+         for(int i=0;i<objList.length;i++) {
+            objList[i].shiftLeft(x);
+         } 
+       //}
+       levelXCurrent += x;
      }
   }
   
@@ -138,13 +245,19 @@ class Game {
      return levelXMax > levelXCurrent; 
   }
   
-  
   void moveLevelLeft(float x) {
-     if(canMoveLeft()) {
-       for(int i=0;i<objList.length;i++) {
-          objList[i].shiftRight(x);
-          levelXCurrent -= x;
-       } 
+     if(canMoveLeft() && me.canMove(false)) {
+       //boolean checkObject = true;
+       //for(int i=0;i<objList.length;i++) {
+       //   if(objList[i].intersectLeft(me.getX1()-x, me.getY1(), me.getX2()-x, me.getY2()))
+       //     checkObject = false;
+       //} 
+       //if(checkObject) {
+         for(int i=0;i<objList.length;i++) {
+            objList[i].shiftRight(x);
+         } 
+       //}
+       levelXCurrent -= x;
      }
   }
   
@@ -153,9 +266,86 @@ class Game {
   }
   
   void beatLevel() {
+    //time();
     paused = true;
     menuNum = 2;
   }
+  
+  void nextLevel() {
+     currentLevel++;
+     loadLevel(currentLevel); 
+  }
+  
+  void startText() {
+     menuNum = 3;
+     draw1Frame = true;
+     paused = true; 
+  }
+  
+  void setSelected(int set) {
+     selected = set; 
+  }
+  
+  int getSelected() {
+     return selected; 
+  }
+  
+  void pickSelection(int pick) {
+     if(menuNum == 2) {
+        if(pick == 0) {
+           nextLevel();
+           myGame.togglePause();
+        } 
+     }
+     else if(menuNum == 3) {
+        if(currentLevel == 1) {
+            if(pick == 0) {
+               me.setGender(true);
+               myGame.togglePause();
+            } 
+            else if(pick == 1) {
+               me.setGender(false);
+               myGame.togglePause(); 
+            }
+         }
+     }
+     selected = 0;
+  }
+  
+  void printIntro() {
+    if(currentLevel == 1) {
+       fill(0);
+       textFont(font, 32);
+       text("Welcome! Are you a boy or a girl?", (width/2)-250, (height/2)-120);
+       text("Boy", (width/2)-160, (height/2));
+       text("Girl", (width/2)+108, (height/2));
+       Hero boyExample = new Hero();
+       boyExample.setLocation((width/2)-155, height/2+40);
+       boyExample.drawObj();
+       Hero girlExample = new Hero();
+       girlExample.setLocation((width/2)+115, height/2+40);
+       girlExample.setGender(false);
+       girlExample.drawObj();
+       fill(255);
+       if(selected == 0)
+         triangle((width/2)-150, (height/2)-95, (width/2)-115, (height/2)-95, (width/2)-132.5, (height/2)-65);
+       else if(selected == 1)
+         triangle((width/2)+150, (height/2)-95, (width/2)+115, (height/2)-95, (width/2)+132.5, (height/2)-65);
+    }
+   
+  }
+  
+  void reset() {
+      me.setLocation(startX,startY); 
+  }
+  
+//  float getStartX() {
+//      return start
+//  }
+//  
+//  float getStartY() {
+//    
+//  }
   
 }
 
@@ -174,6 +364,8 @@ class Hero {
   boolean isFalling;
   int fallSpeed;
   int runSpeed;
+  
+  int health;
 
   boolean canWallJump;
   
@@ -189,6 +381,7 @@ class Hero {
    y = 300;
    w = 40;
    h = 40;
+   health = 3;
    upForce = 0;
    fallSpeed = 5;
    runSpeed = 5;
@@ -198,7 +391,7 @@ class Hero {
    isCrouching = false;
    setPerks();
  } 
-  
+ 
   float getX() {
     return x; 
   }
@@ -227,9 +420,6 @@ class Hero {
       else
         x += runSpeed; 
     }
-//    if(x >= width * .80) {
-//       myGame.beatLevel(); 
-//    }
   }
   
   void isRight(boolean isMoving) {
@@ -237,6 +427,8 @@ class Hero {
   }
   
   void drawObj() {
+    if(y>height)
+       respawn();
     for(int i=0;i<objList.length;i++) {
          if(objList[i].isOnTop(x,y,x+w,y+h)) {
             x += objList[i].xChange();
@@ -283,9 +475,9 @@ class Hero {
   void setPerks() {
     perks[0] = true;//move left
     perks[1] = true;//jump
-    perks[2] = false;//gender, 0 = female, 1 = male
-    perks[3] = true;//wall jump
-    perks[4] = true;//crouch
+    perks[2] = true;//gender, 0 = female, 1 = male
+    perks[3] = false;//wall jump
+    perks[4] = false;//crouch
     //unlockAllPerks();
   }
   
@@ -401,11 +593,47 @@ class Hero {
       
   }
   
+  int getHealth() {
+     return health; 
+  }
+  
+  void respawn() {
+    health--;
+    if(health > 0)
+      myGame.reset();
+    else
+      myGame.gameOver();
+  }
+  
+  void shiftLeft(float shift) {
+     x -= shift; 
+  }
+  
+  void shiftRight(float shift) {
+     x += shift; 
+  }
+  
   void setLocation(float xSet, float ySet) {
      x = xSet;
      y = ySet; 
   }
   
+  void setGender(boolean gender) {
+     perks[2] = gender; 
+  }
+  
+  float getX1() {
+     return x;
+  }
+  float getY1() {
+     return y;
+  }
+  float getX2() {
+    return x+w;
+  }
+  float getY2() {
+    return y+h;
+  }
 }
 
 class Object {
@@ -637,6 +865,18 @@ public class Platform extends Object {
     direction = false;
   }
   
+  boolean intersectUp(float x1, float y1, float x2, float y2) {
+     return false; 
+  }
+  
+  boolean intersectLeft(float x1, float y1, float x2, float y2) {
+     return false; 
+  }
+  
+  boolean intersectRight(float x1, float y1, float x2, float y2) {
+     return false; 
+  }
+  
   void shiftLeft(float val) {
     x -= val; 
     xPos1 -= val;
@@ -686,14 +926,6 @@ public class Platform extends Object {
     }
   }
   
-//    boolean isOnTop(float x1, float y1, float x2, float y2) {
-//      boolean onTop = intersectDown(x1,y1,x2,y2);
-//      if(onTop)
-//        color1 = color(255,0,0);
-//      else
-//        color1 = color(255);
-//      return onTop;
-//    }
     
     float xChange() {
        if(!direction) {
@@ -737,6 +969,63 @@ public class Platform extends Object {
   
 }
 
+class Finish extends Object {
+  
+  Finish() {//don't use this
+    x = 0;
+    y = 0;
+    w = 0;
+    h = 0;
+    color1 = color(255);
+  }
+  
+  Finish(int xSet, int ySet, int wSet, int hSet) {
+    x = float(xSet);
+    y = float(ySet);
+    w = float(wSet);
+    h = float(hSet); 
+    color1 = color(255);
+  }
+    void drawObj() {
+    if(isOnScreen()) {
+      fill(255,0,0);
+      rect(x-40, y, w+40, h); 
+    }
+  }
+  
+  boolean intersectDown(float x1, float y1, float x2, float y2) {
+     boolean isIntersect = false;
+     //check if it is vertically intersecting
+     if(x2 >= (x) && x1 <= (x + w)) {
+       //check top of object
+       if(y2 >= y && y1 <= (y-(y2-y1))) {
+         isIntersect = true;
+         if(y2 == y) {
+           me.drawObj();//force character to be redrawn incase character is falling, so it can hit the ground first. fix this eventually
+           isOnTop = true;
+           myGame.beatLevel();
+         }
+         else
+           isOnTop = false;
+       }
+       else
+         isOnTop = false;
+     }
+     else
+       isOnTop = false;
+     return isIntersect; 
+  }
+  
+   boolean isOnScreen() {
+     if(x+w > 0 && x-40 < width && y+h > 0 && y < height)
+        return true;
+     else
+        return false; 
+  }
+  
+  
+}
+
 Hero me = new Hero();
 Object[] objList = new Object[0];
 Game myGame;
@@ -754,16 +1043,7 @@ void setup() {
 }
 
 void draw(){
-  if(!myGame.isPaused()) {
-    background(128);
-    fill(255,255,255);
-    for(int i=0;i<objList.length;i++) {
-          objList[i].drawObj(); 
-    }
-    me.drawObj();
-  }
-  myGame.time();
-
+  myGame.drawGame();
 }
 
 void mouseDragged() {
@@ -779,32 +1059,70 @@ void mouseClicked() {
       
     }
   }
+  else if(myGame.getMenuNum() == 2) {
+      if((mouseX >= (width/2)-115) && (mouseX <= (width/2)+115) && (mouseY >= (height/2)-33) && mouseY <= ((height/2)+12)) {
+        myGame.pickSelection(0);
+      }
+  }
+  //rect((width/2)-115,(height/2)-33,230,45);
+  else if(myGame.getMenuNum() == 3) {
+    if((mouseX >= (width/2)-250 && mouseX <= (width/2)-20 && mouseY >= (height/2)-50 && mouseY <= (height/2)+125)) {
+       myGame.pickSelection(0);
+    } 
+    else if((mouseX >= (width/2)+25 && mouseX <= (width/2)+250 && mouseY >= (height/2)-50 && mouseY <= (height/2)+125)) {
+       myGame.pickSelection(1);
+    } 
+  }
+//  rect((width/2)-250,(height/2)-50,230,175);
+//       rect((width/2)+25,(height/2)-50,225,175);
 
 }
 
 void keyPressed() {
-  if (key == CODED) {
-    if (keyCode == RIGHT) {
-      me.isRight(true);
-    } 
-    else if(keyCode == LEFT) {
-      me.isLeft(true);
-    }
-    else if(keyCode == DOWN) {
-      me.crouchOn(); 
-    }
-
-  }
-  else if(key == ' ') {
-     me.jump();
-  }
+  if(!myGame.isPaused()) {
+    if (key == CODED) {
+      if (keyCode == RIGHT) {
+        me.isRight(true);
+      } 
+      else if(keyCode == LEFT) {
+        me.isLeft(true);
+      }
+      else if(keyCode == DOWN) {
+        me.crouchOn(); 
+      }
   
-  else if(key == TAB) {
-      myGame.togglePause();
     }
-    else if(key == 'A') {
-      myGame.moveLevelRight(8); 
+    else if(key == ' ') {
+       me.jump();
     }
+    
+    else if(key == TAB) {
+        myGame.togglePause();
+      }
+      else if(key == 'A') {
+        myGame.moveLevelRight(8); 
+      }
+  }
+  else if(myGame.getMenuNum() == 2) {
+    if(key == ENTER || key == ' ') {
+        myGame.pickSelection(0);
+    }
+  }
+  else if(myGame.getMenuNum() == 3) {
+    if (key == CODED) {
+      if (keyCode == RIGHT) {
+        myGame.setSelected(1);
+      } 
+      else if(keyCode == LEFT) {
+        myGame.setSelected(0);
+      }
+    }
+    else {
+     if(key == ENTER || key == ' ') {
+        myGame.pickSelection(myGame.getSelected());
+     }
+    }
+  }
 }
 
 void keyReleased() {
