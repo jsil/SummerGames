@@ -39,6 +39,5 @@ $(document).ready(function() {
 	// bottomPanel.css("background-color", sidePanel.css("background-color"));
 
 	var textArea = $("#text");
-	textArea.text("test test test test\ntest test test test\ntest test test test\ntest test test test\ntest test test test\ntest test test test\ntest test test test\ntest test test test\ntest test test test\ntest test test test\ntest test test test\ntest test test test\ntest test test test\ntest test test test\ntest test test test\n");
-
+	textArea.html("Test!")
 });

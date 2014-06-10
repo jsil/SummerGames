@@ -1333,7 +1333,7 @@ Object[] objList = new Object[0];
 Game myGame;
 
 void setup() {
-  size(displayWidth, displayHeight);//P3D
+  size(1280,800);//P3D
   //println("" + displayWidth + " " + displayHeight);
   
 
