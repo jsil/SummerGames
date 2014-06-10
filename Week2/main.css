@@ -1,0 +1,120 @@
+body {
+	background-color: black;
+}
+
+div {
+	background-color: black;
+	color:white;
+}
+
+#gameDiv {
+	border: solid 2px white;
+	height:100%;
+	width:100%;
+	padding:0px;
+}
+
+.panel {
+	border: solid 2px white;
+	width:100%;
+	margin:0px;
+	padding:0px;
+}
+
+#sideContent {
+	float:right;
+}
+
+#bottomPanel {
+
+}
+
+#textArea {
+	background-color: black;
+	color:white;
+	overflow-y:scroll;
+	display:block;
+	height:500px;
+	width:500px;
+}
+
+
+
+canvas {
+	margin:0px;
+}
+
+/* TABS */
+/* Default color for links inside the tabbed box */ 
+
+#sidePanel { 
+    background: transparent; 
+    border-radius: 0;
+} 
+#sidePanel .ui-widget-header { 
+    background: transparent; 
+    border: none; 
+    border-bottom: 1px solid #c0c0c0; 
+    -moz-border-radius: 0px; 
+    -webkit-border-radius: 0px; 
+    border-radius: 0px; 
+} 
+
+#sidePanel .ui-widget-content { 
+    color:white !important;
+} 
+
+#sidePanel .ui-tabs-nav .ui-state-default { 
+    background: transparent; 
+    border: none; 
+} 
+#sidePanel .ui-tabs-nav .ui-state-active { 
+    background: transparent url(img/uiTabsArrow.png) no-repeat bottom center; 
+    border: none; 
+} 
+#sidePanel .ui-tabs-nav .ui-state-default a { 
+    color: #c0c0c0; 
+} 
+#sidePanel .ui-tabs-nav .ui-state-active a { 
+    color: white; 
+}
+
+.ui-tabs .ui-tabs-panel {
+	padding:8px !important;
+}
+
+
+/*.ui-widget-content a, .ui-widget-content a:hover, .ui-widget-content a:visited, .ui-widget-content a:active {
+	color: #2954d1 !important; 
+	text-decoration: underline !important; 
+}
+
+/* Default styling for  tab titles */ 
+/*.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+	color: #212121 !important;
+	text-decoration: none !important;
+	cursor: pointer !important;
+}*/
+
+/* Default styling for unselected tab titles */ 
+./*ui-state-default a:hover, .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+	background-color: black !important;
+	color: white !important;
+	text-decoration: none !important;
+	cursor: pointer !important;
+	font-size: 14px !important;
+	margin-bottom: 2px;
+}*/
+
+/*.ui-widget-header{ 
+	border:0px solid !important;
+	background: rgba(255, 0, 255, 0) !important;
+	position: absolute;
+	top: -40px;
+}*/
+
+
+/*.ui-tabs.ui-widget-content{
+	margin-top:35px !important;
+}*/
+
