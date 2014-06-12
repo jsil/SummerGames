@@ -31,7 +31,7 @@
 			<div id="optionsPanel" class="panel"></div>
 		</div>
 
-	<div id="bottomPanel" class="panel"><div id="text"></div></div>
+	<div id="bottomPanel" class="panel"></div>
 </div>
 </body>
 </html>

@@ -9,26 +9,38 @@ div {
 	color:white;
 }
 
+canvas {
+	margin:3px;
+	/*margin-left: 5px;*/
+	/*padding:0px;*/
+}
+
 #gameDiv {
 	border: solid 2px white;
-	height:100%;
-	width:100%;
+	height:98%;
+	width:99%;
 	padding:0px;
 }
 
 .panel {
-	border: solid 2px white;
-	width:100%;
+	border: solid 1px white;
 	margin:0px;
 	padding:0px;
 }
 
 #sideContent {
+	border: solid 2px white;
 	float:right;
 }
 
-#bottomPanel {
+#sidePanel {
+	/*border-bottom: none;*/
 
+}
+
+#bottomPanel {
+	overflow-y:scroll;
+	margin-right:-18px;
 }
 
 #text {
@@ -39,11 +51,6 @@ div {
 	width:100%;
 }
 
-
-
-canvas {
-	margin:0px;
-}
 
 /* TABS */
 /* Default color for links inside the tabbed box */ 

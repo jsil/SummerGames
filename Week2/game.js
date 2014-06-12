@@ -14,30 +14,31 @@ $(document).ready(function() {
 
 	console.log("x: " + gameWidth + " y: " + gameHeight);
 
+	canvas.width = gameWidth-12;
 	canvas.height = gameHeight;
-	canvas.width = gameWidth;
 
 	ctx.fillStyle='#FF0000';
-	ctx.fillRect(0,0,gameWidth,gameHeight-10);
+	ctx.fillRect(0,0,canvas.width,canvas.height);
 
 	var sideContent = $("#sideContent");
-	sideContent.css("width", gameDiv.width()*.35-8);
-	sideContent.css("height", gameDiv.height()-19);
+	sideContent.css("width", gameDiv.width()*.35-2);
+	sideContent.css("height", gameDiv.height()+12);
+	//sideContent.height('100%');
 
 	var sidePanel = $("#sidePanel");
 	sidePanel.width('100%');
-	sidePanel.css("height", gameDiv.height()*.65-5);
+	sidePanel.css("height", gameDiv.height()*.65+3);
 
 	var bottomPanel = $("#bottomPanel");
 	bottomPanel.css("width", gameDiv.width()*.65);
-	bottomPanel.css("height", gameDiv.height()*.35);
+	bottomPanel.css("height", gameDiv.height()*.35+2);
 
 	var optionsPanel = $("#optionsPanel");
 	optionsPanel.width('100%');
-	optionsPanel.css("height", gameDiv.height()*.35-2);
+	optionsPanel.css("height", gameDiv.height()*.35);
 
 	// bottomPanel.css("background-color", sidePanel.css("background-color"));
 
 	var textArea = $("#text");
-	textArea.html("Test!")
+	bottomPanel.html("Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>Test!<br>")
 });
