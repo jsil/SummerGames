@@ -1,0 +1,160 @@
+.modalOverlay {
+	background-image:url(../img/semi_transparent.png);
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 20;
+}
+
+input, select, textarea {
+
+	font-size: 18px;
+	font-family: 'Raleway', sans-serif;
+
+}
+
+.modalSelected{
+	background-color:white;
+	position: absolute;
+	z-index: 21;
+	border:2px solid black;
+	border-radius: 10px;
+	display: block;
+}
+
+.modal {
+	background-color: rgb(246,246,246);
+	display: none;
+}
+
+
+.closeButton{
+	float: right;
+	border: 0;
+	color: white;
+	background: rgba(0, 0, 0, 0);
+	font: inherit;
+	cursor: pointer;
+	vertical-align: center;
+}
+
+.modalTitle {
+	border-top-right-radius: inherit;
+	border-top-left-radius: inherit;
+	padding: 16px;
+	background-color: gray;
+}
+
+.modalTitle span {
+	font-size: 8px;
+}
+
+.modalRow {
+	margin: 10px;
+}
+
+.buttonRight {
+	float: right;
+	cursor: pointer;
+	margin: 10px;
+}
+
+.modalColumnLeft {
+	float: left;
+	margin: 15px;
+	margin-top: 25px;
+}
+
+.modalColumnLeft label {
+	margin-top: 20px;
+	display: block;
+}
+
+.modalColumnRight {
+	float: right;
+	margin: 10px
+}
+
+.modalColumnRight input, .modalColumnRight textarea {
+	margin: 15px;
+}
+
+label span {
+	font-size: 14px;
+	color: rgba(0, 0, 0, .7);
+}
+
+.modalTitle img {
+	float: left;
+	height: 5em;
+}
+
+.modalTitle h1 {
+	float: left;
+	margin: 5px;
+}
+
+.subContent img {  
+    height: 75px;
+}
+
+#tokenModal {
+	width: 525px;
+}
+
+#currentToken, #tokenInfo {
+	width: 225px;
+}
+
+#currentToken div {
+	text-align: center;
+}
+
+#tokenModal {
+	text-align: center;
+}
+
+#jobModal .jobImage{
+
+	width: 25px;
+}
+
+.subContent span {
+	color: black;
+}
+
+.subContent {
+	width: 250px;
+}
+
+#successModal h2 {
+	padding: 10px;
+}
+
+#errorInfo, .errorTitle {
+	padding: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -41,6 +41,8 @@ canvas {
 #bottomPanel {
 	overflow-y:scroll;
 	margin-right:-18px;
+	/*padding-left: 6px;*/
+	/*padding-right: 6px;*/
 }
 
 #text {
@@ -77,7 +79,7 @@ canvas {
     border: none; 
 } 
 #sidePanel .ui-tabs-nav .ui-state-active { 
-    background: transparent url(img/uiTabsArrow.png) no-repeat bottom center; 
+    /*background: transparent url(img/uiTabsArrow.png) no-repeat bottom center; */
     border: none; 
 } 
 #sidePanel .ui-tabs-nav .ui-state-default a { 

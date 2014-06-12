@@ -2,8 +2,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
-<script language="javascript" type="text/javascript" src="game.js"></script>
-<link href="main.css" rel="stylesheet">
+<link href="css/modals.css" rel="stylesheet">
+<script language="javascript"  type="text/javascript" src="js/modals.js"> </script>	
+<?php include "modals.html"; ?>   
+<link href="css/main.css" rel="stylesheet">
+<script language="javascript" type="text/javascript" src="js/game.js"></script>
 <body>
 <div id="gameDiv">
 	<div><canvas id="myCanvas"></canvas>
