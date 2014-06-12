@@ -21,13 +21,16 @@
 
 				<!--This section creates the content within each tab-->
 				<div id="tabs-1" class="tab">
-					Hi
+					Health: <span id="healthStat">0/0</span><br>
+					Gold: <span id="goldStat">0 G</span>
 				</div>
 				<div id="tabs-2" class="tab">
-					Hello
+					Inventory:
+					<div id="inventoryBox">No items in inventory.</div>
 				</div>
 				<div id="tabs-3" class="tab">
-					Sup?
+					Quests:<br><br>
+					<div id="questBox">No active quests.</div>
 				</div>
 
 			</div>
