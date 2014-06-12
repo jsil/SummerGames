@@ -6,7 +6,10 @@
 <script language="javascript"  type="text/javascript" src="js/modals.js"> </script>	
 <?php include "modals.html"; ?>   
 <link href="css/main.css" rel="stylesheet">
+<script language="javascript" type="text/javascript" src="js/items.js"></script>	
+<script language="javascript" type="text/javascript" src="js/quests.js"></script>	
 <script language="javascript" type="text/javascript" src="js/game.js"></script>
+<script language="javascript" type="text/javascript" src="js/cookie.js"></script>
 <body>
 <div id="gameDiv">
 	<div><canvas id="myCanvas"></canvas>
@@ -21,23 +24,32 @@
 
 				<!--This section creates the content within each tab-->
 				<div id="tabs-1" class="tab">
-					Health: <span id="healthStat">0/0</span><br>
-					Gold: <span id="goldStat">0 G</span>
+					<div id="statBox">
+						Health: <span id="healthStat">0/0</span><br>
+						Gold: <span id="goldStat">0 G</span>
+					</div>
 				</div>
 				<div id="tabs-2" class="tab">
 					Inventory:
-					<div id="inventoryBox">No items in inventory.</div>
+					<div id="inventoryBox">No items in inventory.</div><!--to do, update height of this & other boxes so they don't overflow into options box-->
 				</div>
 				<div id="tabs-3" class="tab">
-					Quests:<br><br>
+					Quests:
 					<div id="questBox">No active quests.</div>
 				</div>
 
 			</div>
-			<div id="optionsPanel" class="panel"></div>
+			<div id="optionsPanel" class="panel">
+				<button id="saveButton">Save</button>
+				<button id="loadButton">Load</button>
+				<button id="eraseButton">Erase Data</button>
+			</div>
 		</div>
 
-	<div id="bottomPanel" class="panel"></div>
+	<div id="bottomPanel" class="panel">
+		<div id="scrollBox"></div>
+	</div>
 </div>
+<div id="bottomSpace">jordan-silver.com</div>
 </body>
 </html>

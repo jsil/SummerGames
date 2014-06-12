@@ -10,6 +10,7 @@ function Game(hero) {
 	this.sideContent = $("#sideContent");
 	this.sidePanel = $("#sidePanel");
 	this.bottomPanel = $("#bottomPanel");
+	this.scrollBox = $("#scrollBox");
 	this.optionsPanel = $("#optionsPanel");
 
 	Game.prototype.startGame = function() {
@@ -19,6 +20,9 @@ function Game(hero) {
 	}
 
 	Game.prototype.resizeGame = function() {
+
+		this.gameDiv.width("99%");
+		this.gameDiv.height("97%")
 
 
 		var gameWidth = this.gameDiv.width()*.65;
@@ -33,7 +37,7 @@ function Game(hero) {
 		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 
 		this.sideContent.css("width", this.gameDiv.width()*.35-2);
-		this.sideContent.css("height", this.gameDiv.height()+12);
+		this.sideContent.css("height", this.gameDiv.height()-2);
 		//sideContent.height('100%');
 
 		
@@ -41,23 +45,23 @@ function Game(hero) {
 		this.sidePanel.css("height", this.gameDiv.height()*.65+3);
 
 		this.bottomPanel.css("width", this.gameDiv.width()*.65);
-		this.bottomPanel.css("height", this.gameDiv.height()*.35+2);
+		this.bottomPanel.css("height", this.gameDiv.height()*.35-6);
 
 		
 		this.optionsPanel.width('100%');
-		this.optionsPanel.css("height", this.gameDiv.height()*.35);
+		this.optionsPanel.css("height", this.gameDiv.height()*.35-8);
 
 
 	}
 
 	Game.prototype.addText = function(text) {
-		if(this.bottomPanel.html() != "") {
-			this.bottomPanel.html(this.bottomPanel.html() + "<br>" + text);
+		if(this.scrollBox.html() != "") {
+			this.scrollBox.html(this.scrollBox.html() + "<br>" + text);
 	    }
 	    else {
-	    	this.bottomPanel.html(this.bottomPanel.html() + text);
+	    	this.scrollBox.html(this.scrollBox.html() + text);
 	    }
-	    this.bottomPanel.animate({ scrollTop: this.bottomPanel.height() }, "fast");
+	    this.scrollBox.animate({ scrollTop: this.scrollBox.height() }, "fast");
 
 	}
 
@@ -110,65 +114,16 @@ function Hero() {
 	Hero.prototype.printActiveQuests = function() {
 		var listText = "";
 		for(var i=0;i<this.quests.length;i++) {
-			if(i===0)
+			if(i===0) {
 				listText = listText + this.quests[i].printInfo();
-			else
-				listText = listText + "<br>" + this.inventory[i].printInfo();
+			}
+			else {
+				listText = listText + "<br><br>" + this.quests[i].printInfo();
+			}
 		}
 		return listText;
 	}
 }
-
-function Item(name) {
-	this.name = name;
-	this.price = 40;
-
-	Item.prototype.takeItem = function() {
-		console.log("took item");
-	}
-}
-
-function Consumable(name) {
-	this.name = name;
-	this.price = 40;
-
-	Consumable.prototype.consume = function() {
-		console.log("consumed");
-	}
-}
-Consumable.prototype = Item.prototype;
-Consumable.prototype.constructor = Consumable;
-
-function Equipable(name) {
-	this.name = name;
-	this.price = 40;
-
-	Equipable.prototype.equip = function() {
-		console.log("equiped");
-	}
-
-	Equipable.prototype.unequip = function() {
-		console.log("unequiped");
-	}
-
-}
-Equipable.prototype = Item.prototype;
-Equipable.prototype.constructor = Consumable;
-
-
-function Quest() {
-	this.name = "";
-	this.description = "";
-	this.reward = [];
-
-	Quest.prototype.printInfo = function() {
-		var questText = this.name + " - <br>" + this.description + "<br>Reward: none.";
-		//print rewards
-		return questText;
-	}
-
-}
-
 
 $(document).ready(function() { 
 
@@ -197,17 +152,34 @@ $(document).ready(function() {
 	exampleQuest.description = "Example Description!";
 
 	me.addQuest(exampleQuest);
+	me.addQuest(questDB[0]);
 	myGame.updateQuests();
 
-	$("#nameSubmit").click(function(event){
+	$("#nameSubmit").click(function(event) {
 	    event.preventDefault();
 	    closeModal("#nameModal");
 	    myGame.addText("Name: " + $("#nameInput").val());
 	});
 
-	// $(window).resize(function(){
-	// 	myGame.resizeGame();
-	// });
+	$("#saveButton").click(function(event) {
+		event.preventDefault();
+		openModal("#saveModal");
+	});
+
+	$("#loadButton").click(function(event) {
+		event.preventDefault();
+		alert("Loading not yet implemented");
+	});
+
+	$("#eraseButton").click(function(event) {
+		event.preventDefault();
+		eraseCookie();
+		console.log(jQuery.parseJSON(getCookie()));
+	});
+
+	$(window).resize(function(){
+		myGame.resizeGame();
+	});
 
 });
 
