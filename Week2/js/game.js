@@ -81,54 +81,39 @@ function Game(hero) {
 	Game.prototype.updateQuests = function () {
 		$("#questBox").html(this.hero.printActiveQuests());
 	}
-}
 
-function Hero() {
-	this.health = 20;
-	this.maxHealth = 20;
-	this.gold = 100;
-
-
-	this.inventory = [];
-	this.quests = [];
-
-	Hero.prototype.addToInventory = function(item) {
-		this.inventory.push(item);
-	}
-
-	Hero.prototype.printInventory = function() {
-		var listText = "";
-		for(var i=0;i<this.inventory.length;i++) {
-			if(i===0)
-				listText = listText + this.inventory[i].name;
-			else
-				listText = listText + "<br>" + this.inventory[i].name;
+	Game.prototype.doBattle = function(enemy) {
+		var whosTurn;
+		if(this.hero.speed >= enemy.speed) {
+			whosTurn = true;
 		}
-		return listText;
-	}
-
-	Hero.prototype.addQuest = function(quest) {
-		this.quests.push(quest);
-	}
-
-	Hero.prototype.printActiveQuests = function() {
-		var listText = "";
-		for(var i=0;i<this.quests.length;i++) {
-			if(i===0) {
-				listText = listText + this.quests[i].printInfo();
+		else {
+			whosTurn = false;
+		}
+		while(this.hero.isAlive() && enemy.isAlive()) {
+			if(whosTurn) {
+				this.hero.attack(enemy);
 			}
 			else {
-				listText = listText + "<br><br>" + this.quests[i].printInfo();
+				enemy.attack(this.hero);
 			}
+			whosTurn = !whosTurn;
 		}
-		return listText;
+
+		if(this.hero.isAlive()) {
+			alert("Congradulations! You won!");
+		}
+		else {
+			alert("Con-sad-ulations. You lost D:");
+		}
+
 	}
 }
 
 $(document).ready(function() { 
 
 
-	var me = new Hero();	
+	var me = new Hero("Bob");	
 	var myGame = new Game(me);
 	myGame.startGame();
 	myGame.resizeGame();
@@ -154,6 +139,9 @@ $(document).ready(function() {
 	me.addQuest(exampleQuest);
 	me.addQuest(questDB[0]);
 	myGame.updateQuests();
+
+	var exampleEnemy = new Character();
+	myGame.doBattle(exampleEnemy);
 
 	$("#nameSubmit").click(function(event) {
 	    event.preventDefault();

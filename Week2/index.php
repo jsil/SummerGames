@@ -7,7 +7,8 @@
 <?php include "modals.html"; ?>   
 <link href="css/main.css" rel="stylesheet">
 <script language="javascript" type="text/javascript" src="js/items.js"></script>	
-<script language="javascript" type="text/javascript" src="js/quests.js"></script>	
+<script language="javascript" type="text/javascript" src="js/quests.js"></script>
+<script language="javascript" type="text/javascript" src="js/people.js"></script>
 <script language="javascript" type="text/javascript" src="js/game.js"></script>
 <script language="javascript" type="text/javascript" src="js/cookie.js"></script>
 <body>

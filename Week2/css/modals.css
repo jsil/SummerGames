@@ -16,7 +16,7 @@ input, select, textarea {
 }
 
 .modalSelected{
-	background-color:white;
+	/*background-color:white;*/
 	position: absolute;
 	z-index: 21;
 	border:2px solid black;
@@ -25,7 +25,7 @@ input, select, textarea {
 }
 
 .modal {
-	background-color: rgb(246,246,246);
+	/*background-color: rgb(246,246,246);*/
 	display: none;
 }
 
@@ -38,6 +38,7 @@ input, select, textarea {
 	font: inherit;
 	cursor: pointer;
 	vertical-align: center;
+	border: solid 2px green;
 }
 
 .modalTitle {
