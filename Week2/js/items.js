@@ -60,6 +60,43 @@ Weapon.prototype = {
 	}
 }
 
+function Armor(name,slot) {
+	this.name = name;
+	this.price = 40;
+	this.defence = 3;
+	this.slot = slot;
+}
+
+Armor.prototype = {
+	getSlotString:function() {
+		if(this.slot === 0) {
+			return "Chest";
+		}
+		else if(this.slot === 1) {
+			return "Legs";
+		}
+		else if(this.slot === 2) {
+			return "Head";
+		}
+		else if(this.slot === 3) {
+			return "Feet";
+		}
+		else if(this.slot === 4) {
+			return "Neck";
+		}
+	},
+	augmentStats:function(wearer) {
+		wearer.maxHealth += this.defence;
+		wearer.health += this.defence;
+	},
+	unaugmentStats:function(wearer) {
+		wearer.health -= this.defence;
+		wearer.maxHealth -= this.defence;
+	}
+
+
+}
+
 Consumable.prototype = $.extend(
             {},
             Item.prototype,
@@ -77,4 +114,11 @@ Weapon.prototype = $.extend(
             Item.prototype,
             Equipable.prototype,
             Weapon.prototype
+        );
+
+Armor.prototype = $.extend(
+            {},
+            Item.prototype,
+            Equipable.prototype,
+            Armor.prototype
         );

@@ -6,6 +6,11 @@ function Character(name) {
 	this.speed = 20;
 
 	this.weapon = null;
+	this.chest = null;
+	this.legs = null;
+	this.head = null;
+	this.feet = null;
+	this.neck = null;
 }
 
 Character.prototype = {
@@ -25,6 +30,98 @@ Character.prototype = {
 		}
 		else {
 			return "Fists";
+		}
+	},
+
+	equipArmor:function(armor) {
+		if(armor.slot === 0) {
+			this.chest = armor;
+			armor.augmentStats(this);
+		}
+		else if(armor.slot === 1) {
+			this.legs = armor;
+			armor.augmentStats(this);
+		}
+		else if(armor.slot === 2) {
+			this.head = armor;
+			armor.augmentStats(this);
+		}
+		else if(armor.slot === 3) {
+			this.feet = armor;
+			armor.augmentStats(this);
+		}
+		else if(armor.slot === 4) {
+			this.neck = armor;
+			armor.augmentStats(this);
+		}
+	},
+
+	unequipArmor:function(slot) {
+		if(slot === 0) {
+			this.chest.unaugmentStats(this);
+			this.chest = null;
+		}
+		else if(slot === 1) {
+			this.legs.unaugmentStats(this);
+			this.legs = null;
+		}
+		else if(slot === 2) {
+			this.head.unaugmentStats(this);
+			this.head = null;
+		}
+		else if(slot === 3) {
+			this.feet.unaugmentStats(this);
+			this.feet = null;
+		}
+		else if(slot === 4) {
+			this.neck.unaugmentStats(this);
+			this.neck = null;
+		}
+	},
+
+	getChestName:function() {
+		if(this.chest != null) {
+			return this.chest.name;
+		}
+		else {
+			return "Shirt";
+		}
+	},
+
+	getLegsName:function() {
+		console.log("got here");
+		if(this.legs != null) {
+			return this.legs.name;
+		}
+		else {
+			return "Pants";
+		}
+	},
+
+	getHeadName:function() {
+		if(this.head != null) {
+			return this.head.name;
+		}
+		else {
+			return "";
+		}
+	},
+
+	getFeetName:function() {
+		if(this.feet != null) {
+			return this.feet.name;
+		}
+		else {
+			return "Boots";
+		}
+	},
+
+	getNeckName:function() {
+		if(this.neck != null) {
+			return this.neck.name;
+		}
+		else {
+			return "";
 		}
 	},
 
@@ -98,6 +195,57 @@ Hero.prototype = {
 	unequipWeapon:function() {
 		this.addToInventory(this.weapon);
 		this.weapon = null;
+	},
+
+	equipArmor:function(armor) {
+		if(armor.slot === 0) {
+			this.chest = armor;
+			armor.augmentStats(this);
+			this.removeFromInventory(armor);
+		}
+		else if(armor.slot === 1) {
+			this.legs = armor;
+			armor.augmentStats(this);
+			this.removeFromInventory(armor);
+		}
+		else if(armor.slot === 2) {
+			this.head = armor;
+			armor.augmentStats(this);
+			this.removeFromInventory(armor);
+		}
+		else if(armor.slot === 3) {
+			this.feet = armor;
+			armor.augmentStats(this);
+			this.removeFromInventory(armor);
+		}
+		else if(armor.slot === 4) {
+			this.neck = armor;
+			armor.augmentStats(this);
+			this.removeFromInventory(armor);
+		}
+	},
+
+	unequipArmor:function(slot) {
+		if(slot === 0) {
+			this.chest.unaugmentStats(this);
+			this.chest = null;
+		}
+		else if(slot === 1) {
+			this.legs.unaugmentStats(this);
+			this.legs = null;
+		}
+		else if(slot === 2) {
+			this.head.unaugmentStats(this);
+			this.head = null;
+		}
+		else if(slot === 3) {
+			this.feet.unaugmentStats(this);
+			this.feet = null;
+		}
+		else if(slot === 4) {
+			this.neck.unaugmentStats(this);
+			this.neck = null;
+		}
 	},
 
 	addQuest:function(quest) {
