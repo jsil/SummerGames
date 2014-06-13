@@ -72,6 +72,7 @@ function Game(hero) {
 	Game.prototype.updateStats = function() {
 		$("#healthStat").html(this.hero.health + "/" + this.hero.maxHealth);
 		$("#goldStat").html(this.hero.gold + " G");
+		$("#weaponName").html(this.hero.getWeaponName());
 	}
 
 	Game.prototype.updateEquipment = function() {
@@ -118,17 +119,20 @@ $(document).ready(function() {
 	myGame.startGame();
 	myGame.resizeGame();
 
-	var exampleItem = new Item("Sword");
+	var exampleItem = new Weapon("Sword");
 	var examplePotion = new Consumable("Health Pot");
 
 	exampleItem.takeItem();
 	examplePotion.takeItem();
-	console.log(examplePotion.price);
 
 	me.addToInventory(exampleItem);
 	me.addToInventory(examplePotion);
 
-	console.log(me.printInventory());
+	me.consume(me.inventory[1]);
+	me.equipWeapon(me.inventory[0]);
+	myGame.updateStats();
+
+	//console.log(me.printInventory());
 
 	myGame.updateEquipment();
 
@@ -141,7 +145,7 @@ $(document).ready(function() {
 	myGame.updateQuests();
 
 	var exampleEnemy = new Character();
-	myGame.doBattle(exampleEnemy);
+	//myGame.doBattle(exampleEnemy);
 
 	$("#nameSubmit").click(function(event) {
 	    event.preventDefault();
@@ -156,12 +160,13 @@ $(document).ready(function() {
 
 	$("#loadButton").click(function(event) {
 		event.preventDefault();
-		alert("Loading not yet implemented");
+		openModal("#loadModal");
 	});
 
 	$("#eraseButton").click(function(event) {
 		event.preventDefault();
 		eraseCookie();
+		console.log("Cookie data erased");
 		console.log(jQuery.parseJSON(getCookie()));
 	});
 

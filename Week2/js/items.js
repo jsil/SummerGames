@@ -7,6 +7,9 @@ Item.prototype = {
 
 	takeItem:function() {
 		console.log("took item");
+	},
+	isEquipable:function() {
+		return false;
 	}
 }
 
@@ -16,14 +19,16 @@ function Consumable(name) {
 }
 
 Consumable.prototype = {
-	consume:function() {
-		console.log("consumed");
+	doEffect:function(consumer) {
+		console.log(consumer.name + " consumed " + this.name);
+		consumer.heal(5);
 	}
 }
 
 function Equipable(name) {
 	this.name = name;
 	this.price = 40;
+	this.isEquiped = false;
 }
 
 Equipable.prototype = {
@@ -31,12 +36,27 @@ Equipable.prototype = {
 		console.log("took item2");
 	},
 
-	equip:function() {
-		console.log("equiped");
+	equip:function() {//don't know if i'll need these
+		this.isEquiped = true;
 	},
 
 	unequip:function() {
-		console.log("unequiped");
+		this.isEquiped = false;
+	},
+	isEquipable:function() {
+		return true;
+	}
+}
+
+function Weapon(name) {
+	this.name = name;
+	this.price = 40;
+	this.damage = 3;
+}
+
+Weapon.prototype = {
+	calculateDamage:function() {
+		return this.damage;
 	}
 }
 
@@ -50,4 +70,11 @@ Equipable.prototype = $.extend(
             {},
             Item.prototype,
             Equipable.prototype
+        );
+
+Weapon.prototype = $.extend(
+            {},
+            Item.prototype,
+            Equipable.prototype,
+            Weapon.prototype
         );

@@ -27,7 +27,8 @@
 				<div id="tabs-1" class="tab">
 					<div id="statBox">
 						Health: <span id="healthStat">0/0</span><br>
-						Gold: <span id="goldStat">0 G</span>
+						Gold: <span id="goldStat">0 G</span><br>
+						Weapon: <span id="weaponName">Fists</span>
 					</div>
 				</div>
 				<div id="tabs-2" class="tab">
