@@ -91,9 +91,9 @@ function Game(hero) {
 	Game.prototype.updateSaves = function() {
 		var saveNames = document.getElementsByClassName("saveName");
 		for(var i=0;i<saveNames.length;i++) {
-			var date = JSON.parse(gameSaves[i].save).date;
-			if(date != null)
-				saveNames[i].innerHTML = date;
+			//console.log("" + JSON.stringify(gameSaves[i].save));
+			if(gameSaves[i].save != "[]")
+				saveNames[i].innerHTML = JSON.parse(gameSaves[i].save).date;
 			else
 				saveNames[i].innerHTML = "(No save data)";
 		}
@@ -238,7 +238,7 @@ $(document).ready(function() {
 	var exampleEnemy = new Character();
 
 
-	gameSaves[1].writeSave(myGame,me);
+	//gameSaves[1].writeSave(myGame,me);
 	//console.log(getCookie());
 	//myGame.doBattle(exampleEnemy);
 
@@ -294,6 +294,23 @@ $(document).ready(function() {
 		closeModal("#debugModal");
 		openModal("#questModal");
 	});
+
+	var saveModalButtons = document.getElementsByClassName("saveModalButton");
+	for(var i=0;i<saveModalButtons.length;i++) {
+		saveModalButtons[i].onclick = function() {
+			console.log("Saving in Slot " + (parseInt(this.getAttribute("data-num")) + 1));
+			gameSaves[this.getAttribute("data-num")].writeSave(myGame,me);
+			myGame.updateSaves();
+		}
+	}
+
+	var loadModalButtons = document.getElementsByClassName("loadModalButton");
+	for(var i=0;i<loadModalButtons.length;i++) {
+		loadModalButtons[i].onclick = function() {
+			console.log("Loading in Slot " + (parseInt(this.getAttribute("data-num")) + 1));
+			// console.log(this);
+		}
+	}
 
 	$(window).resize(function(){
 		myGame.resizeGame();

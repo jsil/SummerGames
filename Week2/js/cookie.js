@@ -46,9 +46,10 @@ GameSave.prototype = {
         //this = json.parse(game.getJSON()) + json.parse(hero.getJSON());//fix
         this.save = "{\"game\":{" + game.getJSON() + "}, \"hero\":{" + hero.getJSON() + "}, \"date\":\"" + date.toGMTString() + "\"}";
         setCookie();
+        //console.log(this.save);
     },
-    loadSave:function(jsonString) {
-        this.save = "[" + jsonString + "]";
+    loadSave:function(json) {
+        this.save = JSON.stringify(json);
     },
 
     // getSaveJSON:function() {
@@ -83,6 +84,5 @@ function loadData() {
         gameSaves[9].loadSave(data.save9);
     }
 }
-
 //eraseCookie();
 loadData();
