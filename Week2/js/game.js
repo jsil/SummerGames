@@ -101,12 +101,17 @@ function Game(hero) {
 
 	Game.prototype.updateLoads = function() {
 		var loadNames = document.getElementsByClassName("loadName");
+		var loadModalButtons = document.getElementsByClassName("loadModalButton");
 		for(var i=0;i<loadNames.length;i++) {
 			var date = JSON.parse(gameSaves[i].save).date;
-			if(date != null)
+			if(date != null) {
 				loadNames[i].innerHTML = date;
-			else
+				loadModalButtons[i].style.display = "inline";
+			}
+			else {
 				loadNames[i].innerHTML = "(No save data)";
+				loadModalButtons[i].style.display = "none";
+			}
 		}
 	}
 
@@ -321,6 +326,7 @@ $(document).ready(function() {
 			myGame.loadJSON(gameSaves[this.getAttribute("data-num")].getGameJSON());
 			me.loadJSON(gameSaves[this.getAttribute("data-num")].getHeroJSON());
 			myGame.updateEverything();
+			closeModal("#loadModal");
 		}
 	}
 

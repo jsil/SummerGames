@@ -101,7 +101,62 @@ var getCurrentTimeAndDate = function(){
     if(day < 10)
         day = "0" + day;
 
-    info.date = month + "-" + day + "-" + year;
+    var monthStringSmall = "";
+    var monthString = "";
+    if(month == 1) {
+        monthStringSmall = "Jan.";
+        monthString = "January";
+    }
+    else if(month == 2) {
+        monthStringSmall = "Feb.";
+        monthString = "February";
+    }
+    else if(month == 3) {
+        monthStringSmall = "Mar.";
+        monthString = "March";
+    }
+    else if(month == 4) {
+        monthStringSmall = "Apr.";
+        monthString = "April";
+    }
+    else if(month == 5) {
+        monthStringSmall = "May";
+        monthString = "May";
+    }
+    else if(month == 6) {
+        monthStringSmall = "June";
+        monthString = "June";
+    }
+    else if(month == 7) {
+        monthStringSmall = "July";
+        monthString = "July";
+    }
+    else if(month == 8) {
+        monthStringSmall = "Aug.";
+        monthString = "August";
+    }
+    else if(month == 9) {
+        monthStringSmall = "Sept.";
+        monthString = "September";
+    }
+    else if(month == 10) {
+        monthStringSmall = "Oct.";
+        monthString = "October";
+    }
+    else if(month == 11) {
+        monthStringSmall = "Nov.";
+        monthString = "November";
+    }
+    else if(month == 12) {
+        monthStringSmall = "Dec.";
+        monthString = "December";
+    }
+
+    //info.date = month + "-" + day + "-" + year;
+    info.date = monthStringSmall + " " + day + ", " + year;
+
+
+    var amOrPm;
 
     if(hours < 10)
         hours = "0" + hours.toString();
@@ -113,7 +168,13 @@ var getCurrentTimeAndDate = function(){
     else
         mins = mins.toString();
 
-    info.time = hours + ":" + mins;
+    if(hours < 12)
+        amOrPm = "a.m."
+    else
+        amOrPm = "p.m."
+
+
+    info.time = hours + ":" + mins + " " + amOrPm;
 
     return info;
 

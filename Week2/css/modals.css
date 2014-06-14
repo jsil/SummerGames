@@ -36,10 +36,14 @@
 	font: inherit;
 	cursor: pointer;
 	vertical-align: center;
+	/*margin-top: 15px;*/
+	font-size: 20px;
 }
 
 .modalTitle {
-	padding: 10px;
+	padding: 0px;
+	padding-left: 15px;
+	padding-right: 15px;
 	border-bottom: solid 1px white;	
 }
 
