@@ -82,17 +82,43 @@ canvas {
 	margin-top: 2px;
 }
 
-/*
-#text {
-	background-color: black;
-	color:white;
-	overflow-y:scroll;
-	height:100%;
-	width:100%;
-}*/
 
-button {
+#optionsPanel > button {
 	margin:15px;
+}
+
+/*Things in modals*/
+
+#saveDiv {
+	margin: 10px;
+	width:350px;
+}
+
+#saveDiv > div {
+	height:40px;
+	padding:5px;
+} 
+
+.saveModalButton {
+	float:right;
+	margin-top: 0px;
+	width:60px;
+}
+
+#loadDiv {
+	margin: 10px;
+	width:350px;
+}
+
+#loadDiv > div {
+	height:40px;
+	padding:5px;
+} 
+
+.loadModalButton {
+	float:right;
+	margin-top: 0px;
+	width:60px;
 }
 
 

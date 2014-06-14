@@ -12,11 +12,7 @@ $(window).ready(function(){
 	});
 
 	$(".modal").hide();
-	$("#jobPrice").change(function(){
-		var num = $(this).val();
-		num = parseInt(num, 10).toFixed(2);
-		$(this).val(num);
-	});
+
 
 	$(".closeButton").click(function(event){
 
@@ -31,7 +27,7 @@ $(window).ready(function(){
 
 var closeModal = function(){
 	
-	//$(".modalSelected").removeClass("modalSelected");
+	$(".modalSelected").removeClass("modalSelected");
 	$(".modal").removeClass("modalSelected");
 	$(".modal").hide();
 	$(".modalOverlay").height(0);
@@ -67,56 +63,8 @@ var openModal = function(id){
 	$(".modalSelected").css({"left": left, "top": top});
 	$(id).show();
 
-	//$("#modalOverlay").addClass("modalOverlay");
-	//$(".modalOverlay").height($(document).height());
-
-}
-
-
-var getCurrentTimeAndDate = function(){
-
-	var info = {};
-
-	var currentTime = new Date();
-
-	var hours = currentTime.getHours();
-	var mins = currentTime.getMinutes();
-
-	var year = currentTime.getFullYear();
-	var month = parseInt(currentTime.getMonth(), 10) + 1;
-	var day = parseInt(currentTime.getDate(), 10);
-
-	if(month < 10)
-		month = "0" + month;
-
-	if(day < 10)
-		day = "0" + day;
-
-	info.date = year + "-" + month + "-" + day;
-
-	if(hours < 10)
-		hours = "0" + hours.toString();
-	else
-		hours = hours.toString();
-
-	if(mins < 10)
-		mins = "0" + mins.toString();
-	else
-		mins = mins.toString();
-
-	info.time = hours + ":" + mins;
-
-	return info;
-
-}
-
-var setJobPostDimensions = function(){
-
-	var widthText = $("#jobDescription").width();
-	//console.log(widthText);
-	$(".jobPostForm input").width(widthText);
-	$(".jobPostForm select").width(widthText);
-	$(".jobPostForm textarea").width(widthText);
+	$("#modalOverlay").addClass("modalOverlay");
+	$(".modalOverlay").height($(document).height());
 
 }
 

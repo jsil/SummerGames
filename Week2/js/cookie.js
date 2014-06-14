@@ -42,28 +42,21 @@ GameSave.prototype = {
     //     return "\"save" + this.number + "\":[{\"firstname\":\"jordan\"}]";
     // },
     writeSave:function(game, hero) {
-        var date = new Date();
-        //this = json.parse(game.getJSON()) + json.parse(hero.getJSON());//fix
-        this.save = "{\"game\":{" + game.getJSON() + "}, \"hero\":{" + hero.getJSON() + "}, \"date\":\"" + date.toGMTString() + "\"}";
+        var date = getCurrentTimeAndDate();
+        this.save = "{\"game\":{" + game.getJSON() + "}, \"hero\":{" + hero.getJSON() + "}, \"date\":\"" + date.date + " " + date.time + "\"}";
         setCookie();
-        //console.log(this.save);
     },
     loadSave:function(json) {
         this.save = JSON.stringify(json);
     },
 
     getGameJSON:function() {
-        //console.log(this.save);
         return JSON.stringify(JSON.parse(this.save).game);
     },
 
     getHeroJSON:function() {
         return JSON.stringify(JSON.parse(this.save).hero);
     }
-    // getSave:function() {
-    //     return this.save;
-    //     //return "\"" + this.number + "\":{" + "}";
-    // }
 }
 
 var gameSaves = [new GameSave(0), new GameSave(1), new GameSave(2), new GameSave(3), new GameSave(4), new GameSave(5), new GameSave(6), new GameSave(7), new GameSave(8), new GameSave(9)];
@@ -87,6 +80,43 @@ function loadData() {
         gameSaves[8].loadSave(data.save8);
         gameSaves[9].loadSave(data.save9);
     }
+}
+
+var getCurrentTimeAndDate = function(){
+
+    var info = {};
+
+    var currentTime = new Date();
+
+    var hours = currentTime.getHours();
+    var mins = currentTime.getMinutes();
+
+    var year = currentTime.getFullYear();
+    var month = parseInt(currentTime.getMonth(), 10) + 1;
+    var day = parseInt(currentTime.getDate(), 10);
+
+    if(month < 10)
+        month = "0" + month;
+
+    if(day < 10)
+        day = "0" + day;
+
+    info.date = month + "-" + day + "-" + year;
+
+    if(hours < 10)
+        hours = "0" + hours.toString();
+    else
+        hours = hours.toString();
+
+    if(mins < 10)
+        mins = "0" + mins.toString();
+    else
+        mins = mins.toString();
+
+    info.time = hours + ":" + mins;
+
+    return info;
+
 }
 //eraseCookie();
 loadData();
