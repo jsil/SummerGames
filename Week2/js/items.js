@@ -122,3 +122,15 @@ Armor.prototype = $.extend(
             Equipable.prototype,
             Armor.prototype
         );
+
+
+
+var armoryDB = [];
+
+armoryDB[0] = new Weapon("Sword");
+armoryDB[1] = new Consumable("Health Pot");
+armoryDB[2] = new Armor("Chestplate", 0);
+armoryDB[3] = new Armor("Armored Leggings", 1);
+armoryDB[4] = new Armor("Cheeky Hat", 2);
+armoryDB[5] = new Armor("Dumb Boots", 3);
+armoryDB[6] = new Armor("Stupid Necklace", 4);

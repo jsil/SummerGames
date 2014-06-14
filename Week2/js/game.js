@@ -99,6 +99,48 @@ function Game(hero) {
 		}
 	}
 
+	Game.prototype.updateLoads = function() {
+		var loadNames = document.getElementsByClassName("loadName");
+		for(var i=0;i<loadNames.length;i++) {
+			var date = JSON.parse(gameSaves[i].save).date;
+			if(date != null)
+				loadNames[i].innerHTML = date;
+			else
+				loadNames[i].innerHTML = "(No save data)";
+		}
+	}
+
+	Game.prototype.updateDebug = function() {
+		var armoryHTML = "";
+
+
+		for(var i=0;i<armoryDB.length;i++) {
+			armoryHTML += "<div>" + armoryDB[i].name + "<button type=button class=\"armoryUnlockButton\" data-num=" + i + ">Unlock</button></div>";
+		}
+		$("#armoryChooser").html(armoryHTML);
+		var unlockArmoryButtons = document.getElementsByClassName("armoryUnlockButton");
+		for(var i=0;i<unlockArmoryButtons.length;i++) {
+			unlockArmoryButtons[i].onclick = function() {
+				event.preventDefault();
+				debugAddItem(this.getAttribute("data-num"));
+			}
+		}
+
+		var questHTML = "";
+
+		for(var i=0;i<questDB.length;i++) {
+			questHTML += "<div>" + questDB[i].name + "<button type=button class=\"questUnlockButton\" data-num=" + i + ">Unlock</button></div>";
+		}
+		$("#questChooser").html(questHTML);
+		var unlockQuestButtons = document.getElementsByClassName("questUnlockButton");
+		for(var i=0;i<unlockQuestButtons.length;i++) {
+			unlockQuestButtons[i].onclick = function() {
+				event.preventDefault();
+				debugAddQuest(this.getAttribute("data-num"));
+			}
+		}
+	}
+
 	Game.prototype.doBattle = function(enemy) {
 		var whosTurn;
 		if(this.hero.speed >= enemy.speed) {
@@ -200,6 +242,16 @@ $(document).ready(function() {
 	//console.log(getCookie());
 	//myGame.doBattle(exampleEnemy);
 
+	debugAddItem = function(itemNum) {
+		myGame.hero.addToInventory(armoryDB[itemNum]);
+		myGame.updateEquipment();
+	}
+
+	debugAddQuest = function(questNum) {
+		myGame.hero.addQuest(questDB[questNum]);
+		myGame.updateQuests();
+	}
+
 	$("#nameSubmit").click(function(event) {
 	    event.preventDefault();
 	    closeModal("#nameModal");
@@ -214,6 +266,7 @@ $(document).ready(function() {
 
 	$("#loadButton").click(function(event) {
 		event.preventDefault();
+		myGame.updateLoads();
 		openModal("#loadModal");
 	});
 
@@ -222,6 +275,24 @@ $(document).ready(function() {
 		eraseCookie();
 		console.log("Cookie data erased");
 		console.log(jQuery.parseJSON(getCookie()));
+	});
+
+	$("#debugButton").click(function(event) {
+		event.preventDefault();
+		myGame.updateDebug();
+		openModal("#debugModal");
+	});
+
+	$("#armoryButton").click(function(event) {
+		event.preventDefault();
+		closeModal("#debugModal");
+		openModal("#armoryModal");
+	});
+
+	$("#questButton").click(function(event) {
+		event.preventDefault();
+		closeModal("#debugModal");
+		openModal("#questModal");
 	});
 
 	$(window).resize(function(){

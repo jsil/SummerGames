@@ -33,3 +33,6 @@ var questDB = [];
 
 questDB[0] = new Quest("Quest #1", "Die", 0);
 questDB[0].addRewards([new Equipable("Sword"), new Consumable("Health Pot"), new Item("Mysterious Idol")]);
+
+questDB[1] = new Quest("Quest #2 - Revenge of the Quest", "Don't Die", 0);
+questDB[1].addRewards([new Equipable("Sword"), new Consumable("Health Pot"), new Item("Mysterious Idol")]);

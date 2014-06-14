@@ -50,6 +50,7 @@
 				<button id="saveButton">Save</button>
 				<button id="loadButton">Load</button>
 				<button id="eraseButton">Erase Data</button>
+				<button id="debugButton">Debug</button>
 			</div>
 		</div>
 
