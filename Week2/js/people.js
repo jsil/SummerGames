@@ -267,6 +267,54 @@ Hero.prototype = {
 		}
 	},
 
+	printEquipment:function() {
+		var listText = "";
+
+		listText = listText + "<div>Weapon: " + this.getWeaponName();
+		if(this.weapon != null) {
+			listText = listText + "<button type=button class=\"equipmentUnequipButton\" data-num=" + -1 + ">Unequip</button>";
+			listText = listText + "<button type=button class=\"equipmentViewButton\" data-num=" + -1 + ">View</button>";
+		}
+		listText = listText + "</div>";
+
+		listText = listText + "<div>Chest: " + this.getChestName();
+		if(this.chest != null) {
+			listText = listText + "<button type=button class=\"equipmentUnequipButton\" data-num=" + 0 + ">Unequip</button>";
+			listText = listText + "<button type=button class=\"equipmentViewButton\" data-num=" + 0 + ">View</button>";
+		}
+		listText = listText + "</div>";
+
+		listText = listText + "<div>Legs: " + this.getLegsName();
+		if(this.legs != null) {
+			listText = listText + "<button type=button class=\"equipmentUnequipButton\" data-num=" + 1 + ">Unequip</button>";
+			listText = listText + "<button type=button class=\"equipmentViewButton\" data-num=" + 1 + ">View</button>";
+		}
+		listText = listText + "</div>";
+
+		listText = listText + "<div>Head: " + this.getHeadName();
+		if(this.head != null) {
+			listText = listText + "<button type=button class=\"equipmentUnequipButton\" data-num=" + 2 + ">Unequip</button>";
+			listText = listText + "<button type=button class=\"equipmentViewButton\" data-num=" + 2 + ">View</button>";
+		}
+		listText = listText + "</div>";
+
+		listText = listText + "<div>Feet: " + this.getFeetName();
+		if(this.feet != null) {
+			listText = listText + "<button type=button class=\"equipmentUnequipButton\" data-num=" + 3 + ">Unequip</button>";
+			listText = listText + "<button type=button class=\"equipmentViewButton\" data-num=" + 3 + ">View</button>";
+		}
+		listText = listText + "</div>";
+
+		listText = listText + "<div>Neck: " + this.getNeckName();
+		if(this.neck != null) {
+			listText = listText + "<button type=button class=\"equipmentUnequipButton\" data-num=" + 4 + ">Unequip</button>";
+			listText = listText + "<button type=button class=\"equipmentViewButton\" data-num=" + 4 + ">View</button>";
+		}
+		listText = listText + "</div>";
+
+		return listText;
+	},
+
 	addQuest:function(quest) {
 		this.quests.push(quest);
 	},
@@ -311,10 +359,10 @@ Hero.prototype = {
 	loadJSON:function(jsonString) {
 		var loadObject = jQuery.parseJSON(jsonString);
 		this.name = loadObject.name;
-		this.health = loadObject.health;
-		this.maxHealth = loadObject.maxHealth;
-		this.gold = loadObject.gold;
-		this.speed = loadObject.speed;
+		this.health = parseInt(loadObject.health);
+		this.maxHealth = parseInt(loadObject.maxHealth);
+		this.gold = parseInt(loadObject.gold);
+		this.speed = parseInt(loadObject.speed)	;
 		console.log(loadObject);
 	}
 }

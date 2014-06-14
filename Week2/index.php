@@ -38,17 +38,17 @@
 				<div id="tabs-2" class="tab">
 					Equipment:
 					<div id="equipmentBox">
-						Weapon: <span id="weaponName">Fists</span><br><br>
+						<!-- Weapon: <span id="weaponName">Fists</span><br><br>
 						Chest: <span id="chestName">Shirt</span><br>
 						Legs: <span id="legsName">Pants</span><br>
 						Head: <span id="headName"></span><br>
 						Feet: <span id="feetName">Shoes</span><br>
-						Neck: <span id="neckName"></span><br>
-					</div><!--to do, update height of this & other boxes so they don't overflow into options box-->
+						Neck: <span id="neckName"></span><br> -->
+					</div>
 				</div>
 				<div id="tabs-3" class="tab">
 					Inventory:
-					<div id="inventoryBox">No items in inventory.</div><!--to do, update height of this & other boxes so they don't overflow into options box-->
+					<div id="inventoryBox">No items in inventory.</div>
 				</div>
 				<div id="tabs-4" class="tab">
 					Quests:

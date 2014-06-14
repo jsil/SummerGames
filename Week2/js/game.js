@@ -80,13 +80,13 @@ function Game(hero) {
 		$("#neckName").html(this.hero.getNeckName());
 	}
 
-	Game.prototype.updateEquipment = function() {
+	Game.prototype.updateInventory = function() {
 		$("#inventoryBox").html(this.hero.printInventory());
 		var viewButtons = document.getElementsByClassName("itemViewButton");
 		for(var i=0;i<viewButtons.length;i++) {
 			viewButtons[i].onclick = function() {
 				event.preventDefault();
-				viewButton(this.getAttribute("data-num"));
+				viewButtonItem(this.getAttribute("data-num"));
 			}
 		}
 		var equipButtons = document.getElementsByClassName("itemEquipButton");
@@ -103,6 +103,25 @@ function Game(hero) {
 				consumeButton(this.getAttribute("data-num"));
 			}
 		}
+	}
+
+	Game.prototype.updateEquipment = function() {
+		$("#equipmentBox").html(this.hero.printEquipment());
+		var viewButtons = document.getElementsByClassName("equipmentViewButton");
+		for(var i=0;i<viewButtons.length;i++) {
+			viewButtons[i].onclick = function() {
+				event.preventDefault();
+				viewButtonEquipment(this.getAttribute("data-num"));
+			}
+		}
+		var unequipButtons = document.getElementsByClassName("equipmentUnequipButton");
+		for(var i=0;i<unequipButtons.length;i++) {
+			unequipButtons[i].onclick = function() {
+				event.preventDefault();
+				unequipButton(this.getAttribute("data-num"));
+			}
+		}
+
 	}
 
 	Game.prototype.updateQuests = function () {
@@ -169,6 +188,7 @@ function Game(hero) {
 
 	Game.prototype.updateEverything = function() {
 		this.updateStats();
+		this.updateInventory();
 		this.updateEquipment();
 		this.updateQuests();
 		this.updateDebug()
@@ -259,7 +279,7 @@ $(document).ready(function() {
 
 	//console.log(me.printInventory());
 
-	myGame.updateEquipment();
+	myGame.updateInventory();
 
 	var exampleQuest = new Quest();
 	exampleQuest.name = "Example Quest";
@@ -273,6 +293,8 @@ $(document).ready(function() {
 
 	var exampleEnemy = new Character();
 
+	myGame.updateEverything();
+
 
 	//gameSaves[1].writeSave(myGame,me);
 	//console.log(getCookie());
@@ -280,7 +302,7 @@ $(document).ready(function() {
 
 	debugAddItem = function(itemNum) {
 		myGame.hero.addToInventory(armoryDB[itemNum]);
-		myGame.updateEquipment();
+		myGame.updateInventory();
 	}
 
 	debugAddQuest = function(questNum) {
@@ -288,7 +310,7 @@ $(document).ready(function() {
 		myGame.updateQuests();
 	}
 
-	viewButton = function(i) {
+	viewButtonItem = function(i) {
 		console.log(me.inventory[i].name);//TODO: open item detail modal
 	}
 
@@ -302,6 +324,31 @@ $(document).ready(function() {
 
 	consumeButton = function(i) {
 		me.consume(me.inventory[i]);
+		myGame.updateEverything();
+	}
+
+	viewButtonEquipment = function(i) {//TODO: open item detail modal
+		i = parseInt(i);
+		if(i===-1)
+			console.log(me.getWeaponName());
+		else if(i===0)
+			console.log(me.getChestName());
+		else if(i===1)
+			console.log(me.getLegsName());
+		if(i===2)
+			console.log(me.getHeadName());
+		if(i===3)
+			console.log(me.getFeetName());
+		if(i===4)
+			console.log(me.getNeckName());
+	}
+
+	unequipButton = function(i) {
+		i = parseInt(i);
+		if(i===-1)
+			me.unequipWeapon();
+		else
+			me.unequipArmor(i);
 		myGame.updateEverything();
 	}
 
