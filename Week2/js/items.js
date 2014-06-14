@@ -10,6 +10,15 @@ Item.prototype = {
 	},
 	isEquipable:function() {
 		return false;
+	},
+	isWeapon:function() {
+		return false;
+	},
+	isArmor:function() {
+		return false;
+	},
+	isConsumable:function() {
+		return false;
 	}
 }
 
@@ -22,6 +31,9 @@ Consumable.prototype = {
 	doEffect:function(consumer) {
 		console.log(consumer.name + " consumed " + this.name);
 		consumer.heal(5);
+	},
+	isConsumable:function() {
+		return true;
 	}
 }
 
@@ -57,6 +69,9 @@ function Weapon(name) {
 Weapon.prototype = {
 	calculateDamage:function() {
 		return this.damage;
+	},
+	isWeapon:function() {
+		return true;
 	}
 }
 
@@ -92,6 +107,9 @@ Armor.prototype = {
 	unaugmentStats:function(wearer) {
 		wearer.health -= this.defence;
 		wearer.maxHealth -= this.defence;
+	},
+	isArmor:function() {
+		return true;
 	}
 
 

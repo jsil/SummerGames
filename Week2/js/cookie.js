@@ -170,8 +170,11 @@ var getCurrentTimeAndDate = function(){
 
     if(hours < 12)
         amOrPm = "a.m."
-    else
+    else {
+        if(hours != 12)
+            hours -=12;
         amOrPm = "p.m."
+    }
 
 
     info.time = hours + ":" + mins + " " + amOrPm;

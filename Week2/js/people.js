@@ -177,15 +177,20 @@ Hero.prototype = {
 	printInventory:function() {
 		var listText = "";
 		for(var i=0;i<this.inventory.length;i++) {
-			if(i===0)
-				listText = listText + this.inventory[i].name;
-			else
-				listText = listText + "<br>" + this.inventory[i].name;
+			listText = listText + "<div>" + this.inventory[i].name;
+			if(this.inventory[i].isEquipable())
+				listText = listText + "<button type=button class=\"itemEquipButton\" data-num=" + i + ">Equip</button>";
+			if(this.inventory[i].isConsumable())
+				listText = listText + "<button type=button class=\"itemConsumeButton\" data-num=" + i + ">Consume</button>";
+			listText = listText + "<button type=button class=\"itemViewButton\" data-num=" + i + ">View</button>";
+			listText = listText + "</div>";
 		}
 		return listText;
 	},
 
 	equipWeapon:function(weapon) {
+		if(this.weapon != null)
+				this.unequipWeapon();
 		this.weapon = weapon;
 		this.removeFromInventory(weapon);
 		
@@ -198,26 +203,36 @@ Hero.prototype = {
 
 	equipArmor:function(armor) {
 		if(armor.slot === 0) {
+			if(this.chest != null)
+				this.unequipArmor(0);
 			this.chest = armor;
 			armor.augmentStats(this);
 			this.removeFromInventory(armor);
 		}
 		else if(armor.slot === 1) {
+			if(this.legs != null)
+				this.unequipArmor(1);
 			this.legs = armor;
 			armor.augmentStats(this);
 			this.removeFromInventory(armor);
 		}
 		else if(armor.slot === 2) {
+			if(this.head != null)
+				this.unequipArmor(2);
 			this.head = armor;
 			armor.augmentStats(this);
 			this.removeFromInventory(armor);
 		}
 		else if(armor.slot === 3) {
+			if(this.feet != null)
+				this.unequipArmor(3);
 			this.feet = armor;
 			armor.augmentStats(this);
 			this.removeFromInventory(armor);
 		}
 		else if(armor.slot === 4) {
+			if(this.neck != null)
+				this.unequipArmor(4);
 			this.neck = armor;
 			armor.augmentStats(this);
 			this.removeFromInventory(armor);

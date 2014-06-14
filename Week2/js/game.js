@@ -82,6 +82,27 @@ function Game(hero) {
 
 	Game.prototype.updateEquipment = function() {
 		$("#inventoryBox").html(this.hero.printInventory());
+		var viewButtons = document.getElementsByClassName("itemViewButton");
+		for(var i=0;i<viewButtons.length;i++) {
+			viewButtons[i].onclick = function() {
+				event.preventDefault();
+				viewButton(this.getAttribute("data-num"));
+			}
+		}
+		var equipButtons = document.getElementsByClassName("itemEquipButton");
+		for(var i=0;i<equipButtons.length;i++) {
+			equipButtons[i].onclick = function() {
+				event.preventDefault();
+				equipButton(this.getAttribute("data-num"));
+			}
+		}
+		var consumeButtons = document.getElementsByClassName("itemConsumeButton");
+		for(var i=0;i<consumeButtons.length;i++) {
+			consumeButtons[i].onclick = function() {
+				event.preventDefault();
+				consumeButton(this.getAttribute("data-num"));
+			}
+		}
 	}
 
 	Game.prototype.updateQuests = function () {
@@ -267,6 +288,23 @@ $(document).ready(function() {
 		myGame.updateQuests();
 	}
 
+	viewButton = function(i) {
+		console.log(me.inventory[i].name);//TODO: open item detail modal
+	}
+
+	equipButton = function(i) {
+		if(me.inventory[i].isWeapon())
+				me.equipWeapon(me.inventory[i]);
+		else if(me.inventory[i].isArmor())
+			me.equipArmor(me.inventory[i]);
+		myGame.updateEverything();
+	}
+
+	consumeButton = function(i) {
+		me.consume(me.inventory[i]);
+		myGame.updateEverything();
+	}
+
 	$("#nameSubmit").click(function(event) {
 	    event.preventDefault();
 	    closeModal("#nameModal");
@@ -329,6 +367,17 @@ $(document).ready(function() {
 			closeModal("#loadModal");
 		}
 	}
+
+	// function hidestatus() {//hide status bar
+	// 	window.status='';
+	// 	return true;
+	// }
+	// if (document.layers) {
+	// 	document.captureEvents(Event.MOUSEOVER | Event.MOUSEOUT);
+	// 	document.onmouseover=hidestatus;
+	// 	document.onmouseout=hidestatus;
+	// }
+
 
 	$(window).resize(function(){
 		myGame.resizeGame();
