@@ -19,7 +19,7 @@ function Game(hero) {
 		this.updateStats();
 	}
 
-	Game.prototype.resizeGame = function() {
+	Game.prototype.resizeGame = function() {//TODO: resize statbox,questbox,inventorybox
 
 		this.gameDiv.width("99%");
 		this.gameDiv.height("97%")
@@ -88,6 +88,17 @@ function Game(hero) {
 		$("#questBox").html(this.hero.printActiveQuests());
 	}
 
+	Game.prototype.updateSaves = function() {
+		var saveNames = document.getElementsByClassName("saveName");
+		for(var i=0;i<saveNames.length;i++) {
+			var date = JSON.parse(gameSaves[i].save).date;
+			if(date != null)
+				saveNames[i].innerHTML = date;
+			else
+				saveNames[i].innerHTML = "(No save data)";
+		}
+	}
+
 	Game.prototype.doBattle = function(enemy) {
 		var whosTurn;
 		if(this.hero.speed >= enemy.speed) {
@@ -113,6 +124,16 @@ function Game(hero) {
 			alert("Con-sad-ulations. You lost D:");
 		}
 
+	},
+
+	Game.prototype.getJSON = function() {
+		var jsonString = ""
+		return jsonString;
+	},
+
+	Game.prototype.loadJSON = function(jsonString) {
+		var loadObject = jQuery.parseJSON(jsonString);
+		console.log(loadObject);
 	}
 }
 
@@ -150,6 +171,12 @@ $(document).ready(function() {
 	me.equipArmor(me.inventory[2]);
 	me.consume(me.inventory[1]);
 	me.equipWeapon(me.inventory[0]);
+
+	me.unequipArmor(0);
+	me.unequipArmor(1);
+	me.unequipArmor(2);
+	me.unequipArmor(3);
+	me.unequipArmor(4);
 	myGame.updateStats();
 
 	//console.log(me.printInventory());
@@ -164,7 +191,13 @@ $(document).ready(function() {
 	me.addQuest(questDB[0]);
 	myGame.updateQuests();
 
+	//console.log(me.getJSON());
+
 	var exampleEnemy = new Character();
+
+
+	gameSaves[1].writeSave(myGame,me);
+	//console.log(getCookie());
 	//myGame.doBattle(exampleEnemy);
 
 	$("#nameSubmit").click(function(event) {
@@ -175,6 +208,7 @@ $(document).ready(function() {
 
 	$("#saveButton").click(function(event) {
 		event.preventDefault();
+		myGame.updateSaves();
 		openModal("#saveModal");
 	});
 

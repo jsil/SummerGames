@@ -89,7 +89,6 @@ Character.prototype = {
 	},
 
 	getLegsName:function() {
-		console.log("got here");
 		if(this.legs != null) {
 			return this.legs.name;
 		}
@@ -228,22 +227,27 @@ Hero.prototype = {
 	unequipArmor:function(slot) {
 		if(slot === 0) {
 			this.chest.unaugmentStats(this);
+			this.addToInventory(this.chest);
 			this.chest = null;
 		}
 		else if(slot === 1) {
 			this.legs.unaugmentStats(this);
+			this.addToInventory(this.legs);
 			this.legs = null;
 		}
 		else if(slot === 2) {
 			this.head.unaugmentStats(this);
+			this.addToInventory(this.head);
 			this.head = null;
 		}
 		else if(slot === 3) {
 			this.feet.unaugmentStats(this);
+			this.addToInventory(this.feet);
 			this.feet = null;
 		}
 		else if(slot === 4) {
 			this.neck.unaugmentStats(this);
+			this.addToInventory(this.neck);
 			this.neck = null;
 		}
 	},
@@ -278,6 +282,21 @@ Hero.prototype = {
 		consumable.doEffect(this);
 		if(this.inventory.indexOf(consumable) != -1)
 			this.inventory.splice(this.inventory.indexOf(consumable), 1);
+	},
+
+	getJSON:function() {
+		var jsonString = "\"name\":\"" + this.name + "\", ";
+		jsonString += "\"health\":\"" + this.health.toString() + "\", ";
+		jsonString += "\"maxHealth\":\"" + this.maxHealth.toString() + "\", ";
+		jsonString += "\"gold\":\"" + this.gold.toString() + "\", ";
+		jsonString += "\"speed\":\"" + this.speed.toString() + "\"";
+		return jsonString;
+	},
+
+	loadJSON:function(jsonString) {
+		var loadObject = jQuery.parseJSON(jsonString);
+		this.name = loadObject.name;
+		console.log(loadObject);
 	}
 }
 
