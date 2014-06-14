@@ -141,6 +141,16 @@ function Game(hero) {
 		}
 	}
 
+	Game.prototype.updateEverything = function() {
+		this.updateStats();
+		this.updateEquipment();
+		this.updateQuests();
+		this.updateDebug()
+		this.updateSaves();
+		this.updateLoads();
+
+	}
+
 	Game.prototype.doBattle = function(enemy) {
 		var whosTurn;
 		if(this.hero.speed >= enemy.speed) {
@@ -308,7 +318,9 @@ $(document).ready(function() {
 	for(var i=0;i<loadModalButtons.length;i++) {
 		loadModalButtons[i].onclick = function() {
 			console.log("Loading in Slot " + (parseInt(this.getAttribute("data-num")) + 1));
-			// console.log(this);
+			myGame.loadJSON(gameSaves[this.getAttribute("data-num")].getGameJSON());
+			me.loadJSON(gameSaves[this.getAttribute("data-num")].getHeroJSON());
+			myGame.updateEverything();
 		}
 	}
 

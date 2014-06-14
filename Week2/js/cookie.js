@@ -52,10 +52,14 @@ GameSave.prototype = {
         this.save = JSON.stringify(json);
     },
 
-    // getSaveJSON:function() {
-    //     //console.log(this.save);
-    //     return JSON.parse(this.save);
-    // }
+    getGameJSON:function() {
+        //console.log(this.save);
+        return JSON.stringify(JSON.parse(this.save).game);
+    },
+
+    getHeroJSON:function() {
+        return JSON.stringify(JSON.parse(this.save).hero);
+    }
     // getSave:function() {
     //     return this.save;
     //     //return "\"" + this.number + "\":{" + "}";

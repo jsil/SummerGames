@@ -296,6 +296,10 @@ Hero.prototype = {
 	loadJSON:function(jsonString) {
 		var loadObject = jQuery.parseJSON(jsonString);
 		this.name = loadObject.name;
+		this.health = loadObject.health;
+		this.maxHealth = loadObject.maxHealth;
+		this.gold = loadObject.gold;
+		this.speed = loadObject.speed;
 		console.log(loadObject);
 	}
 }
