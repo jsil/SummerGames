@@ -144,11 +144,37 @@ Armor.prototype = $.extend(
 
 
 var armoryDB = [];
+for(var i=0;i<300;i++) {
+	armoryDB[i] = "";
+}
 
-armoryDB[0] = new Weapon("Sword");
-armoryDB[1] = new Consumable("Health Pot");
-armoryDB[2] = new Armor("Chestplate", 0);
-armoryDB[3] = new Armor("Armored Leggings", 1);
-armoryDB[4] = new Armor("Cheeky Hat", 2);
-armoryDB[5] = new Armor("Dumb Boots", 3);
-armoryDB[6] = new Armor("Stupid Necklace", 4);
+armoryDB[000] = new Weapon("Sword");
+
+armoryDB[100] = new Armor("Leather Chest", 0);
+armoryDB[101] = new Armor("Chainmail", 0);
+armoryDB[102] = new Armor("Bronze Chestplate", 0);
+armoryDB[103] = new Armor("Iron Chestplate", 0);
+armoryDB[104] = new Armor("Steel Chestplate", 0);
+
+armoryDB[110] = new Armor("Leather Pants", 1);
+armoryDB[111] = new Armor("Bronze Leggings", 1);
+armoryDB[112] = new Armor("Iron Leggings", 1);
+armoryDB[113] = new Armor("Steel Leggings", 1);
+armoryDB[114] = new Armor("Short Shorts", 1);
+
+armoryDB[120] = new Armor("Cheeky Hat", 2);
+armoryDB[121] = new Armor("Party Hat", 2);
+armoryDB[122] = new Armor("Bronze Helmet", 2);
+armoryDB[123] = new Armor("Iron Helmet", 2);
+armoryDB[124] = new Armor("Steel Helmet", 2);
+
+armoryDB[130] = new Armor("Dumb Boots", 3);
+armoryDB[131] = new Armor("Smart Shoes", 3);
+armoryDB[132] = new Armor("Bronze Boots", 3);
+armoryDB[133] = new Armor("Iron Boots", 3);
+armoryDB[134] = new Armor("Steel Boots", 3);
+
+armoryDB[140] = new Armor("Stupid Necklace", 4);
+armoryDB[141] = new Armor("Helpful Necklace", 4);
+
+armoryDB[200] = new Consumable("Health Pot");

@@ -34,7 +34,7 @@ function Game(hero) {
 		this.canvas.height = gameHeight;
 
 		this.ctx.fillStyle='#FF0000';
-		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+		//this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 
 		this.sideContent.css("width", this.gameDiv.width()*.35-2);
 		this.sideContent.css("height", this.gameDiv.height()-2);
@@ -160,7 +160,8 @@ function Game(hero) {
 
 
 		for(var i=0;i<armoryDB.length;i++) {
-			armoryHTML += "<div>" + armoryDB[i].name + "<button type=button class=\"armoryUnlockButton\" data-num=" + i + ">Unlock</button></div>";
+			if(armoryDB[i].name != null)
+				armoryHTML += "<div>" + armoryDB[i].name + "<button type=button class=\"armoryUnlockButton\" data-num=" + i + ">Unlock</button></div>";
 		}
 		$("#armoryChooser").html(armoryHTML);
 		var unlockArmoryButtons = document.getElementsByClassName("armoryUnlockButton");
@@ -245,60 +246,22 @@ $(document).ready(function() {
 
 	var exampleItem = new Weapon("Sword");
 	var examplePotion = new Consumable("Health Pot");
-	var exampleArmor1 = new Armor("Chestplate", 0);
-	var exampleArmor2 = new Armor("Armored Leggings", 1);
-	var exampleArmor3 = new Armor("Cheeky Hat", 2);
-	var exampleArmor4 = new Armor("Dumb Boots", 3);
-	var exampleArmor5 = new Armor("Stupid Necklace", 4);
 
 	exampleItem.takeItem();
 	examplePotion.takeItem();
 
 	me.addToInventory(exampleItem);
 	me.addToInventory(examplePotion);
-	me.addToInventory(exampleArmor1);
-	me.addToInventory(exampleArmor2);
-	me.addToInventory(exampleArmor3);
-	me.addToInventory(exampleArmor4);
-	me.addToInventory(exampleArmor5);
 
-	me.equipArmor(me.inventory[6]);
-	me.equipArmor(me.inventory[5]);
-	me.equipArmor(me.inventory[4]);
-	me.equipArmor(me.inventory[3]);
-	me.equipArmor(me.inventory[2]);
-	me.consume(me.inventory[1]);
-	me.equipWeapon(me.inventory[0]);
 
-	me.unequipArmor(0);
-	me.unequipArmor(1);
-	me.unequipArmor(2);
-	me.unequipArmor(3);
-	me.unequipArmor(4);
-	myGame.updateStats();
-
-	//console.log(me.printInventory());
-
-	myGame.updateInventory();
-
-	var exampleQuest = new Quest();
-	exampleQuest.name = "Example Quest";
-	exampleQuest.description = "Example Description!";
-
-	me.addQuest(exampleQuest);
 	me.addQuest(questDB[0]);
 	myGame.updateQuests();
 
-	//console.log(me.getJSON());
 
 	var exampleEnemy = new Character();
 
 	myGame.updateEverything();
 
-
-	//gameSaves[1].writeSave(myGame,me);
-	//console.log(getCookie());
-	//myGame.doBattle(exampleEnemy);
 
 	debugAddItem = function(itemNum) {
 		myGame.hero.addToInventory(armoryDB[itemNum]);
