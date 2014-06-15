@@ -17,6 +17,7 @@ function Game(hero) {
 		//openModal("#nameModal");
 		this.addText("Welcome! This game is just getting started!");
 		this.updateStats();
+		this.drawBattle();
 	}
 
 	Game.prototype.resizeGame = function() {//TODO: resize statbox,questbox,inventorybox
@@ -33,8 +34,22 @@ function Game(hero) {
 		this.canvas.width = gameWidth-12;
 		this.canvas.height = gameHeight;
 
-		this.ctx.fillStyle='#FF0000';
-		//this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+		// this.ctx.fillStyle='#000000';
+		// this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+
+
+		//dialog
+		// this.ctx.strokeStyle='#FFFFFF';
+		// this.ctx.strokeRect(0,5,this.canvas.width/4,this.canvas.height/3*2-15);
+
+		// this.ctx.strokeStyle='#FFFFFF';
+		// this.ctx.strokeRect(this.canvas.width/4*3,5,this.canvas.width/4,this.canvas.height/3*2-15);
+
+		// this.ctx.strokeStyle='#FFFFFF';
+		// this.ctx.strokeRect(0,(this.canvas.height/3)*2-5,this.canvas.width,this.canvas.height/3-5);
+
+
+
 
 		this.sideContent.css("width", this.gameDiv.width()*.35-2);
 		this.sideContent.css("height", this.gameDiv.height()-2);
@@ -222,6 +237,29 @@ function Game(hero) {
 		else {
 			alert("Con-sad-ulations. You lost D:");
 		}
+		this.drawBattle();
+
+	},
+
+	Game.prototype.drawBattle = function() {
+		//battle
+
+		this.ctx.strokeStyle='#FFFFFF';
+		this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height);
+
+		var grd=this.ctx.createLinearGradient(0,this.canvas.height/2,0,this.canvas.height-15);
+		grd.addColorStop(0,"black");
+		grd.addColorStop(1,"#505050");
+
+		this.ctx.fillStyle=grd;
+		this.ctx.fillRect(1,this.canvas.height/2,this.canvas.width-2,this.canvas.height/2-1);
+
+		this.ctx.strokeStyle='#FFFFFF';
+		this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height/8);
+
+		this.ctx.fillStyle='#FFFFFF';
+		this.ctx.font="20px Ariel";
+		this.ctx.fillText("HP: " + this.hero.health + "/" + this.hero.maxHealth,15, this.canvas.height/13);
 
 	},
 
@@ -241,8 +279,8 @@ $(document).ready(function() {
 
 	var me = new Hero("Bob");	
 	var myGame = new Game(me);
-	myGame.startGame();
 	myGame.resizeGame();
+	myGame.startGame();
 
 	var exampleItem = new Weapon("Sword");
 	var examplePotion = new Consumable("Health Pot");

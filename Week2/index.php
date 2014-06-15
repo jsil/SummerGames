@@ -15,7 +15,7 @@
 </head>
 <body>
 <div id="gameDiv">
-	<div><canvas id="myCanvas"></canvas>
+	<div><canvas id="myCanvas">Your browser doesn't support this game. My condolences.</canvas>
 		<div id="sideContent" class="panel">
 			<div id="sidePanel" class="panel">
 				<ul>
