@@ -270,7 +270,7 @@ function Game(hero) {
 
 	Game.prototype.loadJSON = function(jsonString) {
 		var loadObject = jQuery.parseJSON(jsonString);
-		console.log(loadObject);
+		//console.log(loadObject);
 	}
 }
 
@@ -285,11 +285,11 @@ $(document).ready(function() {
 	var exampleItem = new Weapon("Sword");
 	var examplePotion = new Consumable("Health Pot");
 
-	exampleItem.takeItem();
-	examplePotion.takeItem();
+	// exampleItem.takeItem();
+	// examplePotion.takeItem();
 
-	me.addToInventory(exampleItem);
-	me.addToInventory(examplePotion);
+	// me.addToInventory(exampleItem);
+	// me.addToInventory(examplePotion);
 
 
 	me.addQuest(questDB[0]);

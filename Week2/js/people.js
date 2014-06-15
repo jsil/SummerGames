@@ -352,7 +352,16 @@ Hero.prototype = {
 		jsonString += "\"health\":\"" + this.health.toString() + "\", ";
 		jsonString += "\"maxHealth\":\"" + this.maxHealth.toString() + "\", ";
 		jsonString += "\"gold\":\"" + this.gold.toString() + "\", ";
-		jsonString += "\"speed\":\"" + this.speed.toString() + "\"";
+		jsonString += "\"speed\":\"" + this.speed.toString() + "\", ";
+		jsonString += "\"inventory\":[";
+		for(var i=0;i<this.inventory.length;i++) {
+			if(i===0)
+				jsonString +=  this.inventory[i].id;
+			else
+				jsonString += ", " + this.inventory[i].id;
+		}
+		jsonString += "]";
+		//console.log(jsonString);
 		return jsonString;
 	},
 
@@ -362,8 +371,14 @@ Hero.prototype = {
 		this.health = parseInt(loadObject.health);
 		this.maxHealth = parseInt(loadObject.maxHealth);
 		this.gold = parseInt(loadObject.gold);
-		this.speed = parseInt(loadObject.speed)	;
+		this.speed = parseInt(loadObject.speed);
+
 		console.log(loadObject);
+		var inventoryObject = loadObject.inventory;
+		for(var i=0;i<inventoryObject.length;i++) {
+			this.addToInventory(armoryDB[inventoryObject[i]]);
+			console.log(inventoryObject[i]);
+		}
 	}
 }
 
