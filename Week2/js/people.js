@@ -319,6 +319,21 @@ Hero.prototype = {
 		this.quests.push(quest);
 	},
 
+	completeQuest:function(id) {
+		if(this.quests.indexOf(questDB[id]) != -1) {
+			console.log('hi');
+			var completedQuest = this.quests[this.quests.indexOf(questDB[id])];
+			//console.log("Completed quest: " + this.quests.indexOf(questDB[id]).name);
+			for(var i=0;i<completedQuest.reward.length;i++) {
+				this.addToInventory(completedQuest.reward[i]);
+			}
+			this.quests.pop(completedQuest);
+			return true;
+		}
+		else
+			return false;
+	},
+
 	printActiveQuests:function() {
 		var listText = "";
 		for(var i=0;i<this.quests.length;i++) {

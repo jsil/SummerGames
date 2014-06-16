@@ -18,7 +18,7 @@ function Game(hero) {
 		//openModal("#nameModal");
 		this.addText("Welcome! This game is just getting started!");
 		this.updateStats();
-		this.drawBattle();
+		//this.drawBattle();
 	}
 
 	Game.prototype.resizeGame = function() {//TODO: resize statbox,questbox,inventorybox
@@ -233,16 +233,16 @@ function Game(hero) {
 		}
 
 		if(this.hero.isAlive()) {
-			alert("Congradulations! You won!");
+			//alert("Congradulations! You won!");
 		}
 		else {
-			alert("Con-sad-ulations. You lost D:");
+			//alert("Con-sad-ulations. You lost D:");
 		}
-		this.drawBattle();
+		this.drawBattle(enemy);
 
 	},
 
-	Game.prototype.drawBattle = function() {
+	Game.prototype.drawBattle = function(enemy) {
 		//battle
 
 		this.ctx.strokeStyle='#FFFFFF';
@@ -264,8 +264,19 @@ function Game(hero) {
 
 
 		this.ctx.drawImage(this.sprites,0,0,75,100,25,this.canvas.height/2,75,100);
+		this.ctx.fillText(this.hero.name,50, this.canvas.height/2-20);
 		this.ctx.drawImage(this.sprites,75,0,75,100,this.canvas.width-100,this.canvas.height/2,75,100);
+		this.ctx.fillText(enemy.name,this.canvas.width-115, this.canvas.height/2-20);
 
+	},
+
+	Game.prototype.checkQuest = function(id) {
+		if(this.hero.completeQuest(id)) {
+			this.addText("Quest Completed: " + questDB[id].name);
+			return true;
+		}
+		else
+			return false;
 	},
 
 	Game.prototype.getJSON = function() {
@@ -287,24 +298,41 @@ $(document).ready(function() {
 	myGame.resizeGame();
 	myGame.startGame();
 
-	var exampleItem = new Weapon("Sword");
-	var examplePotion = new Consumable("Health Pot");
-
-	// exampleItem.takeItem();
-	// examplePotion.takeItem();
-
-	// me.addToInventory(exampleItem);
-	// me.addToInventory(examplePotion);
-
+	//*********Code for Demo************
 
 	me.addQuest(questDB[0]);
 	myGame.updateQuests();
 
-
-	var exampleEnemy = new Character();
+	var exampleEnemy = new Character("The Master");
 
 	myGame.updateEverything();
 
+
+	$("#flexButton1").click(function(event) {
+		myGame.checkQuest(0);
+		myGame.addText("Hello " + me.name + ". I've been expecting you. For your first task, take this sword and equip it.");
+		me.addQuest(questDB[1]);
+		myGame.updateEverything();
+
+	});
+
+	$("#flexButton2").click(function(event) {
+		myGame.doBattle(exampleEnemy);
+
+	});
+
+	$("#flexButton3").click(function(event) {
+
+
+	});
+
+	$("#flexButton4").click(function(event) {
+
+
+	});
+
+
+	//*********************************
 
 	debugAddItem = function(itemNum) {
 		myGame.hero.addToInventory(armoryDB[itemNum]);
@@ -321,6 +349,13 @@ $(document).ready(function() {
 	}
 
 	equipButton = function(i) {
+		//*******Check quest stuff*******
+		if(me.inventory[i].id === 000) {
+			myGame.checkQuest(1);
+			myGame.addText("Excellent, now fight me, unless you're scaaaaaaared!!!");
+		}
+
+		//********************************
 		if(me.inventory[i].isWeapon())
 				me.equipWeapon(me.inventory[i]);
 		else if(me.inventory[i].isArmor())

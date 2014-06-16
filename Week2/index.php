@@ -58,10 +58,14 @@
 
 			</div>
 			<div id="optionsPanel" class="panel">
-				<button id="saveButton">Save</button>
-				<button id="loadButton">Load</button>
-				<button id="eraseButton">Erase Data</button>
-				<button id="debugButton">Debug</button>
+					<button id="saveButton">Save</button>
+					<button id="loadButton">Load</button>
+					<button id="eraseButton">Erase Data</button>
+					<button id="debugButton">Debug</button><br>
+					<button id="flexButton1">Talk To Master</button>
+					<button id="flexButton2">Fight Master</button>
+					<button id="flexButton3">Attack</button>
+					<button id="flexButton4">Run</button>
 			</div>
 		</div>
 
