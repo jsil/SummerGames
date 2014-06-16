@@ -247,7 +247,7 @@ function Game(hero) {
 		else {
 			alert("Con-sad-ulations. You lost D:");
 		}
-
+		this.drawBattle(enemy);
 	}
 
 	Game.prototype.drawBattle = function(enemy) {
