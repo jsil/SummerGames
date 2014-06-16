@@ -319,11 +319,16 @@ Hero.prototype = {
 		this.quests.push(quest);
 	},
 
+	checkQuest:function(id) {
+		if(this.quests.indexOf(questDB[id]) != -1)
+			return true;
+		else
+			return false;
+	},
+
 	completeQuest:function(id) {
 		if(this.quests.indexOf(questDB[id]) != -1) {
-			console.log('hi');
 			var completedQuest = this.quests[this.quests.indexOf(questDB[id])];
-			//console.log("Completed quest: " + this.quests.indexOf(questDB[id]).name);
 			for(var i=0;i<completedQuest.reward.length;i++) {
 				this.addToInventory(completedQuest.reward[i]);
 			}

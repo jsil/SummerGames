@@ -31,16 +31,16 @@ Quest.prototype = {
 
 var questDB = [];
 
-questDB[0] = new Quest("[insert quest name]", "Talk to the Master.", 0);
+questDB[0] = new Quest("Demo Part I: Introduction to The Master", "Talk to the Master.", 0);
 questDB[0].addRewards([armoryDB[000]]);
 
-questDB[1] = new Quest("[insert quest name #2]","Equip your sword.", 1);
+questDB[1] = new Quest("Demo Part II: Introduction to The Metal","Equip your sword.", 1);
 questDB[1].addRewards([armoryDB[100], armoryDB[110]]);
 
-questDB[2] = new Quest("Fight! Fight! Fight", "Defeat the tutorial guy with your new equipment.", 2);
+questDB[2] = new Quest("Demo Part III: Fight! Fight! Fight", "Defeat the tutorial guy with your new equipment.", 2);
 questDB[2].addRewards([armoryDB[200]]);
 
-questDB[3] = new Quest("Drink up!", "Heal yourself with the Health Potion.", 3);
+questDB[3] = new Quest("Demo Part IV: Drink Up!", "Heal yourself with the Health Potion.", 3);
 questDB[3].addRewards([armoryDB[140]]);
 
 // questDB[0] = new Quest("Quest #1", "Die", 0);

@@ -16,7 +16,7 @@ function Game(hero) {
 
 	Game.prototype.startGame = function() {
 		//openModal("#nameModal");
-		this.addText("Welcome! This game is just getting started!");
+		this.addText("Welcome to the Demo! Have fun!<br><br>The novice adventurer " + this.hero.name + " has finally arrived at The Grand Dojo, home of the best adventurer-trainer known to man: The Master.<br>");
 		this.updateStats();
 		//this.drawBattle();
 	}
@@ -77,12 +77,12 @@ function Game(hero) {
 	    else {
 	    	this.scrollBox.html(this.scrollBox.html() + text);
 	    }
-	    this.scrollBox.animate({ scrollTop: this.scrollBox.height() }, "fast");
+	    this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
 
 	}
 
 	Game.prototype.clearText = function() {
-		this.bottomPanel.html("");
+		this.scrollBox.html("");
 	}
 
 	Game.prototype.updateStats = function() {
@@ -215,6 +215,8 @@ function Game(hero) {
 	}
 
 	Game.prototype.doBattle = function(enemy) {
+		this.drawBattle(enemy);
+
 		var whosTurn;
 		if(this.hero.speed >= enemy.speed) {
 			whosTurn = true;
@@ -233,18 +235,26 @@ function Game(hero) {
 		}
 
 		if(this.hero.isAlive()) {
-			//alert("Congradulations! You won!");
+			//*****check quest completion*****
+			if(enemy.name === "The Master" && this.completeQuest(2)) {
+				this.drawDialog(enemy, "Dude! You beat me! Radical! Now take this Health Potion and heal up!");
+
+				this.hero.addQuest(questDB[3]);
+			}
+			//********************************
+			alert("Congradulations! You won!");
 		}
 		else {
-			//alert("Con-sad-ulations. You lost D:");
+			alert("Con-sad-ulations. You lost D:");
 		}
-		this.drawBattle(enemy);
 
 	},
 
 	Game.prototype.drawBattle = function(enemy) {
 		//battle
 
+		this.ctx.fillStyle='#000000';
+		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 		this.ctx.strokeStyle='#FFFFFF';
 		this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height);
 
@@ -270,9 +280,42 @@ function Game(hero) {
 
 	},
 
+	Game.prototype.drawDialog = function(character, text) {
+
+		this.ctx.fillStyle='#000000';
+		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+		this.ctx.strokeStyle='#FFFFFF';
+		this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height);
+
+		this.addText(character.name + ": \"" + text + "\"<br>");
+
+		this.ctx.strokeStyle='#FFFFFF';
+		this.ctx.fillStyle='#FFFFFF';
+		this.ctx.font="20px Ariel";
+
+		this.ctx.strokeRect(50,100,this.canvas.width/2-100,this.canvas.height-150);
+		this.ctx.drawImage(this.sprites,0,0,75,50,50,150,this.canvas.width/2-100,this.canvas.height-200);
+		this.ctx.fillText(this.hero.name,this.canvas.width/4-10, this.canvas.height/5);
+
+
+		this.ctx.strokeRect(this.canvas.width/2 + 50,100,this.canvas.width/2-100,this.canvas.height-150);
+		this.ctx.drawImage(this.sprites,75,0,75,50,this.canvas.width/2+50,150,this.canvas.width/2-100,this.canvas.height-200);
+		this.ctx.fillText(character.name,this.canvas.width/4*3-45, this.canvas.height/5);
+
+	},
+
 	Game.prototype.checkQuest = function(id) {
+		if(this.hero.checkQuest(id)) {
+			return true;
+		}
+		else
+			return false;
+	},
+
+	Game.prototype.completeQuest = function(id) {
 		if(this.hero.completeQuest(id)) {
-			this.addText("Quest Completed: " + questDB[id].name);
+			this.addText("Quest Completed: " + questDB[id].name + "<br>");
+			this.updateEverything();
 			return true;
 		}
 		else
@@ -309,15 +352,20 @@ $(document).ready(function() {
 
 
 	$("#flexButton1").click(function(event) {
-		myGame.checkQuest(0);
-		myGame.addText("Hello " + me.name + ". I've been expecting you. For your first task, take this sword and equip it.");
-		me.addQuest(questDB[1]);
-		myGame.updateEverything();
+		if(myGame.completeQuest(0)) {
+			myGame.drawDialog(exampleEnemy, "Hello " + me.name + ". I've been expecting you. For your first task, take this sword and equip it.");
+			me.addQuest(questDB[1]);
+		}
+		else
+			myGame.drawDialog(exampleEnemy, "Now is not the time for words.");
 
 	});
 
 	$("#flexButton2").click(function(event) {
-		myGame.doBattle(exampleEnemy);
+		if(myGame.checkQuest(2))
+			myGame.doBattle(exampleEnemy);
+		else
+			myGame.drawDialog(exampleEnemy, "Now is not the time for fighting.");
 
 	});
 
@@ -351,11 +399,12 @@ $(document).ready(function() {
 	equipButton = function(i) {
 		//*******Check quest stuff*******
 		if(me.inventory[i].id === 000) {
-			myGame.checkQuest(1);
-			myGame.addText("Excellent, now fight me, unless you're scaaaaaaared!!!");
+			myGame.completeQuest(1);
+			myGame.drawDialog(exampleEnemy, "Excellent, now fight me, unless you're scaaaaaaared!!!");
+			me.addQuest(questDB[2]);
 		}
-
 		//********************************
+
 		if(me.inventory[i].isWeapon())
 				me.equipWeapon(me.inventory[i]);
 		else if(me.inventory[i].isArmor())
@@ -364,6 +413,12 @@ $(document).ready(function() {
 	}
 
 	consumeButton = function(i) {
+		//*******Check quest stuff*******
+		if(me.inventory[i].id === 200) {
+			myGame.completeQuest(3);
+			myGame.drawDialog(exampleEnemy, "I hope that left a good taste in your mouth, because this is the abrupt end of the demo. For making it through the demo, you have earned this dumb trinket. Wear it proudly, " + me.name + ".");
+		}
+		//********************************
 		me.consume(me.inventory[i]);
 		myGame.updateEverything();
 	}
@@ -434,6 +489,11 @@ $(document).ready(function() {
 		event.preventDefault();
 		closeModal("#debugModal");
 		openModal("#questModal");
+	});
+
+	$("#clearButton").click(function(event) {
+		event.preventDefault();
+		myGame.clearText();
 	});
 
 	var saveModalButtons = document.getElementsByClassName("saveModalButton");
