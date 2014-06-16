@@ -237,7 +237,7 @@ function Game(hero) {
 		if(this.hero.isAlive()) {
 			//*****check quest completion*****
 			if(enemy.name === "The Master" && this.completeQuest(2)) {
-				this.drawDialog(enemy, "Dude! You beat me! Radical! Now take this Health Potion and heal up!");
+				this.addText("Dude! You beat me! Radical! Now take this Health Potion and heal up!");
 
 				this.hero.addQuest(questDB[3]);
 			}
@@ -248,7 +248,7 @@ function Game(hero) {
 			alert("Con-sad-ulations. You lost D:");
 		}
 
-	},
+	}
 
 	Game.prototype.drawBattle = function(enemy) {
 		//battle
@@ -278,7 +278,7 @@ function Game(hero) {
 		this.ctx.drawImage(this.sprites,75,0,75,100,this.canvas.width-100,this.canvas.height/2,75,100);
 		this.ctx.fillText(enemy.name,this.canvas.width-115, this.canvas.height/2-20);
 
-	},
+	}
 
 	Game.prototype.drawDialog = function(character, text) {
 
@@ -302,7 +302,7 @@ function Game(hero) {
 		this.ctx.drawImage(this.sprites,75,0,75,50,this.canvas.width/2+50,150,this.canvas.width/2-100,this.canvas.height-200);
 		this.ctx.fillText(character.name,this.canvas.width/4*3-45, this.canvas.height/5);
 
-	},
+	}
 
 	Game.prototype.checkQuest = function(id) {
 		if(this.hero.checkQuest(id)) {
@@ -310,7 +310,7 @@ function Game(hero) {
 		}
 		else
 			return false;
-	},
+	}
 
 	Game.prototype.completeQuest = function(id) {
 		if(this.hero.completeQuest(id)) {
@@ -320,12 +320,12 @@ function Game(hero) {
 		}
 		else
 			return false;
-	},
+	}
 
 	Game.prototype.getJSON = function() {
 		var jsonString = ""
 		return jsonString;
-	},
+	}
 
 	Game.prototype.loadJSON = function(jsonString) {
 		var loadObject = jQuery.parseJSON(jsonString);
@@ -362,8 +362,9 @@ $(document).ready(function() {
 	});
 
 	$("#flexButton2").click(function(event) {
-		if(myGame.checkQuest(2))
+		if(myGame.checkQuest(2)) {
 			myGame.doBattle(exampleEnemy);
+		}
 		else
 			myGame.drawDialog(exampleEnemy, "Now is not the time for fighting.");
 
