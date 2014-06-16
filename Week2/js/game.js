@@ -203,7 +203,7 @@ function Game(hero) {
 		if(this.hero.isAlive()) {
 			//*****check quest completion*****
 			if(enemy.name === "The Master" && this.completeQuest(2)) {
-				this.addText("Dude! You beat me! Radical! Now take this Health Potion and heal up!");
+				this.addText("The Master: \"Dude! You beat me! Radical! Now take this Health Potion and heal up!\"<br>");
 
 				this.addQuest(3);
 			}
@@ -267,6 +267,7 @@ function Game(hero) {
 	}
 
 	Game.prototype.addQuest = function(id) {
+		//this.addText("Quest Added: " + questDB[id].name + "<br>");//Currently makes scroll box very word-y
 		this.hero.addQuest(questDB[id]);
 		this.updateQuests();
 	}
@@ -281,7 +282,7 @@ function Game(hero) {
 
 	Game.prototype.completeQuest = function(id) {
 		if(this.hero.completeQuest(id)) {
-			this.addText("Quest Completed: " + questDB[id].name + "<br>");
+			this.addText("Quest Complete: " + questDB[id].name + "<br>");
 			this.updateEverything();
 			return true;
 		}
@@ -301,16 +302,13 @@ function Game(hero) {
 
 $(document).ready(function() { 
 
-	//openModal("#nameModal");//TODO:select name
+
 	var me = new Hero("Bob");	
 	var myGame = new Game(me);
+	openModal("#nameModal");//TODO:select name
 	myGame.resizeGame();
-	myGame.startGame();
 
-	//*********Code for Demo************
-	myGame.addQuest(0);
 	var exampleEnemy = new Character("The Master");
-	myGame.updateEverything();
 
 	$("#flexButton1").click(function(event) {
 		if(myGame.completeQuest(0)) {
@@ -418,8 +416,17 @@ $(document).ready(function() {
 
 	$("#nameSubmit").click(function(event) {
 	    event.preventDefault();
-	    closeModal("#nameModal");
-	    myGame.addText("Name: " + $("#nameInput").val());
+	    if($("#nameInput").val() != "") {
+
+		    closeModal("#nameModal");
+		    myGame.addText("Name: " + $("#nameInput").val());
+		    me.name = $("#nameInput").val();
+		    myGame.startGame();
+
+			//*********Code for Demo************
+			myGame.addQuest(0);
+			myGame.updateEverything();
+		}
 	});
 
 	$("#saveButton").click(function(event) {
