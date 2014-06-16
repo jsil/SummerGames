@@ -520,6 +520,7 @@ $(document).ready(function() {
 			console.log("Loading in Slot " + (parseInt(this.getAttribute("data-num")) + 1));
 			myGame.loadJSON(gameSaves[this.getAttribute("data-num")].getGameJSON());
 			me.loadJSON(gameSaves[this.getAttribute("data-num")].getHeroJSON());
+			myGame.clearText();
 			myGame.updateEverything();
 			closeModal("#loadModal");
 		}

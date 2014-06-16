@@ -373,12 +373,22 @@ Hero.prototype = {
 		jsonString += "\"maxHealth\":\"" + this.maxHealth.toString() + "\", ";
 		jsonString += "\"gold\":\"" + this.gold.toString() + "\", ";
 		jsonString += "\"speed\":\"" + this.speed.toString() + "\", ";
+
 		jsonString += "\"inventory\":[";
 		for(var i=0;i<this.inventory.length;i++) {
 			if(i===0)
 				jsonString +=  this.inventory[i].id;
 			else
 				jsonString += ", " + this.inventory[i].id;
+		}
+		jsonString += "], ";
+
+		jsonString += "\"quests\":[";
+		for(var i=0;i<this.quests.length;i++) {
+			if(i===0)
+				jsonString +=  this.quests[i].id;
+			else
+				jsonString += ", " + this.quests[i].id;
 		}
 		jsonString += "]";
 		//console.log(jsonString);
@@ -393,11 +403,21 @@ Hero.prototype = {
 		this.gold = parseInt(loadObject.gold);
 		this.speed = parseInt(loadObject.speed);
 
+		this.inventory = [];
+
 		console.log(loadObject);
 		var inventoryObject = loadObject.inventory;
 		for(var i=0;i<inventoryObject.length;i++) {
 			this.addToInventory(armoryDB[inventoryObject[i]]);
 			console.log(inventoryObject[i]);
+		}
+
+		this.quests = [];
+
+		var questsObject = loadObject.quests;
+		for(var i=0;i<questsObject.length;i++) {
+			this.addQuest(questDB[questsObject[i]]);
+			console.log(questsObject[i]);
 		}
 	}
 }
