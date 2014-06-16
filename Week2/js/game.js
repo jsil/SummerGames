@@ -239,13 +239,15 @@ function Game(hero) {
 			if(enemy.name === "The Master" && this.completeQuest(2)) {
 				this.addText("Dude! You beat me! Radical! Now take this Health Potion and heal up!");
 
-				this.hero.addQuest(questDB[3]);
+				this.addQuest(3);
 			}
 			//********************************
 			alert("Congradulations! You won!");
+			return true;
 		}
 		else {
 			alert("Con-sad-ulations. You lost D:");
+			return false;
 		}
 		this.drawBattle(enemy);
 	}
@@ -304,6 +306,11 @@ function Game(hero) {
 
 	}
 
+	Game.prototype.addQuest = function(id) {
+		this.hero.addQuest(questDB[id]);
+		this.updateQuests();
+	}
+
 	Game.prototype.checkQuest = function(id) {
 		if(this.hero.checkQuest(id)) {
 			return true;
@@ -344,8 +351,7 @@ $(document).ready(function() {
 
 	//*********Code for Demo************
 
-	me.addQuest(questDB[0]);
-	myGame.updateQuests();
+	myGame.addQuest(0);
 
 	var exampleEnemy = new Character("The Master");
 
@@ -356,7 +362,7 @@ $(document).ready(function() {
 	$("#flexButton1").click(function(event) {
 		if(myGame.completeQuest(0)) {
 			myGame.drawDialog(exampleEnemy, "Hello " + me.name + ". I've been expecting you. For your first task, take this sword and equip it.");
-			me.addQuest(questDB[1]);
+			myGame.addQuest(1);
 		}
 		else
 			myGame.drawDialog(exampleEnemy, "Now is not the time for words.");
@@ -404,7 +410,7 @@ $(document).ready(function() {
 		if(me.inventory[i].id === 000) {
 			myGame.completeQuest(1);
 			myGame.drawDialog(exampleEnemy, "Excellent, now fight me, unless you're scaaaaaaared!!!");
-			me.addQuest(questDB[2]);
+			myGame.addQuest(2);
 		}
 		//********************************
 
