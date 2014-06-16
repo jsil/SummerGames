@@ -65,8 +65,8 @@
 					<button id="clearButton">Clear</button><br>
 					<button id="flexButton1">Talk To Master</button>
 					<button id="flexButton2">Fight Master</button>
-					<button id="flexButton3">Attack</button>
-					<button id="flexButton4">Run</button>
+					<!-- <button id="flexButton3">Attack</button>
+					<button id="flexButton4">Run</button> -->
 			</div>
 		</div>
 

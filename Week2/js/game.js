@@ -336,6 +336,7 @@ function Game(hero) {
 $(document).ready(function() { 
 
 
+	//openModal("#nameModal");//TODO:select name
 	var me = new Hero("Bob");	
 	var myGame = new Game(me);
 	myGame.resizeGame();
@@ -349,6 +350,7 @@ $(document).ready(function() {
 	var exampleEnemy = new Character("The Master");
 
 	myGame.updateEverything();
+
 
 
 	$("#flexButton1").click(function(event) {
