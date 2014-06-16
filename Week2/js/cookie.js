@@ -27,20 +27,16 @@ function getCookie() {
 
 function eraseCookie() {
     gameSaves = [new GameSave(0), new GameSave(1), new GameSave(2), new GameSave(3), new GameSave(4), new GameSave(5), new GameSave(6), new GameSave(7), new GameSave(8), new GameSave(9)];
-
     setCookie();
-
 }
 
 function GameSave(number) {
     this.number = number;
     this.save = "[]";
-
 }
+
 GameSave.prototype = {
-    // getFormatted:function() {
-    //     return "\"save" + this.number + "\":[{\"firstname\":\"jordan\"}]";
-    // },
+
     writeSave:function(game, hero) {
         var date = getCurrentTimeAndDate();
         this.save = "{\"game\":{" + game.getJSON() + "}, \"hero\":{" + hero.getJSON() + "}, \"date\":\"" + date.date + " " + date.time + "\"}";
@@ -83,21 +79,16 @@ function loadData() {
 }
 
 var getCurrentTimeAndDate = function(){
-
     var info = {};
-
     var currentTime = new Date();
-
     var hours = currentTime.getHours();
     var mins = currentTime.getMinutes();
-
     var year = currentTime.getFullYear();
     var month = parseInt(currentTime.getMonth(), 10) + 1;
     var day = parseInt(currentTime.getDate(), 10);
 
     if(month < 10)
         month = "0" + month;
-
     if(day < 10)
         day = "0" + day;
 
@@ -155,9 +146,7 @@ var getCurrentTimeAndDate = function(){
     //info.date = month + "-" + day + "-" + year;
     info.date = monthStringSmall + " " + day + ", " + year;
 
-
     var amOrPm;
-
     if(hours < 10)
         hours = "0" + hours.toString();
     else
@@ -175,12 +164,8 @@ var getCurrentTimeAndDate = function(){
             hours -=12;
         amOrPm = "p.m."
     }
-
-
     info.time = hours + ":" + mins + " " + amOrPm;
-
     return info;
-
 }
-//eraseCookie();
+
 loadData();

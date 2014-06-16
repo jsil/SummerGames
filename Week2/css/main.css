@@ -19,8 +19,6 @@ button {
 
 canvas {
 	margin:3px;
-	/*margin-left: 5px;*/
-	/*padding:0px;*/
 }
 
 #sprites {
@@ -46,14 +44,11 @@ canvas {
 }
 
 #sidePanel {
-	/*border-bottom: none;*/
 
 }
 
 #bottomPanel {
-	/*margin-right:8px;*/
-	/*padding-left: 6px;*/
-	/*padding-right: 6px;*/
+
 }
 
 #scrollBox {
@@ -210,7 +205,6 @@ canvas {
     border: none; 
 } 
 #sidePanel .ui-tabs-nav .ui-state-active { 
-    /*background: transparent url(img/uiTabsArrow.png) no-repeat bottom center; */
     border: none; 
 } 
 #sidePanel .ui-tabs-nav .ui-state-default a { 
@@ -228,39 +222,3 @@ canvas {
 .ui-tabs .ui-tabs-panel {
 	padding:8px !important;
 }
-
-
-/*.ui-widget-content a, .ui-widget-content a:hover, .ui-widget-content a:visited, .ui-widget-content a:active {
-	color: #2954d1 !important; 
-	text-decoration: underline !important; 
-}
-
-/* Default styling for  tab titles */ 
-/*.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
-	color: #212121 !important;
-	text-decoration: none !important;
-	cursor: pointer !important;
-}*/
-
-/* Default styling for unselected tab titles */ 
-./*ui-state-default a:hover, .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
-	background-color: black !important;
-	color: white !important;
-	text-decoration: none !important;
-	cursor: pointer !important;
-	font-size: 14px !important;
-	margin-bottom: 2px;
-}*/
-
-/*.ui-widget-header{ 
-	border:0px solid !important;
-	background: rgba(255, 0, 255, 0) !important;
-	position: absolute;
-	top: -40px;
-}*/
-
-
-/*.ui-tabs.ui-widget-content{
-	margin-top:35px !important;
-}*/
-

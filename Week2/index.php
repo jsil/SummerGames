@@ -32,6 +32,7 @@
 				<div id="tabs-1" class="tab">
 					Stats:
 					<div id="statBox">
+						Name: <span id="nameStat">Hero</span><br>
 						Health: <span id="healthStat">0/0</span><br>
 						Gold: <span id="goldStat">0 G</span><br><br>
 					</div>
@@ -39,12 +40,6 @@
 				<div id="tabs-2" class="tab">
 					Equipment:
 					<div id="equipmentBox">
-						<!-- Weapon: <span id="weaponName">Fists</span><br><br>
-						Chest: <span id="chestName">Shirt</span><br>
-						Legs: <span id="legsName">Pants</span><br>
-						Head: <span id="headName"></span><br>
-						Feet: <span id="feetName">Shoes</span><br>
-						Neck: <span id="neckName"></span><br> -->
 					</div>
 				</div>
 				<div id="tabs-3" class="tab">

@@ -17,7 +17,6 @@ Character.prototype = {
 
 	equipWeapon:function(weapon) {
 		this.weapon = weapon;
-		
 	},
 
 	unequipWeapon:function() {
@@ -193,7 +192,6 @@ Hero.prototype = {
 				this.unequipWeapon();
 		this.weapon = weapon;
 		this.removeFromInventory(weapon);
-		
 	},
 
 	unequipWeapon:function() {
@@ -391,7 +389,7 @@ Hero.prototype = {
 				jsonString += ", " + this.quests[i].id;
 		}
 		jsonString += "]";
-		//console.log(jsonString);
+
 		return jsonString;
 	},
 

@@ -9,13 +9,6 @@
 	opacity: .7;
 }
 
-/*input, select, textarea {
-
-	font-size: 18px;
-	font-family: 'Raleway', sans-serif;
-
-}*/
-
 .modalSelected{
 	position: absolute;
 	z-index: 21;
@@ -28,7 +21,6 @@
 	display: none;
 }
 
-
 .closeButton{
 	float: right;
 	border: 0;
@@ -37,7 +29,6 @@
 	font: inherit;
 	cursor: pointer;
 	vertical-align: center;
-	/*margin-top: 15px;*/
 	font-size: 20px;
 	outline:none;
 }

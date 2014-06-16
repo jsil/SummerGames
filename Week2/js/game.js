@@ -21,11 +21,9 @@ function Game(hero) {
 		//this.drawBattle();
 	}
 
-	Game.prototype.resizeGame = function() {//TODO: resize statbox,questbox,inventorybox
-
+	Game.prototype.resizeGame = function() {
 		this.gameDiv.width("99%");
 		this.gameDiv.height("97%")
-
 
 		var gameWidth = this.gameDiv.width()*.65;
 		var gameHeight = this.gameDiv.height()*.65;
@@ -35,39 +33,17 @@ function Game(hero) {
 		this.canvas.width = gameWidth-12;
 		this.canvas.height = gameHeight;
 
-		// this.ctx.fillStyle='#000000';
-		// this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
-
-
-		//dialog
-		// this.ctx.strokeStyle='#FFFFFF';
-		// this.ctx.strokeRect(0,5,this.canvas.width/4,this.canvas.height/3*2-15);
-
-		// this.ctx.strokeStyle='#FFFFFF';
-		// this.ctx.strokeRect(this.canvas.width/4*3,5,this.canvas.width/4,this.canvas.height/3*2-15);
-
-		// this.ctx.strokeStyle='#FFFFFF';
-		// this.ctx.strokeRect(0,(this.canvas.height/3)*2-5,this.canvas.width,this.canvas.height/3-5);
-
-
-
-
 		this.sideContent.css("width", this.gameDiv.width()*.35-2);
 		this.sideContent.css("height", this.gameDiv.height()-2);
-		//sideContent.height('100%');
-
 		
 		this.sidePanel.width('100%');
 		this.sidePanel.css("height", this.gameDiv.height()*.65+3);
 
 		this.bottomPanel.css("width", this.gameDiv.width()*.65);
 		this.bottomPanel.css("height", this.gameDiv.height()*.35-6);
-
 		
 		this.optionsPanel.width('100%');
 		this.optionsPanel.css("height", this.gameDiv.height()*.35-8);
-
-
 	}
 
 	Game.prototype.addText = function(text) {
@@ -78,7 +54,6 @@ function Game(hero) {
 	    	this.scrollBox.html(this.scrollBox.html() + text);
 	    }
 	    this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
-
 	}
 
 	Game.prototype.clearText = function() {
@@ -86,14 +61,9 @@ function Game(hero) {
 	}
 
 	Game.prototype.updateStats = function() {
+		$("#nameStat").html(this.hero.name);
 		$("#healthStat").html(this.hero.health + "/" + this.hero.maxHealth);
 		$("#goldStat").html(this.hero.gold + " G");
-		$("#weaponName").html(this.hero.getWeaponName());
-		$("#chestName").html(this.hero.getChestName());
-		$("#legsName").html(this.hero.getLegsName());
-		$("#headName").html(this.hero.getHeadName());
-		$("#feetName").html(this.hero.getFeetName());
-		$("#neckName").html(this.hero.getNeckName());
 	}
 
 	Game.prototype.updateInventory = function() {
@@ -137,7 +107,6 @@ function Game(hero) {
 				unequipButton(this.getAttribute("data-num"));
 			}
 		}
-
 	}
 
 	Game.prototype.updateQuests = function () {
@@ -147,7 +116,6 @@ function Game(hero) {
 	Game.prototype.updateSaves = function() {
 		var saveNames = document.getElementsByClassName("saveName");
 		for(var i=0;i<saveNames.length;i++) {
-			//console.log("" + JSON.stringify(gameSaves[i].save));
 			if(gameSaves[i].save != "[]")
 				saveNames[i].innerHTML = JSON.parse(gameSaves[i].save).date;
 			else
@@ -173,7 +141,6 @@ function Game(hero) {
 
 	Game.prototype.updateDebug = function() {
 		var armoryHTML = "";
-
 
 		for(var i=0;i<armoryDB.length;i++) {
 			if(armoryDB[i].name != null)
@@ -211,7 +178,6 @@ function Game(hero) {
 		this.updateDebug()
 		this.updateSaves();
 		this.updateLoads();
-
 	}
 
 	Game.prototype.doBattle = function(enemy) {
@@ -253,8 +219,6 @@ function Game(hero) {
 	}
 
 	Game.prototype.drawBattle = function(enemy) {
-		//battle
-
 		this.ctx.fillStyle='#000000';
 		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 		this.ctx.strokeStyle='#FFFFFF';
@@ -274,7 +238,6 @@ function Game(hero) {
 		this.ctx.font="16px Verdana,Arial,sans-serif";
 		this.ctx.fillText("HP: " + this.hero.health + "/" + this.hero.maxHealth,15, this.canvas.height/13);
 
-
 		this.ctx.drawImage(this.sprites,0,0,75,100,25,this.canvas.height/2,75,100);
 		this.ctx.fillText(this.hero.name,50, this.canvas.height/2-20);
 		this.ctx.drawImage(this.sprites,75,0,75,100,this.canvas.width-100,this.canvas.height/2,75,100);
@@ -283,7 +246,6 @@ function Game(hero) {
 	}
 
 	Game.prototype.drawDialog = function(character, text) {
-
 		this.ctx.fillStyle='#000000';
 		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 		this.ctx.strokeStyle='#FFFFFF';
@@ -299,11 +261,9 @@ function Game(hero) {
 		this.ctx.drawImage(this.sprites,0,0,75,50,50,150,this.canvas.width/2-100,this.canvas.height-200);
 		this.ctx.fillText(this.hero.name,this.canvas.width/4-10, this.canvas.height/5);
 
-
 		this.ctx.strokeRect(this.canvas.width/2 + 50,100,this.canvas.width/2-100,this.canvas.height-150);
 		this.ctx.drawImage(this.sprites,75,0,75,50,this.canvas.width/2+50,150,this.canvas.width/2-100,this.canvas.height-200);
 		this.ctx.fillText(character.name,this.canvas.width/4*3-45, this.canvas.height/5);
-
 	}
 
 	Game.prototype.addQuest = function(id) {
@@ -336,12 +296,10 @@ function Game(hero) {
 
 	Game.prototype.loadJSON = function(jsonString) {
 		var loadObject = jQuery.parseJSON(jsonString);
-		//console.log(loadObject);
 	}
 }
 
 $(document).ready(function() { 
-
 
 	//openModal("#nameModal");//TODO:select name
 	var me = new Hero("Bob");	
@@ -350,14 +308,9 @@ $(document).ready(function() {
 	myGame.startGame();
 
 	//*********Code for Demo************
-
 	myGame.addQuest(0);
-
 	var exampleEnemy = new Character("The Master");
-
 	myGame.updateEverything();
-
-
 
 	$("#flexButton1").click(function(event) {
 		if(myGame.completeQuest(0)) {
@@ -366,7 +319,6 @@ $(document).ready(function() {
 		}
 		else
 			myGame.drawDialog(exampleEnemy, "Now is not the time for words.");
-
 	});
 
 	$("#flexButton2").click(function(event) {
@@ -375,19 +327,13 @@ $(document).ready(function() {
 		}
 		else
 			myGame.drawDialog(exampleEnemy, "Now is not the time for fighting.");
-
 	});
 
-	$("#flexButton3").click(function(event) {
+	// $("#flexButton3").click(function(event) {
+	// });
 
-
-	});
-
-	$("#flexButton4").click(function(event) {
-
-
-	});
-
+	// $("#flexButton4").click(function(event) {
+	// });
 
 	//*********************************
 
@@ -402,7 +348,8 @@ $(document).ready(function() {
 	}
 
 	viewButtonItem = function(i) {
-		console.log(me.inventory[i].name);//TODO: open item detail modal
+		//console.log(me.inventory[i].name);//TODO: open item detail modal
+		myGame.addText("It is a " + me.inventory[i].name + ".");
 	}
 
 	equipButton = function(i) {
@@ -434,18 +381,30 @@ $(document).ready(function() {
 
 	viewButtonEquipment = function(i) {//TODO: open item detail modal
 		i = parseInt(i);
-		if(i===-1)
+		if(i===-1) {
 			console.log(me.getWeaponName());
-		else if(i===0)
+			myGame.addText("You are holding " + me.getWeaponName() + ".");
+		}
+		else if(i===0) {
 			console.log(me.getChestName());
-		else if(i===1)
+			myGame.addText("You are wearing " + me.getChestName() + ".");
+		}
+		else if(i===1) {
 			console.log(me.getLegsName());
-		if(i===2)
+			myGame.addText("You are wearing " + me.getLegsName() + ".");
+		}
+		if(i===2) {
 			console.log(me.getHeadName());
-		if(i===3)
+			myGame.addText("You are wearing " + me.getHeadName() + ".");
+		}
+		if(i===3) {
 			console.log(me.getFeetName());
-		if(i===4)
+			myGame.addText("You are wearing " + me.getFeetName() + ".");
+		}
+		if(i===4) {
 			console.log(me.getNeckName());
+			myGame.addText("You are wearing " + me.getNeckName() + ".");
+		}
 	}
 
 	unequipButton = function(i) {
@@ -526,20 +485,8 @@ $(document).ready(function() {
 		}
 	}
 
-	// function hidestatus() {//hide status bar
-	// 	window.status='';
-	// 	return true;
-	// }
-	// if (document.layers) {
-	// 	document.captureEvents(Event.MOUSEOVER | Event.MOUSEOUT);
-	// 	document.onmouseover=hidestatus;
-	// 	document.onmouseout=hidestatus;
-	// }
-
-
 	$(window).resize(function(){
 		myGame.resizeGame();
 	});
 
 });
-

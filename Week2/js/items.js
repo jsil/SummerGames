@@ -6,9 +6,9 @@ function Item(name, id) {
 
 Item.prototype = {
 
-	takeItem:function() {
-		console.log("took item");
-	},
+	// takeItem:function() {
+	// 	console.log("took item");
+	// },
 	isEquipable:function() {
 		return false;
 	},
@@ -182,4 +182,4 @@ armoryDB[134] = new Armor("Steel Boots",134, 3);
 armoryDB[140] = new Armor("Stupid Necklace",140, 4);
 armoryDB[141] = new Armor("Helpful Necklace",141, 4);
 
-armoryDB[200] = new Consumable("Health Pot",200);
+armoryDB[200] = new Consumable("Health Potion",200);
