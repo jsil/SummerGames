@@ -372,6 +372,36 @@ Hero.prototype = {
 		jsonString += "\"gold\":\"" + this.gold.toString() + "\", ";
 		jsonString += "\"speed\":\"" + this.speed.toString() + "\", ";
 
+		if(this.weapon != null)
+			jsonString += "\"weapon\":\"" + this.weapon.id + "\", ";
+		else
+			jsonString += "\"weapon\":" + "[]" + ", ";
+
+		if(this.chest != null)
+			jsonString += "\"chest\":\"" + this.chest.id + "\", ";
+		else
+			jsonString += "\"chest\":" + "[]" + ", ";
+
+		if(this.legs != null)
+			jsonString += "\"legs\":\"" + this.legs.id + "\", ";
+		else
+			jsonString += "\"legs\":" + "[]" + ", ";
+
+		if(this.head != null)
+			jsonString += "\"head\":\"" + this.head.id + "\", ";
+		else
+			jsonString += "\"head\":" + "[]" + ", ";
+
+		if(this.feet != null)
+			jsonString += "\"feet\":\"" + this.feet.id + "\", ";
+		else
+			jsonString += "\"feet\":" + "[]" + ", ";
+
+		if(this.neck != null)
+			jsonString += "\"neck\":\"" + this.neck.id + "\", ";
+		else
+			jsonString += "\"neck\":" + "[]" + ", ";
+
 		jsonString += "\"inventory\":[";
 		for(var i=0;i<this.inventory.length;i++) {
 			if(i===0)
@@ -400,6 +430,24 @@ Hero.prototype = {
 		this.maxHealth = parseInt(loadObject.maxHealth);
 		this.gold = parseInt(loadObject.gold);
 		this.speed = parseInt(loadObject.speed);
+
+		if(loadObject.weapon != [])
+			this.weapon = armoryDB[parseInt(loadObject.weapon)];
+
+		if(loadObject.chest != [])
+			this.chest = armoryDB[parseInt(loadObject.chest)];
+
+		if(loadObject.legs != [])
+			this.legs = armoryDB[parseInt(loadObject.legs)];
+
+		if(loadObject.head != [])
+			this.head = armoryDB[parseInt(loadObject.head)];
+
+		if(loadObject.feet != [])
+			this.feet = armoryDB[parseInt(loadObject.feet)];
+
+		if(loadObject.neck != [])
+			this.neck = armoryDB[parseInt(loadObject.neck)];
 
 		this.inventory = [];
 
