@@ -4,6 +4,10 @@ body {
 	margin:0px;
 }
 
+/*button {
+	font-family:Verdana,Arial,sans-serif !important;
+}*/
+
 div {
 	background-color: black;
 	color:white;
@@ -56,6 +60,7 @@ canvas {
 	overflow-y:scroll;
 	height:95%;
 	margin:6px;
+	font-family:Verdana,Arial,sans-serif !important;
 }
 
 #optionsPanel {

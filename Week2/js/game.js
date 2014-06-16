@@ -269,7 +269,7 @@ function Game(hero) {
 		this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height/8);
 
 		this.ctx.fillStyle='#FFFFFF';
-		this.ctx.font="20px Ariel";
+		this.ctx.font="16px Verdana,Arial,sans-serif";
 		this.ctx.fillText("HP: " + this.hero.health + "/" + this.hero.maxHealth,15, this.canvas.height/13);
 
 
@@ -291,7 +291,7 @@ function Game(hero) {
 
 		this.ctx.strokeStyle='#FFFFFF';
 		this.ctx.fillStyle='#FFFFFF';
-		this.ctx.font="20px Ariel";
+		this.ctx.font="20px Verdana,Arial,sans-serif";
 
 		this.ctx.strokeRect(50,100,this.canvas.width/2-100,this.canvas.height-150);
 		this.ctx.drawImage(this.sprites,0,0,75,50,50,150,this.canvas.width/2-100,this.canvas.height-200);
