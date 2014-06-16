@@ -12,6 +12,7 @@ function Game(hero) {
 	this.bottomPanel = $("#bottomPanel");
 	this.scrollBox = $("#scrollBox");
 	this.optionsPanel = $("#optionsPanel");
+	this.sprites = document.getElementById("sprites");
 
 	Game.prototype.startGame = function() {
 		//openModal("#nameModal");
@@ -260,6 +261,10 @@ function Game(hero) {
 		this.ctx.fillStyle='#FFFFFF';
 		this.ctx.font="20px Ariel";
 		this.ctx.fillText("HP: " + this.hero.health + "/" + this.hero.maxHealth,15, this.canvas.height/13);
+
+
+		this.ctx.drawImage(this.sprites,0,0,75,100,25,this.canvas.height/2,75,100);
+		this.ctx.drawImage(this.sprites,75,0,75,100,this.canvas.width-100,this.canvas.height/2,75,100);
 
 	},
 

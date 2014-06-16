@@ -14,6 +14,7 @@
 	<script language="javascript" type="text/javascript" src="js/cookie.js"></script>
 </head>
 <body>
+<img src="./img/sprites.png" id="sprites">
 <div id="gameDiv">
 	<div><canvas id="myCanvas">Your browser doesn't support this game. My condolences.</canvas>
 		<div id="sideContent" class="panel">
