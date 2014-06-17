@@ -7,6 +7,10 @@ function Game(hero) {
 	this.gameDiv = $("#gameDiv");
 	this.canvas = document.getElementById("myCanvas");
 	this.ctx = this.canvas.getContext('2d');
+	this.battleCanvas = $("#battleCanvas");
+	this.battleCanvas2 = document.getElementById("battleCanvas");
+	//this.battleG = gl;
+	this.gameDiv = $("#gameDiv");
 	this.sideContent = $("#sideContent");
 	this.sidePanel = $("#sidePanel");
 	this.bottomPanel = $("#bottomPanel");
@@ -44,6 +48,58 @@ function Game(hero) {
 		
 		this.optionsPanel.width('100%');
 		this.optionsPanel.css("height", this.gameDiv.height()*.35-8);
+
+		this.battleCanvas2.width = window.innerWidth;
+		this.battleCanvas2.height = window.innerHeight;
+		this.resizeBattle();
+	}
+
+	Game.prototype.resizeBattle = function() {
+	   // only change the size of the canvas if the size it's being displayed
+	   // has changed.
+	   var width = this.battleCanvas.clientWidth;
+	   var height = this.battleCanvas.clientHeight;
+	   if (this.battleCanvas.width != width ||
+	       this.battleCanvas.height != height) {
+	     // Change the size of the canvas to match the size it's being displayed
+	     // this.battleCanvas.width = width;
+	     // this.battleCanvas.height = height;
+	     this.battleCanvas.clientWidth = this.battleCanvas.width;
+	     this.battleCanvas.clientHeight = this.battleCanvas.height;
+	   }
+	   //console.log("resized battle");
+	}
+
+	Game.prototype.showBattle = function() {
+			$("#battleCanvas").show();
+			this.resizeBattle();
+			this.gameDiv.hide();
+			webGLStart();
+			drawScene();
+	}
+
+	Game.prototype.hideBattle = function() {
+		$("#battleCanvas").hide();
+		this.gameDiv.show();
+	}
+
+	Game.prototype.toggleBattle = function() {
+		var btlCanvas = document.getElementById("battleCanvas");
+		var isVisible = btlCanvas.offsetWidth > 0 || btlCanvas.offsetHeight > 0;
+		if(!isVisible) {
+			//this.battleCanvas.style.visibility="visible";
+			$("#battleCanvas").show();
+			//this.resizeBattle();
+			this.gameDiv.hide();
+			//console.log("Display battle");
+		}
+		else {
+			//this.battleCanvas.style.visibility="none";
+			$("#battleCanvas").hide();
+			//this.resizeBattle();
+			this.gameDiv.show();
+			//console.log("Hide battle");
+		}
 	}
 
 	Game.prototype.addText = function(text) {
@@ -199,7 +255,7 @@ function Game(hero) {
 			}
 			whosTurn = !whosTurn;
 		}
-
+		this.drawBattle(enemy);
 		if(this.hero.isAlive()) {
 			//*****check quest completion*****
 			if(enemy.name === "The Master" && this.completeQuest(2)) {
@@ -209,39 +265,47 @@ function Game(hero) {
 			}
 			//********************************
 			alert("Congradulations! You won!");
+			//this.hideBattle();
 			return true;
 		}
 		else {
 			alert("Con-sad-ulations. You lost D:");
+			this.hideBattle();
 			return false;
 		}
 		this.drawBattle(enemy);
 	}
 
 	Game.prototype.drawBattle = function(enemy) {
-		this.ctx.fillStyle='#000000';
-		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
-		this.ctx.strokeStyle='#FFFFFF';
-		this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height);
+		this.showBattle();
+		//drawScene();
+		console.log("Got here");
 
-		var grd=this.ctx.createLinearGradient(0,this.canvas.height/2,0,this.canvas.height-15);
-		grd.addColorStop(0,"black");
-		grd.addColorStop(1,"#505050");
 
-		this.ctx.fillStyle=grd;
-		this.ctx.fillRect(1,this.canvas.height/2,this.canvas.width-2,this.canvas.height/2-1);
 
-		this.ctx.strokeStyle='#FFFFFF';
-		this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height/8);
+		// this.ctx.fillStyle='#000000';
+		// this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+		// this.ctx.strokeStyle='#FFFFFF';
+		// this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height);
 
-		this.ctx.fillStyle='#FFFFFF';
-		this.ctx.font="16px Verdana,Arial,sans-serif";
-		this.ctx.fillText("HP: " + this.hero.health + "/" + this.hero.maxHealth,15, this.canvas.height/13);
+		// var grd=this.ctx.createLinearGradient(0,this.canvas.height/2,0,this.canvas.height-15);
+		// grd.addColorStop(0,"black");
+		// grd.addColorStop(1,"#505050");
 
-		this.ctx.drawImage(this.sprites,0,0,75,100,25,this.canvas.height/2,75,100);
-		this.ctx.fillText(this.hero.name,50, this.canvas.height/2-20);
-		this.ctx.drawImage(this.sprites,75,0,75,100,this.canvas.width-100,this.canvas.height/2,75,100);
-		this.ctx.fillText(enemy.name,this.canvas.width-115, this.canvas.height/2-20);
+		// this.ctx.fillStyle=grd;
+		// this.ctx.fillRect(1,this.canvas.height/2,this.canvas.width-2,this.canvas.height/2-1);
+
+		// this.ctx.strokeStyle='#FFFFFF';
+		// this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height/8);
+
+		// this.ctx.fillStyle='#FFFFFF';
+		// this.ctx.font="16px Verdana,Arial,sans-serif";
+		// this.ctx.fillText("HP: " + this.hero.health + "/" + this.hero.maxHealth,15, this.canvas.height/13);
+
+		// this.ctx.drawImage(this.sprites,0,0,75,100,25,this.canvas.height/2,75,100);
+		// this.ctx.fillText(this.hero.name,50, this.canvas.height/2-20);
+		// this.ctx.drawImage(this.sprites,75,0,75,100,this.canvas.width-100,this.canvas.height/2,75,100);
+		// this.ctx.fillText(enemy.name,this.canvas.width-115, this.canvas.height/2-20);
 
 	}
 
@@ -302,13 +366,36 @@ function Game(hero) {
 
 $(document).ready(function() { 
 
+	var canvas = document.getElementById("battleCanvas");
 
+	function resizeCanvas() {
+	   // only change the size of the canvas if the size it's being displayed
+	   // has changed.
+	   var width = canvas.clientWidth;
+	   var height = canvas.clientHeight;
+	   if (canvas.width != width ||
+	       canvas.height != height) {
+	     // Change the size of the canvas to match the size it's being displayed
+	     canvas.width = width;
+	     canvas.height = height;
+	   }
+	}
+	resizeCanvas();
+
+	// $("#battleCanvas").hide();
+	$("#gameDiv").hide();
 	var me = new Hero("Bob");	
 	var myGame = new Game(me);
-	openModal("#nameModal");//TODO:select name
+	//openModal("#nameModal");
 	myGame.resizeGame();
+	myGame.startGame();
+
+	//*********Code for Demo************
+	myGame.addQuest(0);
+	myGame.updateEverything();
 
 	var exampleEnemy = new Character("The Master");
+
 
 	$("#flexButton1").click(function(event) {
 		if(myGame.completeQuest(0)) {
@@ -327,11 +414,13 @@ $(document).ready(function() {
 			myGame.drawDialog(exampleEnemy, "Now is not the time for fighting.");
 	});
 
-	// $("#flexButton3").click(function(event) {
-	// });
+	$("#flexButton3").click(function(event) {
+		myGame.showBattle();
+	});
 
-	// $("#flexButton4").click(function(event) {
-	// });
+	$("#flexButton4").click(function(event) {
+		myGame.hideBattle();	
+	});
 
 	//*********************************
 
@@ -421,11 +510,6 @@ $(document).ready(function() {
 		    closeModal("#nameModal");
 		    myGame.addText("Name: " + $("#nameInput").val());
 		    me.name = $("#nameInput").val();
-		    myGame.startGame();
-
-			//*********Code for Demo************
-			myGame.addQuest(0);
-			myGame.updateEverything();
 		}
 	});
 
@@ -494,6 +578,12 @@ $(document).ready(function() {
 
 	$(window).resize(function(){
 		myGame.resizeGame();
+	});
+
+	$(window).keypress(function(e) {
+	  if (e.keyCode == 32) {
+	    myGame.toggleBattle();
+	  }
 	});
 
 });

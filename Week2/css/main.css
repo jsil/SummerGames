@@ -1,7 +1,15 @@
 body {
+	width: 100%;
+    height: 100%;
 	background-color: black;
 	padding:0px;
 	margin:0px;
+}
+
+#battleCanvas{
+	height:97%;
+	width:99%;
+	/*display:none;*/
 }
 
 /*button {
