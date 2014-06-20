@@ -4,27 +4,31 @@
 	<script id="shader-fs" type="x-shader/x-fragment">
 	    precision mediump float;
 
-	    varying vec4 vColor;
+	    varying vec2 vTextureCoord;
+
+	    uniform sampler2D uSampler;
 
 	    void main(void) {
-	        gl_FragColor = vColor;
+	        gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
 	    }
 	</script>
 
 	<script id="shader-vs" type="x-shader/x-vertex">
 	    attribute vec3 aVertexPosition;
-	    attribute vec4 aVertexColor;
+	    attribute vec2 aTextureCoord;
 
 	    uniform mat4 uMVMatrix;
 	    uniform mat4 uPMatrix;
 
-	    varying vec4 vColor;
+	    varying vec2 vTextureCoord;
+
 
 	    void main(void) {
 	        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-	        vColor = aVertexColor;
+	        vTextureCoord = aTextureCoord;
 	    }
 	</script>
+	<script type="text/javascript" src="js/webgl-utils.js"></script>
 	<script type="text/javascript" src="js/webGL.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
@@ -38,12 +42,26 @@
 	<script language="javascript" type="text/javascript" src="js/people.js"></script>
 	<script language="javascript" type="text/javascript" src="js/game.js"></script>
 	<script language="javascript" type="text/javascript" src="js/cookie.js"></script>
+	<script language="javascript" type="text/javascript" src="js/index.js"></script>
 </head>
 <body onload="webGLStart();">
 <img src="./img/sprites.png" id="sprites">
-<canvas id="battleCanvas">Your browser doesn't support this game. My condolences.</canvas>
+<div id="battleDiv">
+	<canvas id="battleCanvas">Your browser doesn't support this game. My condolences.</canvas>
+	<div id="battleHUD">
+		<div id="innerHUD">
+			Health: <span id="healthHUD">20/20</span>FP: <span id="placeholderHUD">20/20</span> Hi.
+		</div>
+	</div>
+	<div id="battleMenu">
+		<div id="battleOption1" class="battleOption">Attack</div>
+		<div id="battleOption2" class="battleOption">2</div>
+		<div id="battleOption3" class="battleOption">3</div>
+		<div id="battleOption4" class="battleOption">Run</div>
+	</div>
+</div>
 <div id="gameDiv">
-	<div><canvas id="myCanvas">Your browser doesn't support this game. My condolences.</canvas>
+	<canvas id="myCanvas">Your browser doesn't support this game. My condolences.</canvas>
 		<div id="sideContent" class="panel">
 			<div id="sidePanel" class="panel">
 				<ul>

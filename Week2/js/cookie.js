@@ -58,9 +58,9 @@ GameSave.prototype = {
 var gameSaves = [new GameSave(0), new GameSave(1), new GameSave(2), new GameSave(3), new GameSave(4), new GameSave(5), new GameSave(6), new GameSave(7), new GameSave(8), new GameSave(9)];
 
 function loadData() {
-    console.log(getCookie());
+    // console.log(getCookie());
     var data = JSON.parse(getCookie());
-    console.log(data);
+    // console.log(data);
     if(data === "") {//new cookie
         setCookie();
     }

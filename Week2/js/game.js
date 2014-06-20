@@ -7,8 +7,11 @@ function Game(hero) {
 	this.gameDiv = $("#gameDiv");
 	this.canvas = document.getElementById("myCanvas");
 	this.ctx = this.canvas.getContext('2d');
+	this.battleDiv = $("#battleDiv");
 	this.battleCanvas = $("#battleCanvas");
 	this.battleCanvas2 = document.getElementById("battleCanvas");
+	this.battleHUD = $("#battleHUD");
+	this.battleMenu = $("#battleMenu");
 	//this.battleG = gl;
 	this.gameDiv = $("#gameDiv");
 	this.sideContent = $("#sideContent");
@@ -26,13 +29,13 @@ function Game(hero) {
 	}
 
 	Game.prototype.resizeGame = function() {
-		this.gameDiv.width("99%");
+		this.gameDiv.width("99.5%");
 		this.gameDiv.height("97%")
 
 		var gameWidth = this.gameDiv.width()*.65;
 		var gameHeight = this.gameDiv.height()*.65;
 
-		console.log("x: " + gameWidth + " y: " + gameHeight);
+		// console.log("x: " + gameWidth + " y: " + gameHeight);
 
 		this.canvas.width = gameWidth-12;
 		this.canvas.height = gameHeight;
@@ -71,7 +74,9 @@ function Game(hero) {
 	}
 
 	Game.prototype.showBattle = function() {
-			$("#battleCanvas").show();
+			this.battleDiv.show();
+			this.battleHUD.show();
+			this.battleMenu.show();
 			this.resizeBattle();
 			this.gameDiv.hide();
 			webGLStart();
@@ -79,7 +84,9 @@ function Game(hero) {
 	}
 
 	Game.prototype.hideBattle = function() {
-		$("#battleCanvas").hide();
+		this.battleDiv.hide();
+		this.battleHUD.hide();
+		this.battleMenu.hide();
 		this.gameDiv.show();
 	}
 
@@ -87,15 +94,17 @@ function Game(hero) {
 		var btlCanvas = document.getElementById("battleCanvas");
 		var isVisible = btlCanvas.offsetWidth > 0 || btlCanvas.offsetHeight > 0;
 		if(!isVisible) {
-			//this.battleCanvas.style.visibility="visible";
-			$("#battleCanvas").show();
+			this.battleCanvas.show();
+			this.battleHUD.show();
+			this.battleMenu.show();
 			//this.resizeBattle();
 			this.gameDiv.hide();
 			//console.log("Display battle");
 		}
 		else {
-			//this.battleCanvas.style.visibility="none";
-			$("#battleCanvas").hide();
+			this.battleCanvas.hide();
+			this.battleHUD.hide();
+			this.battleMenu.hide();
 			//this.resizeBattle();
 			this.gameDiv.show();
 			//console.log("Hide battle");
@@ -363,227 +372,3 @@ function Game(hero) {
 		var loadObject = jQuery.parseJSON(jsonString);
 	}
 }
-
-$(document).ready(function() { 
-
-	var canvas = document.getElementById("battleCanvas");
-
-	function resizeCanvas() {
-	   // only change the size of the canvas if the size it's being displayed
-	   // has changed.
-	   var width = canvas.clientWidth;
-	   var height = canvas.clientHeight;
-	   if (canvas.width != width ||
-	       canvas.height != height) {
-	     // Change the size of the canvas to match the size it's being displayed
-	     canvas.width = width;
-	     canvas.height = height;
-	   }
-	}
-	resizeCanvas();
-
-	// $("#battleCanvas").hide();
-	$("#gameDiv").hide();
-	var me = new Hero("Bob");	
-	var myGame = new Game(me);
-	//openModal("#nameModal");
-	myGame.resizeGame();
-	myGame.startGame();
-
-	//*********Code for Demo************
-	myGame.addQuest(0);
-	myGame.updateEverything();
-
-	var exampleEnemy = new Character("The Master");
-
-
-	$("#flexButton1").click(function(event) {
-		if(myGame.completeQuest(0)) {
-			myGame.drawDialog(exampleEnemy, "Hello " + me.name + ". I've been expecting you. For your first task, take this sword and equip it.");
-			myGame.addQuest(1);
-		}
-		else
-			myGame.drawDialog(exampleEnemy, "Now is not the time for words.");
-	});
-
-	$("#flexButton2").click(function(event) {
-		if(myGame.checkQuest(2)) {
-			myGame.doBattle(exampleEnemy);
-		}
-		else
-			myGame.drawDialog(exampleEnemy, "Now is not the time for fighting.");
-	});
-
-	$("#flexButton3").click(function(event) {
-		myGame.showBattle();
-	});
-
-	$("#flexButton4").click(function(event) {
-		myGame.hideBattle();	
-	});
-
-	//*********************************
-
-	debugAddItem = function(itemNum) {
-		myGame.hero.addToInventory(armoryDB[itemNum]);
-		myGame.updateInventory();
-	}
-
-	debugAddQuest = function(questNum) {
-		myGame.hero.addQuest(questDB[questNum]);
-		myGame.updateQuests();
-	}
-
-	viewButtonItem = function(i) {
-		//console.log(me.inventory[i].name);//TODO: open item detail modal
-		myGame.addText("It is a " + me.inventory[i].name + ".");
-	}
-
-	equipButton = function(i) {
-		//*******Check quest stuff*******
-		if(me.inventory[i].id === 000) {
-			myGame.completeQuest(1);
-			myGame.drawDialog(exampleEnemy, "Excellent, now fight me, unless you're scaaaaaaared!!!");
-			myGame.addQuest(2);
-		}
-		//********************************
-
-		if(me.inventory[i].isWeapon())
-				me.equipWeapon(me.inventory[i]);
-		else if(me.inventory[i].isArmor())
-			me.equipArmor(me.inventory[i]);
-		myGame.updateEverything();
-	}
-
-	consumeButton = function(i) {
-		//*******Check quest stuff*******
-		if(me.inventory[i].id === 200) {
-			myGame.completeQuest(3);
-			myGame.drawDialog(exampleEnemy, "I hope that left a good taste in your mouth, because this is the abrupt end of the demo. For making it through the demo, you have earned this dumb trinket. Wear it proudly, " + me.name + ".");
-		}
-		//********************************
-		me.consume(me.inventory[i]);
-		myGame.updateEverything();
-	}
-
-	viewButtonEquipment = function(i) {//TODO: open item detail modal
-		i = parseInt(i);
-		if(i===-1) {
-			console.log(me.getWeaponName());
-			myGame.addText("You are holding " + me.getWeaponName() + ".");
-		}
-		else if(i===0) {
-			console.log(me.getChestName());
-			myGame.addText("You are wearing " + me.getChestName() + ".");
-		}
-		else if(i===1) {
-			console.log(me.getLegsName());
-			myGame.addText("You are wearing " + me.getLegsName() + ".");
-		}
-		if(i===2) {
-			console.log(me.getHeadName());
-			myGame.addText("You are wearing " + me.getHeadName() + ".");
-		}
-		if(i===3) {
-			console.log(me.getFeetName());
-			myGame.addText("You are wearing " + me.getFeetName() + ".");
-		}
-		if(i===4) {
-			console.log(me.getNeckName());
-			myGame.addText("You are wearing " + me.getNeckName() + ".");
-		}
-	}
-
-	unequipButton = function(i) {
-		i = parseInt(i);
-		if(i===-1)
-			me.unequipWeapon();
-		else
-			me.unequipArmor(i);
-		myGame.updateEverything();
-	}
-
-	$("#nameSubmit").click(function(event) {
-	    event.preventDefault();
-	    if($("#nameInput").val() != "") {
-
-		    closeModal("#nameModal");
-		    myGame.addText("Name: " + $("#nameInput").val());
-		    me.name = $("#nameInput").val();
-		}
-	});
-
-	$("#saveButton").click(function(event) {
-		event.preventDefault();
-		myGame.updateSaves();
-		openModal("#saveModal");
-	});
-
-	$("#loadButton").click(function(event) {
-		event.preventDefault();
-		myGame.updateLoads();
-		openModal("#loadModal");
-	});
-
-	$("#eraseButton").click(function(event) {
-		event.preventDefault();
-		eraseCookie();
-		console.log("Cookie data erased");
-		console.log(jQuery.parseJSON(getCookie()));
-	});
-
-	$("#debugButton").click(function(event) {
-		event.preventDefault();
-		myGame.updateDebug();
-		openModal("#debugModal");
-	});
-
-	$("#armoryButton").click(function(event) {
-		event.preventDefault();
-		closeModal("#debugModal");
-		openModal("#armoryModal");
-	});
-
-	$("#questButton").click(function(event) {
-		event.preventDefault();
-		closeModal("#debugModal");
-		openModal("#questModal");
-	});
-
-	$("#clearButton").click(function(event) {
-		event.preventDefault();
-		myGame.clearText();
-	});
-
-	var saveModalButtons = document.getElementsByClassName("saveModalButton");
-	for(var i=0;i<saveModalButtons.length;i++) {
-		saveModalButtons[i].onclick = function() {
-			console.log("Saving in Slot " + (parseInt(this.getAttribute("data-num")) + 1));
-			gameSaves[this.getAttribute("data-num")].writeSave(myGame,me);
-			myGame.updateSaves();
-		}
-	}
-
-	var loadModalButtons = document.getElementsByClassName("loadModalButton");
-	for(var i=0;i<loadModalButtons.length;i++) {
-		loadModalButtons[i].onclick = function() {
-			console.log("Loading in Slot " + (parseInt(this.getAttribute("data-num")) + 1));
-			myGame.loadJSON(gameSaves[this.getAttribute("data-num")].getGameJSON());
-			me.loadJSON(gameSaves[this.getAttribute("data-num")].getHeroJSON());
-			myGame.clearText();
-			myGame.updateEverything();
-			closeModal("#loadModal");
-		}
-	}
-
-	$(window).resize(function(){
-		myGame.resizeGame();
-	});
-
-	$(window).keypress(function(e) {
-	  if (e.keyCode == 32) {
-	    myGame.toggleBattle();
-	  }
-	});
-
-});
