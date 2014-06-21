@@ -74,13 +74,13 @@ function Game(hero) {
 	}
 
 	Game.prototype.showBattle = function() {
-			this.battleDiv.show();
+			this.battleCanvas.show();
 			this.battleHUD.show();
 			this.battleMenu.show();
-			this.resizeBattle();
+			//this.resizeBattle();
 			this.gameDiv.hide();
-			webGLStart();
-			drawScene();
+			//webGLStart();
+			//drawScene();
 	}
 
 	Game.prototype.hideBattle = function() {
@@ -273,12 +273,12 @@ function Game(hero) {
 				this.addQuest(3);
 			}
 			//********************************
-			alert("Congradulations! You won!");
+			//alert("Congradulations! You won!");
 			//this.hideBattle();
 			return true;
 		}
 		else {
-			alert("Con-sad-ulations. You lost D:");
+			//alert("Con-sad-ulations. You lost D:");
 			this.hideBattle();
 			return false;
 		}
