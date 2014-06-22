@@ -301,7 +301,6 @@ $(document).ready(function() {
 	  		if(myGame.waitingForInput) {
 	  			myGame.doAttack();
 	  		}
-	  		console.log("attack");
 	  	}
 	  	if($("#battleOption2").hasClass("selectedOption")) {
 	  		console.log("2");
@@ -317,25 +316,20 @@ $(document).ready(function() {
 
 	$("#battleOption1").click(function(event) {
 		event.preventDefault();
-		//$("#battleOption1").css({"color":"red"});
 		if(myGame.waitingForInput) {
 	  			myGame.doAttack();
 	  		}
-	  		console.log("attack");
 	});
 
 	$("#battleOption2").click(function(event) {
 		event.preventDefault();
-		//$("#battleOption2").css({"color":"red"});
 	});
 
 	$("#battleOption3").click(function(event) {
 		event.preventDefault();
-		//$("#battleOption3").css({"color":"red"});
 	});
 
 	$("#battleOption4").click(function(event) {
 		event.preventDefault();
-		//$("#battleOption4").css({"color":"red"});
 	});
 });

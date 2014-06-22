@@ -255,9 +255,18 @@ function Game(hero) {
 	}
 
 	Game.prototype.doAttack = function() {
+		var that = this;
+
+		console.log("attacking");
 		this.waitingForInput = false;
 		this.hero.attack(this.currentEnemy);
-		this.advanceTurn();
+		setTimeout(function() {
+			console.log("attacked");
+			setTimeout(function() {
+				that.waitingForInput = false;
+				that.advanceTurn();
+			}, 100);
+		}, 100);
 
 	}
 
@@ -271,6 +280,7 @@ function Game(hero) {
 		else {
 			this.whosTurn = false;
 		}
+		this.waitingForInput = true;
 		this.showBattle();
 		console.log("Started Battle");
 		jQuery.proxy(this.doBattle(), this);
@@ -278,26 +288,27 @@ function Game(hero) {
 	} 
 
 	Game.prototype.doBattle = function(callback) {
-		console.log("Doing Battle!");
+		// console.log("Doing Battle!");
 
 		var that = this;
 		
 		//this.battleLoop();
+		//this.waitingForInput = false;
 
 		this.drawBattle(this.currentEnemy);
 		if(this.hero.isAlive() && this.currentEnemy.isAlive()) {
-			if(this.whosTurn) {
-				this.waitingForInput = true;
-				// setTimeout(function(){that.doBattle()}, 100);
-				this.drawBattle(this.currentEnemy);
-			}
-			else {
-				this.currentEnemy.attack(this.hero);
-				this.advanceTurn();
-				this.drawBattle(this.currentEnemy);
-				//callback(that);
-			}
-			setTimeout(function(){that.doBattle()}, 100);
+				if(!this.whosTurn) {
+					this.advanceTurn();
+					console.log("Enemy is attacking!");
+					setTimeout(function(){
+						that.currentEnemy.attack(that.hero);
+						console.log("Enemy attacked!")
+						that.drawBattle(that.currentEnemy);
+						that.waitingForInput = true;
+					}, 100);
+					//callback(that);
+				}
+				setTimeout(function(){that.doBattle()}, 100);
 		}
 		else {
 			if(this.hero.isAlive()) {
@@ -323,21 +334,6 @@ function Game(hero) {
 		//callback();
 	}
 
-	Game.prototype.battleLoop = function() {
-		while(this.hero.isAlive() && this.currentEnemy.isAlive()) {
-			if(this.whosTurn) {
-				this.waitingForInput = true;
-				setTimeout(this.battleLoop, 0);
-				this.drawBattle(this.currentEnemy);
-			}
-			else {
-				callback();
-				this.currentEnemy.attack(this.hero);
-				this.advanceTurn();
-				this.drawBattle(this.currentEnemy);
-			}
-		}
-	}
 
 	Game.prototype.drawBattle = function(enemy) {
 		//this.showBattle();
