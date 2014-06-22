@@ -79,7 +79,7 @@
 
 
     function handleLoadedTexture(textures) {
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        //gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
 
         gl.bindTexture(gl.TEXTURE_2D, textures[0]);
@@ -131,7 +131,7 @@
         bushImage.onload = function () {
             handleLoadedTexture(bushTextures)
         }
-        bushImage.src = "./img/floor2.png";
+        bushImage.src = "./img/bush.png";
 
 
         var wallImage = new Image();
@@ -209,30 +209,30 @@
 
 
     function handleKeys() {
-        if (currentlyPressedKeys[33]) {
-            // Page Up
-            z -= 0.05;
-        }
-        if (currentlyPressedKeys[34]) {
-            // Page Down
-            z += 0.05;
-        }
-        if (currentlyPressedKeys[37]) {
-            // Left cursor key
-            ySpeed -= 1;
-        }
-        if (currentlyPressedKeys[39]) {
-            // Right cursor key
-            ySpeed += 1;
-        }
-        if (currentlyPressedKeys[38]) {
-            // Up cursor key
-            xSpeed -= 1;
-        }
-        if (currentlyPressedKeys[40]) {
-            // Down cursor key
-            xSpeed += 1;
-        }
+        // if (currentlyPressedKeys[33]) {
+        //     // Page Up
+        //     z -= 0.05;
+        // }
+        // if (currentlyPressedKeys[34]) {
+        //     // Page Down
+        //     z += 0.05;
+        // }
+        // if (currentlyPressedKeys[37]) {
+        //     // Left cursor key
+        //     ySpeed -= 1;
+        // }
+        // if (currentlyPressedKeys[39]) {
+        //     // Right cursor key
+        //     ySpeed += 1;
+        // }
+        // if (currentlyPressedKeys[38]) {
+        //     // Up cursor key
+        //     xSpeed -= 1;
+        // }
+        // if (currentlyPressedKeys[40]) {
+        //     // Down cursor key
+        //     xSpeed += 1;
+        // }
     }
 
 
@@ -251,8 +251,8 @@
         var vertices = [
             -10.0, -2.0,  0.0,
              10.0, -2.0,  0.0,
-            -10.0,  6.0,  0.0,
-             10.0,  6.0,  0.0
+            -10.0,  5.5,  0.0,
+             10.0,  5.5,  0.0
             ];
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
         squareVertexPositionBuffer.itemSize = 3;
@@ -278,10 +278,10 @@
         bushVertexPositionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexPositionBuffer);
         vertices = [
-            -2.0, 0.0,  0.0,
-             2.0,  0.0,  0.0,
-            -2.0,  1.5,  0.0,
-             2.0,  1.5,  0.0
+            -1.5, 0.0,  0.0,
+             1.5,  0.0,  0.0,
+            -1.5,  1.5,  0.0,
+             1.5,  1.5,  0.0
             ];
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
         bushVertexPositionBuffer.itemSize = 3;
@@ -292,8 +292,8 @@
         textureCoords = [
             0.0, 1.0,
             1.0, 1.0,
-            0.0, 0.0,
-            1.0, 0.0
+            0.0, 0.2,
+            1.0, 0.2
             ];
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
         bushVertexTextureCoordBuffer.itemSize = 2;
@@ -352,7 +352,7 @@
 
         mat4.translate(mvMatrix, [0.0, -1.5, -4.6]);
 
-        mat4.rotate(mvMatrix, degToRad(270), [1, 0, 0]);
+        mat4.rotate(mvMatrix, degToRad(280), [1, 0, 0]);
 
         mat4.rotate(mvMatrix, degToRad(xRot), [1, 0, 0]);
         mat4.rotate(mvMatrix, degToRad(yRot), [0, 1, 0]);
@@ -371,11 +371,48 @@
         gl.bindTexture(gl.TEXTURE_2D, floorTextures[filter]);
         gl.uniform1i(shaderProgram.samplerUniform, 0);
 
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.uniform1f(shaderProgram.alphaUniform, 0.6);
+        gl.enable(gl.BLEND);
+        gl.depthFunc(gl.LESS);
+        gl.disable(gl.DEPTH_TEST);
+
+
 
         setMatrixUniforms();
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer.numItems);
 
         mvPopMatrix();
+
+
+                //wall
+
+        // mvPushMatrix();
+        // mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
+        // //mat4.rotate(mvMatrix, degToRad(5), [0, 1, 0]);
+        // mat4.translate(mvMatrix, [0.0, 0.0, -6.0]);
+
+        // gl.bindBuffer(gl.ARRAY_BUFFER, wallVertexPositionBuffer);
+        // gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, wallVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+        // gl.bindBuffer(gl.ARRAY_BUFFER, wallVertexTextureCoordBuffer);
+        // gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, wallVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+
+        // gl.activeTexture(gl.TEXTURE0);
+        // gl.bindTexture(gl.TEXTURE_2D, wallTextures[filter]);
+        // gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+        // // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_Minus_SRC_ALPHA);
+        // // gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+        // // gl.disable(gl.BLEND);
+        // // gl.enable(gl.DEPTH_TEST);
+
+
+        // setMatrixUniforms();
+        // gl.drawArrays(gl.TRIANGLE_STRIP, 0, wallVertexPositionBuffer.numItems);
+
+        // mvPopMatrix();
 
 
 
@@ -384,7 +421,7 @@
         mvPushMatrix();
         mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
         mat4.rotate(mvMatrix, degToRad(-5), [0, 1, 0]);
-        mat4.translate(mvMatrix, [5.0, 0.0, -6.0]);
+        mat4.translate(mvMatrix, [4.0, 0.0, -5.0]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexPositionBuffer);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, bushVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -396,6 +433,12 @@
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, bushTextures[filter]);
         gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+        // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_Minus_SRC_ALPHA);
+        // gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+        // gl.enable(gl.BLEND);
+        // gl.depthFunc(gl.LESS);
+        // gl.disable(gl.DEPTH_TEST);
 
 
         setMatrixUniforms();
@@ -406,7 +449,7 @@
         mvPushMatrix();
         mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
         mat4.rotate(mvMatrix, degToRad(5), [0, 1, 0]);
-        mat4.translate(mvMatrix, [-5.0, 0.0, -6.0]);
+        mat4.translate(mvMatrix, [-4.0, 0.0, -5.0]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexPositionBuffer);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, bushVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -419,37 +462,14 @@
         gl.bindTexture(gl.TEXTURE_2D, bushTextures[filter]);
         gl.uniform1i(shaderProgram.samplerUniform, 0);
 
+        //gl.uniform1f(shaderProgram.alphaUniform, parseFloat)
+
 
         setMatrixUniforms();
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, bushVertexPositionBuffer.numItems);
 
         mvPopMatrix();
 
-
-
-        //wall
-
-        mvPushMatrix();
-        mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
-        //mat4.rotate(mvMatrix, degToRad(5), [0, 1, 0]);
-        mat4.translate(mvMatrix, [0.0, 0.0, -6.0]);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, wallVertexPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, wallVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, wallVertexTextureCoordBuffer);
-        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, wallVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, wallTextures[filter]);
-        gl.uniform1i(shaderProgram.samplerUniform, 0);
-
-
-        setMatrixUniforms();
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, wallVertexPositionBuffer.numItems);
-
-        mvPopMatrix();
 
     }
 

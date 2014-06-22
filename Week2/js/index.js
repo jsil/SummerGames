@@ -19,12 +19,13 @@ $(document).ready(function() {
 	}
 	resizeCanvas();
 
-	// $("#battleCanvas").hide();
-	$("#gameDiv").hide();
+	//$("#battleCanvas").hide();
+	// $("#gameDiv").hide();
 	var me = new Hero("Bob");	
 	var myGame = new Game(me);
 	//openModal("#nameModal");
 	myGame.resizeGame();
+	myGame.toggleBattle();
 	myGame.startGame();
 
 	//*********Code for Demo************
@@ -45,7 +46,7 @@ $(document).ready(function() {
 
 	$("#flexButton2").click(function(event) {
 		if(myGame.checkQuest(2)) {
-			myGame.doBattle(exampleEnemy);
+			myGame.startBattle(exampleEnemy);
 		}
 		else
 			myGame.drawDialog(exampleEnemy, "Now is not the time for fighting.");
@@ -297,6 +298,9 @@ $(document).ready(function() {
 	$(window).keypress(function(e) {
 	  if (e.keyCode === 13) {
 	  	if($("#battleOption1").hasClass("selectedOption")) {
+	  		if(myGame.waitingForInput) {
+	  			myGame.doAttack();
+	  		}
 	  		console.log("attack");
 	  	}
 	  	if($("#battleOption2").hasClass("selectedOption")) {
@@ -313,21 +317,25 @@ $(document).ready(function() {
 
 	$("#battleOption1").click(function(event) {
 		event.preventDefault();
-		$("#battleOption1").css({"color":"red"});
+		//$("#battleOption1").css({"color":"red"});
+		if(myGame.waitingForInput) {
+	  			myGame.doAttack();
+	  		}
+	  		console.log("attack");
 	});
 
 	$("#battleOption2").click(function(event) {
 		event.preventDefault();
-		$("#battleOption2").css({"color":"red"});
+		//$("#battleOption2").css({"color":"red"});
 	});
 
 	$("#battleOption3").click(function(event) {
 		event.preventDefault();
-		$("#battleOption3").css({"color":"red"});
+		//$("#battleOption3").css({"color":"red"});
 	});
 
 	$("#battleOption4").click(function(event) {
 		event.preventDefault();
-		$("#battleOption4").css({"color":"red"});
+		//$("#battleOption4").css({"color":"red"});
 	});
 });

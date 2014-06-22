@@ -21,6 +21,11 @@ function Game(hero) {
 	this.optionsPanel = $("#optionsPanel");
 	this.sprites = document.getElementById("sprites");
 
+	this.currentEnemy = [];
+
+	this.waitingForInput = false;
+	this.whosTurn = true;
+
 	Game.prototype.startGame = function() {
 		//openModal("#nameModal");
 		this.addText("Welcome to the Demo! Have fun!<br><br>The novice adventurer " + this.hero.name + " has finally arrived at The Grand Dojo, home of the best adventurer-trainer known to man: The Master.<br>");
@@ -245,50 +250,101 @@ function Game(hero) {
 		this.updateLoads();
 	}
 
-	Game.prototype.doBattle = function(enemy) {
-		this.drawBattle(enemy);
+	Game.prototype.advanceTurn = function() {
+		this.whosTurn = !this.whosTurn;
+	}
 
-		var whosTurn;
-		if(this.hero.speed >= enemy.speed) {
-			whosTurn = true;
+	Game.prototype.doAttack = function() {
+		this.waitingForInput = false;
+		this.hero.attack(this.currentEnemy);
+		this.advanceTurn();
+
+	}
+
+	Game.prototype.startBattle = function(enemy) {
+		this.currentEnemy = enemy;
+		this.drawBattle(this.currentEnemy);
+
+		if(this.hero.speed >= this.currentEnemy.speed) {
+			this.whosTurn = true;
 		}
 		else {
-			whosTurn = false;
+			this.whosTurn = false;
 		}
-		while(this.hero.isAlive() && enemy.isAlive()) {
-			if(whosTurn) {
-				this.hero.attack(enemy);
+		this.showBattle();
+		console.log("Started Battle");
+		jQuery.proxy(this.doBattle(), this);
+		//this.doBattle(this);
+	} 
+
+	Game.prototype.doBattle = function(callback) {
+		console.log("Doing Battle!");
+
+		var that = this;
+		
+		//this.battleLoop();
+
+		this.drawBattle(this.currentEnemy);
+		if(this.hero.isAlive() && this.currentEnemy.isAlive()) {
+			if(this.whosTurn) {
+				this.waitingForInput = true;
+				// setTimeout(function(){that.doBattle()}, 100);
+				this.drawBattle(this.currentEnemy);
 			}
 			else {
-				enemy.attack(this.hero);
+				this.currentEnemy.attack(this.hero);
+				this.advanceTurn();
+				this.drawBattle(this.currentEnemy);
+				//callback(that);
 			}
-			whosTurn = !whosTurn;
-		}
-		this.drawBattle(enemy);
-		if(this.hero.isAlive()) {
-			//*****check quest completion*****
-			if(enemy.name === "The Master" && this.completeQuest(2)) {
-				this.addText("The Master: \"Dude! You beat me! Radical! Now take this Health Potion and heal up!\"<br>");
-
-				this.addQuest(3);
-			}
-			//********************************
-			//alert("Congradulations! You won!");
-			//this.hideBattle();
-			return true;
+			setTimeout(function(){that.doBattle()}, 100);
 		}
 		else {
-			//alert("Con-sad-ulations. You lost D:");
-			this.hideBattle();
-			return false;
+			if(this.hero.isAlive()) {
+				//*****check quest completion*****
+				if(this.currentEnemy.name === "The Master" && this.completeQuest(2)) {
+					this.addText("The Master: \"Dude! You beat me! Radical! Now take this Health Potion and heal up!\"<br>");
+
+					this.addQuest(3);
+				}
+				//********************************
+				alert("Congradulations! You won!");
+				this.hideBattle();
+				return true;
+			}
+			else {
+				alert("Con-sad-ulations. You lost D:");
+				this.hideBattle();
+				return false;
+			}
 		}
-		this.drawBattle(enemy);
+
+		this.drawBattle(this.currentEnemy);
+		//callback();
+	}
+
+	Game.prototype.battleLoop = function() {
+		while(this.hero.isAlive() && this.currentEnemy.isAlive()) {
+			if(this.whosTurn) {
+				this.waitingForInput = true;
+				setTimeout(this.battleLoop, 0);
+				this.drawBattle(this.currentEnemy);
+			}
+			else {
+				callback();
+				this.currentEnemy.attack(this.hero);
+				this.advanceTurn();
+				this.drawBattle(this.currentEnemy);
+			}
+		}
 	}
 
 	Game.prototype.drawBattle = function(enemy) {
-		this.showBattle();
+		//this.showBattle();
 		//drawScene();
-		console.log("Got here");
+		//console.log("Got here");
+
+		this.battleHUD.find("#innerHUD").find("#healthHUD").html(this.hero.health + "/" + this.hero.maxHealth);
 
 
 
