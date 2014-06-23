@@ -50,7 +50,7 @@
 	<canvas id="battleCanvas">Your browser doesn't support this game. My condolences.</canvas>
 	<div id="battleHUD">
 		<div id="innerHUD">
-			Health: <span id="healthHUD">20/20</span>FP: <span id="placeholderHUD">20/20</span> Hi.
+			Health: <span id="healthHUD">20/20</span><!-- FP: <span id="placeholderHUD">20/20</span> Hi. -->
 		</div>
 	</div>
 	<div id="battleMenu">

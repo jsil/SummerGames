@@ -95,6 +95,21 @@ function Game(hero) {
 		this.gameDiv.show();
 	}
 
+
+	Game.prototype.showHUD = function() {
+		this.battleMenu.animate({
+		    opacity: "0.9"
+		  },250, "linear", function() {
+ 		 });
+	}
+
+	Game.prototype.hideHUD = function() {
+		this.battleMenu.animate({
+		    opacity: "0.0"
+		  },250, "linear", function() {
+ 		 });
+	}
+
 	Game.prototype.toggleBattle = function() {
 		var btlCanvas = document.getElementById("battleCanvas");
 		var isVisible = btlCanvas.offsetWidth > 0 || btlCanvas.offsetHeight > 0;
@@ -257,6 +272,8 @@ function Game(hero) {
 	Game.prototype.doAttack = function() {
 		var that = this;
 
+		this.hideHUD();
+		zoomOut();
 		console.log("attacking");
 		this.waitingForInput = false;
 		this.hero.attack(this.currentEnemy);
@@ -266,7 +283,7 @@ function Game(hero) {
 				that.waitingForInput = false;
 				that.advanceTurn();
 			}, 100);
-		}, 100);
+		}, 1000);
 
 	}
 
@@ -305,7 +322,9 @@ function Game(hero) {
 						console.log("Enemy attacked!")
 						that.drawBattle(that.currentEnemy);
 						that.waitingForInput = true;
-					}, 100);
+						zoomIn();
+						that.showHUD();
+					}, 1000);
 					//callback(that);
 				}
 				setTimeout(function(){that.doBattle()}, 100);

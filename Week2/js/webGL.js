@@ -118,7 +118,7 @@
         floorImage.onload = function () {
             handleLoadedTexture(floorTextures)
         }
-        floorImage.src = "./img/floor.png";
+        floorImage.src = "./img/path.png";
 
         var bushImage = new Image();
 
@@ -188,8 +188,24 @@
 
     var filter = 0;
 
+    var zoom = 0.0;
 
     var currentlyPressedKeys = {};
+
+
+    function zoomOut() {
+        if(zoom >= -3.375) {
+            zoom -= 0.075;
+            setTimeout(function(){zoomOut()}, 10);
+        }
+    }
+
+    function zoomIn() {
+        if(zoom <= 0.0) {
+            zoom += 0.075;
+            setTimeout(function(){zoomIn()}, 10);
+        }
+    }
 
     function handleKeyDown(event) {
         currentlyPressedKeys[event.keyCode] = true;
@@ -233,6 +249,11 @@
         //     // Down cursor key
         //     xSpeed += 1;
         // }
+        // if (currentlyPressedKeys[13] && zoom >= -3.375) {
+        //     // Down cursor key
+        //     zoom -= 0.075;
+        //     console.log(zoom);
+        // }
     }
 
 
@@ -246,8 +267,8 @@
         squareVertexPositionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
         var vertices = [
-            -10.0, -2.0,  0.0,
-             10.0, -2.0,  0.0,
+            -10.0, -4.5,  0.0,
+             10.0, -4.5,  0.0,
             -10.0,  5.5,  0.0,
              10.0,  5.5,  0.0
             ];
@@ -258,10 +279,10 @@
         squareVertexTextureCoordBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexTextureCoordBuffer);
         var textureCoords = [
-            0.0, 3.5,
-            9.0, 3.5,
+            0.0, 1.15,
+            2.2, 1.15,
             0.0, 0.0,
-            9.0, 0.0
+            2.2, 0.0
             ];
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
         squareVertexTextureCoordBuffer.itemSize = 2;
@@ -304,10 +325,10 @@
         wallVertexPositionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, wallVertexPositionBuffer);
         vertices = [
-            -10.0, 0.0,  0.0,
-             10.0,  0.0,  0.0,
-            -10.0,  6.5,  0.0,
-             10.0,  6.5,  0.0
+            -11.0, -0.15,  0.0,
+             11.0,  -0.15,  0.0,
+            -11.0,  6.5,  0.0,
+             11.0,  6.5,  0.0
             ];
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
         wallVertexPositionBuffer.itemSize = 3;
@@ -316,10 +337,10 @@
         wallVertexTextureCoordBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, wallVertexTextureCoordBuffer);
         textureCoords = [
-            0.0, 1.0,
-            1.0, 1.0,
+            0.0, 3.0,
+            3.9, 3.0,
             0.0, 0.0,
-            1.0, 0.0
+            3.9, 0.0
             ];
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
         wallVertexTextureCoordBuffer.itemSize = 2;
@@ -336,6 +357,8 @@
         mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
 
         mat4.identity(mvMatrix);
+
+        mat4.translate(mvMatrix, [0.0, 0.0, zoom]);
 
         mat4.translate(mvMatrix, [0.0, -1.5, -4.6]);
 
@@ -377,7 +400,7 @@
         mvPushMatrix();
         mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
         //mat4.rotate(mvMatrix, degToRad(5), [0, 1, 0]);
-        mat4.translate(mvMatrix, [0.0, 0.0, -6.0]);
+        mat4.translate(mvMatrix, [0.0, 0.0, -5.5]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, wallVertexPositionBuffer);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, wallVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
