@@ -58,10 +58,10 @@
 		<div id="battleToast">Toast toast toast.</div>
 	</div>
 	<div id="battleMenu">
-		<div id="battleOption1" class="battleOption">Attack</div>
-		<div id="battleOption2" class="battleOption">2</div>
-		<div id="battleOption3" class="battleOption">3</div>
-		<div id="battleOption4" class="battleOption">Run</div>
+		<div id="battleOption1" class="battleOption">1. Attack</div>
+		<div id="battleOption2" class="battleOption">2.</div>
+		<div id="battleOption3" class="battleOption">3.</div>
+		<div id="battleOption4" class="battleOption">4. Run</div>
 	</div>
 </div>
 <div id="gameDiv">

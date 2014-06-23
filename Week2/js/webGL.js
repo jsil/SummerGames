@@ -184,7 +184,7 @@
     var yRot = 0;
     var ySpeed = 0;
 
-    var z = -5.0;
+    var z = 0.0;
 
     var filter = 0;
 
@@ -225,35 +225,35 @@
 
 
     function handleKeys() {
-        // if (currentlyPressedKeys[33]) {
-        //     // Page Up
-        //     z -= 0.05;
-        // }
-        // if (currentlyPressedKeys[34]) {
-        //     // Page Down
-        //     z += 0.05;
-        // }
-        // if (currentlyPressedKeys[37]) {
-        //     // Left cursor key
-        //     ySpeed -= 1;
-        // }
-        // if (currentlyPressedKeys[39]) {
-        //     // Right cursor key
-        //     ySpeed += 1;
-        // }
-        // if (currentlyPressedKeys[38]) {
-        //     // Up cursor key
-        //     xSpeed -= 1;
-        // }
-        // if (currentlyPressedKeys[40]) {
-        //     // Down cursor key
-        //     xSpeed += 1;
-        // }
-        // if (currentlyPressedKeys[13] && zoom >= -3.375) {
-        //     // Down cursor key
-        //     zoom -= 0.075;
-        //     console.log(zoom);
-        // }
+        if (currentlyPressedKeys[90]) {
+            // Page Up
+            z -= 0.05;
+        }
+        if (currentlyPressedKeys[88]) {
+            // Page Down
+            z += 0.05;
+        }
+        if (currentlyPressedKeys[37]) {
+            // Left cursor key
+            ySpeed -= 1;
+        }
+        if (currentlyPressedKeys[39]) {
+            // Right cursor key
+            ySpeed += 1;
+        }
+        if (currentlyPressedKeys[38]) {
+            // Up cursor key
+            xSpeed -= 1;
+        }
+        if (currentlyPressedKeys[40]) {
+            // Down cursor key
+            xSpeed += 1;
+        }
+        if (currentlyPressedKeys[13] && zoom >= -3.375) {
+            // Down cursor key
+            zoom -= 0.075;
+            console.log(zoom);
+        }
     }
 
 
@@ -267,10 +267,10 @@
         squareVertexPositionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
         var vertices = [
-            -10.0, -4.5,  0.0,
-             10.0, -4.5,  0.0,
-            -10.0,  5.5,  0.0,
-             10.0,  5.5,  0.0
+            -11.0, -4.5,  0.0,
+             11.0, -4.5,  0.0,
+            -11.0,  5.5,  0.0,
+             11.0,  5.5,  0.0
             ];
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
         squareVertexPositionBuffer.itemSize = 3;
@@ -359,6 +359,7 @@
         mat4.identity(mvMatrix);
 
         mat4.translate(mvMatrix, [0.0, 0.0, zoom]);
+        mat4.translate(mvMatrix, [0.0, 0.0, z]);
 
         mat4.translate(mvMatrix, [0.0, -1.5, -4.6]);
 
@@ -367,7 +368,34 @@
         mat4.rotate(mvMatrix, degToRad(xRot), [1, 0, 0]);
         mat4.rotate(mvMatrix, degToRad(yRot), [0, 1, 0]);
 
+                //wall
+
         mvPushMatrix();
+        mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
+        //mat4.rotate(mvMatrix, degToRad(5), [0, 1, 0]);
+        mat4.translate(mvMatrix, [0.0, 0.0, -5.5]);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, wallVertexPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, wallVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, wallVertexTextureCoordBuffer);
+        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, wallVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, wallTextures[filter]);
+        gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+
+        setMatrixUniforms();
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, wallVertexPositionBuffer.numItems);
+
+        mvPopMatrix();
+
+
+        //floor
+
+         mvPushMatrix();
         // mat4.rotate(mvMatrix, degToRad(rSquare), [1, 0, 0]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
@@ -391,31 +419,6 @@
 
         setMatrixUniforms();
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer.numItems);
-
-        mvPopMatrix();
-
-
-                //wall
-
-        mvPushMatrix();
-        mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
-        //mat4.rotate(mvMatrix, degToRad(5), [0, 1, 0]);
-        mat4.translate(mvMatrix, [0.0, 0.0, -5.5]);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, wallVertexPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, wallVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, wallVertexTextureCoordBuffer);
-        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, wallVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, wallTextures[filter]);
-        gl.uniform1i(shaderProgram.samplerUniform, 0);
-
-
-        setMatrixUniforms();
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, wallVertexPositionBuffer.numItems);
 
         mvPopMatrix();
 

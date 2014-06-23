@@ -296,22 +296,34 @@ $(document).ready(function() {
 	}
 
 	$(window).keypress(function(e) {
-	  if (e.keyCode === 13) {
-	  	if($("#battleOption1").hasClass("selectedOption")) {
-	  		if(myGame.waitingForInput) {
-	  			myGame.doAttack();
-	  		}
-	  	}
-	  	if($("#battleOption2").hasClass("selectedOption")) {
-	  		console.log("2");
-	  	}
-	  	if($("#battleOption3").hasClass("selectedOption")) {
-	  		console.log("3");
-	  	}
-	  	if($("#battleOption4").hasClass("selectedOption")) {
-	  		console.log("run");
-	  	}
-	  }
+		if(myGame.waitingForInput) {
+		    if (e.keyCode === 13) {
+			  	if($("#battleOption1").hasClass("selectedOption")) {
+		  			myGame.doAttack();
+			  	}
+			  	if($("#battleOption2").hasClass("selectedOption")) {
+			  		console.log("2");
+			  	}
+			  	if($("#battleOption3").hasClass("selectedOption")) {
+			  		console.log("3");
+			  	}
+			  	if($("#battleOption4").hasClass("selectedOption")) {
+			  		console.log("run");
+			  	}
+		    }
+		    else if(e.keyCode === 49) {
+  				myGame.doAttack();
+		    }
+		    else if(e.keyCode === 50) {
+		  		console.log("2");
+		    }
+		    else if(e.keyCode === 51) {
+		  		console.log("3");
+		    }
+		    else if(e.keyCode === 52) {
+		 	 	console.log("run");
+		    }
+		}
 	});
 
 	$("#battleOption1").click(function(event) {

@@ -13,7 +13,7 @@ body {
 }
 
 #battleHUD {
-	opacity: .9;
+	opacity: 0.9;
 	position:absolute;
 	margin-left: auto;
 	margin-right: auto;
@@ -28,8 +28,8 @@ body {
 #innerHUD {
 	margin:22px;
 	font-family:Verdana,Arial,sans-serif !important;
-
 }
+
 
 #innerHUD > span {
 	margin-right: 25px;
