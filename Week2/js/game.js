@@ -91,12 +91,13 @@ function Game(hero) {
 	}
 
 	Game.prototype.hideBattle = function() {
-		this.battleDiv.hide();
+		this.battleCanvas.hide();
 		this.battleHUD.hide();
 		this.battleMenu.hide();
 		this.toastHolder.hide();
-
 		this.gameDiv.show();
+
+	    this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
 	}
 
 
@@ -143,6 +144,7 @@ function Game(hero) {
 			this.toastHolder.hide();
 			//this.resizeBattle();
 			this.gameDiv.show();
+			this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
 			//console.log("Hide battle");
 		}
 	}

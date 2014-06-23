@@ -5,10 +5,6 @@ function Item(name, id) {
 }
 
 Item.prototype = {
-
-	// takeItem:function() {
-	// 	console.log("took item");
-	// },
 	isEquipable:function() {
 		return false;
 	},
@@ -47,10 +43,6 @@ function Equipable(name, id) {
 }
 
 Equipable.prototype = {
-	takeItem:function() {
-		console.log("took item2");
-	},
-
 	equip:function() {//don't know if i'll need these
 		this.isEquiped = true;
 	},
@@ -67,7 +59,7 @@ function Weapon(name, id) {
 	this.name = name;
 	this.price = 40;
 	this.id = id;
-	this.damage = 3;
+	this.damage = 4;
 }
 
 Weapon.prototype = {

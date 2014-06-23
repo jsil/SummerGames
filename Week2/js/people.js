@@ -131,8 +131,9 @@ Character.prototype = {
 	},
 
 	attack:function(enemy) {
-		enemy.damage(3);
-		return "3";
+		var damage = Math.floor(Math.random() * 4) + 1
+		enemy.damage(damage);
+		return damage;
 	},
 
 	heal:function(recoveredHealth) {
@@ -363,8 +364,9 @@ Hero.prototype = {
 			return this.weapon.calculateDamage();
 		}
 		else {
-			enemy.damage(3);
-			return 3;
+			var damage = Math.floor(Math.random() * 4) + 1;
+			enemy.damage(damage);
+			return damage;
 		}
 	},
 
