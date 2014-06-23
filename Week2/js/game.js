@@ -12,7 +12,8 @@ function Game(hero) {
 	this.battleCanvas2 = document.getElementById("battleCanvas");
 	this.battleHUD = $("#battleHUD");
 	this.battleMenu = $("#battleMenu");
-	//this.battleG = gl;
+	this.toastHolder = $("#toastHolder");
+	this.battleToast = $("#battleToast");
 	this.gameDiv = $("#gameDiv");
 	this.sideContent = $("#sideContent");
 	this.sidePanel = $("#sidePanel");
@@ -82,6 +83,7 @@ function Game(hero) {
 			this.battleCanvas.show();
 			this.battleHUD.show();
 			this.battleMenu.show();
+			//this.toastHolder.show();
 			//this.resizeBattle();
 			this.gameDiv.hide();
 			//webGLStart();
@@ -92,6 +94,8 @@ function Game(hero) {
 		this.battleDiv.hide();
 		this.battleHUD.hide();
 		this.battleMenu.hide();
+		this.toastHolder.hide();
+
 		this.gameDiv.show();
 	}
 
@@ -110,6 +114,16 @@ function Game(hero) {
  		 });
 	}
 
+	Game.prototype.toast = function(string) {
+		var that = this;
+		this.battleToast.html(string);
+		this.toastHolder.show();
+		setTimeout(function() {
+			that.toastHolder.hide();
+		}, 1000);
+	}
+
+
 	Game.prototype.toggleBattle = function() {
 		var btlCanvas = document.getElementById("battleCanvas");
 		var isVisible = btlCanvas.offsetWidth > 0 || btlCanvas.offsetHeight > 0;
@@ -117,6 +131,7 @@ function Game(hero) {
 			this.battleCanvas.show();
 			this.battleHUD.show();
 			this.battleMenu.show();
+			//this.toastHolder.show();
 			//this.resizeBattle();
 			this.gameDiv.hide();
 			//console.log("Display battle");
@@ -125,6 +140,7 @@ function Game(hero) {
 			this.battleCanvas.hide();
 			this.battleHUD.hide();
 			this.battleMenu.hide();
+			this.toastHolder.hide();
 			//this.resizeBattle();
 			this.gameDiv.show();
 			//console.log("Hide battle");
@@ -276,13 +292,13 @@ function Game(hero) {
 		zoomOut();
 		console.log("attacking");
 		this.waitingForInput = false;
-		this.hero.attack(this.currentEnemy);
 		setTimeout(function() {
 			console.log("attacked");
+			that.toast("You hit " + that.currentEnemy.name + " for " + that.hero.attack(that.currentEnemy) + " damage!");
 			setTimeout(function() {
 				that.waitingForInput = false;
 				that.advanceTurn();
-			}, 100);
+			}, 1000);
 		}, 1000);
 
 	}
@@ -318,12 +334,14 @@ function Game(hero) {
 					this.advanceTurn();
 					console.log("Enemy is attacking!");
 					setTimeout(function(){
-						that.currentEnemy.attack(that.hero);
+						that.toast(that.currentEnemy.name + " hit you for " + that.currentEnemy.attack(that.hero) + " damage!");
 						console.log("Enemy attacked!")
 						that.drawBattle(that.currentEnemy);
-						that.waitingForInput = true;
-						zoomIn();
-						that.showHUD();
+						setTimeout(function(){
+							that.waitingForInput = true;
+							zoomIn();
+							that.showHUD();
+						}, 1000);
 					}, 1000);
 					//callback(that);
 				}
@@ -360,6 +378,7 @@ function Game(hero) {
 		//console.log("Got here");
 
 		this.battleHUD.find("#innerHUD").find("#healthHUD").html(this.hero.health + "/" + this.hero.maxHealth);
+		this.battleHUD.find("#innerHUD").find("#enemyHealth").html(this.currentEnemy.health + "/" + this.currentEnemy.maxHealth);
 
 
 

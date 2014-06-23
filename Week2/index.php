@@ -50,8 +50,12 @@
 	<canvas id="battleCanvas">Your browser doesn't support this game. My condolences.</canvas>
 	<div id="battleHUD">
 		<div id="innerHUD">
-			Health: <span id="healthHUD">20/20</span><!-- FP: <span id="placeholderHUD">20/20</span> Hi. -->
+			My Health: <span id="healthHUD">20/20</span><!-- FP: <span id="placeholderHUD">20/20</span> Hi. -->
+			<div id="enemyInfo">Enemy Health: <span id="enemyHealth">20/20</span></div>
 		</div>
+	</div>
+	<div id="toastHolder">
+		<div id="battleToast">Toast toast toast.</div>
 	</div>
 	<div id="battleMenu">
 		<div id="battleOption1" class="battleOption">Attack</div>

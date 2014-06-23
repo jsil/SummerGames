@@ -131,7 +131,8 @@ Character.prototype = {
 	},
 
 	attack:function(enemy) {
-		enemy.health -= 3;
+		enemy.damage(3);
+		return "3";
 	},
 
 	heal:function(recoveredHealth) {
@@ -143,6 +144,12 @@ Character.prototype = {
 
 	consume:function(consumable) {
 		consumable.doEffect(this);
+	},
+
+	damage:function(damage) {
+		this.health -= damage;
+		if(this.health <= 0)
+			this.health = 0;
 	}
 }
 
@@ -352,10 +359,12 @@ Hero.prototype = {
 
 	attack:function(enemy) {
 		if(this.weapon != null) {
-			enemy.health -= this.weapon.calculateDamage();
+			enemy.damage(this.weapon.calculateDamage());
+			return this.weapon.calculateDamage();
 		}
 		else {
-			enemy.health -= 3;
+			enemy.damage(3);
+			return 3;
 		}
 	},
 
