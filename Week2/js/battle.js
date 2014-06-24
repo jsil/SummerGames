@@ -94,8 +94,8 @@
 
     Game.prototype.zoomOut = function() {
     	var that = this;
-        if(zoom >= -3.375) {
-            zoom -= 0.075;
+        if(zoom >= -2.0) {
+            zoom -= 0.05;
             setTimeout(function(){that.zoomOut()}, 10);
         }
     }
@@ -103,10 +103,14 @@
     Game.prototype.zoomIn = function() {
     	var that = this;
         if(zoom <= 0.0) {
-            zoom += 0.075;
+            zoom += 0.05;
             setTimeout(function(){that.zoomIn()}, 10);
         }
         else {
         	this.waitingForInput = true;
         }
+    }
+
+    Game.prototype.getEnemyImage = function() {
+    	return "./img/hero.png";
     }

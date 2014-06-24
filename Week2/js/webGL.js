@@ -105,6 +105,8 @@
     var floorTextures = Array();
     var bushTextures = Array();
     var wallTextures = Array();
+    var heroTextures = Array();
+    var enemyTextures = Array();
 
     function initTexture() {
         var floorImage = new Image();
@@ -146,6 +148,32 @@
             handleLoadedTexture(wallTextures)
         }
         wallImage.src = "./img/floor.png";
+
+        var heroImage = new Image();
+
+        for (var i=0; i < 3; i++) {
+            var texture = gl.createTexture();
+            texture.image = heroImage;
+            heroTextures.push(texture);
+        }
+
+        heroImage.onload = function () {
+            handleLoadedTexture(heroTextures)
+        }
+        heroImage.src = "./img/hero.png";
+
+        var enemyImage = new Image();
+
+        for (var i=0; i < 3; i++) {
+            var texture = gl.createTexture();
+            texture.image = enemyImage;
+            enemyTextures.push(texture);
+        }
+
+        enemyImage.onload = function () {
+            handleLoadedTexture(enemyTextures)
+        }
+        enemyImage.src = "./img/master.png";//TODO: figure out how to get this from game
     }
 
 
@@ -211,41 +239,42 @@
 
 
     function handleKeys() {
-        // if (currentlyPressedKeys[90]) {
-        //     // Page Up
-        //     z -= 0.05;
-        // }
-        // if (currentlyPressedKeys[88]) {
-        //     // Page Down
-        //     z += 0.05;
-        // }
-        // if (currentlyPressedKeys[37]) {
-        //     // Left cursor key
-        //     ySpeed -= 1;
-        // }
-        // if (currentlyPressedKeys[39]) {
-        //     // Right cursor key
-        //     ySpeed += 1;
-        // }
-        // if (currentlyPressedKeys[38]) {
-        //     // Up cursor key
-        //     xSpeed -= 1;
-        // }
-        // if (currentlyPressedKeys[40]) {
-        //     // Down cursor key
-        //     xSpeed += 1;
-        // }
-        // if (currentlyPressedKeys[13] && zoom >= -3.375) {
-        //     // Down cursor key
-        //     zoom -= 0.075;
-        //     console.log(zoom);
-        // }
+        if (currentlyPressedKeys[90]) {
+            // Page Up
+            z -= 0.05;
+        }
+        if (currentlyPressedKeys[88]) {
+            // Page Down
+            z += 0.05;
+        }
+        if (currentlyPressedKeys[37]) {
+            // Left cursor key
+            ySpeed -= 1;
+        }
+        if (currentlyPressedKeys[39]) {
+            // Right cursor key
+            ySpeed += 1;
+        }
+        if (currentlyPressedKeys[38]) {
+            // Up cursor key
+            xSpeed -= 1;
+        }
+        if (currentlyPressedKeys[40]) {
+            // Down cursor key
+            xSpeed += 1;
+        }
+        if (currentlyPressedKeys[13] && zoom >= -3.375) {
+            // Down cursor key
+            zoom -= 0.075;
+            console.log(zoom);
+        }
     }
 
 
     var squareVertexPositionBuffer;
     var bushVertexPositionBuffer;
     var wallVertexPositionBuffer;
+    var heroVertexPositionBuffer;
 
 
     function initBuffers() {
@@ -331,8 +360,86 @@
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
         wallVertexTextureCoordBuffer.itemSize = 2;
         wallVertexTextureCoordBuffer.numItems = 4;
-        
 
+
+        //hero
+
+
+        heroVertexPositionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, heroVertexPositionBuffer);
+        vertices = [
+            -1.0,  0.0,  0.0,
+             1.0,  0.0,  0.0,
+            -1.0,  2.2,  0.0,
+             1.0,  2.2,  0.0
+            ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        heroVertexPositionBuffer.itemSize = 3;
+        heroVertexPositionBuffer.numItems = 4;
+
+        heroVertexTextureCoordBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, heroVertexTextureCoordBuffer);
+        textureCoords = [
+            0.0, 1.0,
+            1.0, 1.0,
+            0.0, 0.0,
+            1.0, 0.0
+            ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
+        heroVertexTextureCoordBuffer.itemSize = 2;
+        heroVertexTextureCoordBuffer.numItems = 4;
+
+        
+        //enemy
+
+
+        enemyVertexPositionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, enemyVertexPositionBuffer);
+        vertices = [
+            -1.0,  0.0,  0.0,
+             1.0,  0.0,  0.0,
+            -1.0,  2.2,  0.0,
+             1.0,  2.2,  0.0
+            ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        enemyVertexPositionBuffer.itemSize = 3;
+        enemyVertexPositionBuffer.numItems = 4;
+
+        enemyVertexTextureCoordBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, enemyVertexTextureCoordBuffer);
+        textureCoords = [
+            0.0, 1.0,
+            1.0, 1.0,
+            0.0, 0.0,
+            1.0, 0.0
+            ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
+        enemyVertexTextureCoordBuffer.itemSize = 2;
+        enemyVertexTextureCoordBuffer.numItems = 4;
+
+
+    }
+
+    var idleLoop = 0;
+    var horizontalIdle = 0;
+    var verticleIdle = 0;
+
+    function moveIdle() {
+        if(idleLoop < 25) {
+            horizontalIdle = horizontalIdle + 0.01;
+        }
+        else if(idleLoop < 50) {
+            verticleIdle = verticleIdle + 0.01;
+        }
+        else if(idleLoop < 75) {
+            horizontalIdle = horizontalIdle - 0.01;
+        }
+        else {
+            verticleIdle = verticleIdle - 0.01;
+        }
+        idleLoop++;
+        if(idleLoop > 100)
+            idleLoop = 0;
     }
 
 
@@ -347,7 +454,7 @@
         mat4.translate(mvMatrix, [0.0, 0.0, zoom]);
         mat4.translate(mvMatrix, [0.0, 0.0, z]);
 
-        mat4.translate(mvMatrix, [0.0, -1.5, -4.6]);
+        mat4.translate(mvMatrix, [0.0, -1.5, -5.5]);
 
         mat4.rotate(mvMatrix, degToRad(280), [1, 0, 0]);
 
@@ -452,6 +559,57 @@
 
         setMatrixUniforms();
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, bushVertexPositionBuffer.numItems);
+
+        mvPopMatrix();
+
+
+        //hero
+
+        moveIdle();
+
+        mvPushMatrix();
+
+        mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
+        mat4.translate(mvMatrix, [-3.5, 0.0, -0.5]);
+        mat4.translate(mvMatrix, [horizontalIdle, verticleIdle, 0.0]);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, heroVertexPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, heroVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, heroVertexTextureCoordBuffer);
+        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, heroVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, heroTextures[filter]);
+        gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+        setMatrixUniforms();
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, heroVertexPositionBuffer.numItems);
+
+        mvPopMatrix();
+
+        //enemy
+
+        mvPushMatrix();
+
+        mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
+        mat4.translate(mvMatrix, [3.5, 0.0, -0.5]);
+        mat4.translate(mvMatrix, [horizontalIdle, verticleIdle, 0.0]);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, enemyVertexPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, enemyVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, enemyVertexTextureCoordBuffer);
+        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, enemyVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, enemyTextures[filter]);
+        gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+        setMatrixUniforms();
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, enemyVertexPositionBuffer.numItems);
 
         mvPopMatrix();
 
