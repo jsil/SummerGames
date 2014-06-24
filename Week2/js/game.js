@@ -3,29 +3,42 @@ jQuery("#sidePanel").tabs();
 });
 
 function Game(hero) {
+
+	//General
 	this.hero = hero;
+	this.canvas = document.getElementById("myCanvas");//display & dialog
+	this.ctx = this.canvas.getContext('2d');//only used in dialog currently
+
+	this.currentEnemy = [];//battle & display
+
+	//Display
 	this.gameDiv = $("#gameDiv");
-	this.canvas = document.getElementById("myCanvas");
-	this.ctx = this.canvas.getContext('2d');
-	this.battleDiv = $("#battleDiv");
 	this.battleCanvas = $("#battleCanvas");
 	this.battleCanvas2 = document.getElementById("battleCanvas");
 	this.battleHUD = $("#battleHUD");
 	this.battleMenu = $("#battleMenu");
-	this.toastHolder = $("#toastHolder");
-	this.battleToast = $("#battleToast");
-	this.gameDiv = $("#gameDiv");
+	this.toastHolder = $("#toastHolder");//may be problematic & moved to battle
+	this.battleToast = $("#battleToast");//may be problematic & moved to battle
+
 	this.sideContent = $("#sideContent");
 	this.sidePanel = $("#sidePanel");
 	this.bottomPanel = $("#bottomPanel");
 	this.scrollBox = $("#scrollBox");
 	this.optionsPanel = $("#optionsPanel");
-	this.sprites = document.getElementById("sprites");
 
-	this.currentEnemy = [];
+
+	//Battle
 
 	this.waitingForInput = false;
 	this.whosTurn = true;
+
+
+	//Dialog
+
+	this.sprites = document.getElementById("sprites");
+	
+
+	//*********************General*********************
 
 	Game.prototype.startGame = function() {
 		//openModal("#nameModal");
@@ -34,134 +47,6 @@ function Game(hero) {
 		//this.drawBattle();
 	}
 
-	Game.prototype.resizeGame = function() {
-		this.gameDiv.width("99.5%");
-		this.gameDiv.height("97%")
-
-		var gameWidth = this.gameDiv.width()*.65;
-		var gameHeight = this.gameDiv.height()*.65;
-
-		// console.log("x: " + gameWidth + " y: " + gameHeight);
-
-		this.canvas.width = gameWidth-12;
-		this.canvas.height = gameHeight;
-
-		this.sideContent.css("width", this.gameDiv.width()*.35-2);
-		this.sideContent.css("height", this.gameDiv.height()-2);
-		
-		this.sidePanel.width('100%');
-		this.sidePanel.css("height", this.gameDiv.height()*.65+3);
-
-		this.bottomPanel.css("width", this.gameDiv.width()*.65);
-		this.bottomPanel.css("height", this.gameDiv.height()*.35-6);
-		
-		this.optionsPanel.width('100%');
-		this.optionsPanel.css("height", this.gameDiv.height()*.35-8);
-
-		this.battleCanvas2.width = window.innerWidth;
-		this.battleCanvas2.height = window.innerHeight;
-		this.resizeBattle();
-	}
-
-	Game.prototype.resizeBattle = function() {
-	   // only change the size of the canvas if the size it's being displayed
-	   // has changed.
-	   var width = this.battleCanvas.clientWidth;
-	   var height = this.battleCanvas.clientHeight;
-	   if (this.battleCanvas.width != width ||
-	       this.battleCanvas.height != height) {
-	     // Change the size of the canvas to match the size it's being displayed
-	     // this.battleCanvas.width = width;
-	     // this.battleCanvas.height = height;
-	     this.battleCanvas.clientWidth = this.battleCanvas.width;
-	     this.battleCanvas.clientHeight = this.battleCanvas.height;
-	   }
-	   //console.log("resized battle");
-	}
-
-	Game.prototype.showBattle = function() {
-			this.battleCanvas.show();
-			this.battleHUD.show();
-			this.battleMenu.show();
-			//this.toastHolder.show();
-			//this.resizeBattle();
-			this.gameDiv.hide();
-			//webGLStart();
-			//drawScene();
-	}
-
-	Game.prototype.hideBattle = function() {
-		this.battleCanvas.hide();
-		this.battleHUD.hide();
-		this.battleMenu.hide();
-		this.toastHolder.hide();
-		this.gameDiv.show();
-
-	    this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
-	}
-
-
-	Game.prototype.showHUD = function() {
-		this.battleMenu.animate({
-		    opacity: "0.9"
-		  },250, "linear", function() {
- 		 });
-	}
-
-	Game.prototype.hideHUD = function() {
-		this.battleMenu.animate({
-		    opacity: "0.0"
-		  },250, "linear", function() {
- 		 });
-	}
-
-	Game.prototype.toast = function(string) {
-		var that = this;
-		this.battleToast.html(string);
-		this.toastHolder.show();
-		setTimeout(function() {
-			that.toastHolder.hide();
-		}, 1000);
-	}
-
-
-	Game.prototype.toggleBattle = function() {
-		var btlCanvas = document.getElementById("battleCanvas");
-		var isVisible = btlCanvas.offsetWidth > 0 || btlCanvas.offsetHeight > 0;
-		if(!isVisible) {
-			this.battleCanvas.show();
-			this.battleHUD.show();
-			this.battleMenu.show();
-			//this.toastHolder.show();
-			//this.resizeBattle();
-			this.gameDiv.hide();
-			//console.log("Display battle");
-		}
-		else {
-			this.battleCanvas.hide();
-			this.battleHUD.hide();
-			this.battleMenu.hide();
-			this.toastHolder.hide();
-			//this.resizeBattle();
-			this.gameDiv.show();
-			this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
-			//console.log("Hide battle");
-		}
-	}
-
-	Game.prototype.addText = function(text) {
-		if(this.scrollBox.html() != "") {
-			this.scrollBox.html(this.scrollBox.html() + "<br>" + text);
-	    }
-	    else {
-	    	this.scrollBox.html(this.scrollBox.html() + text);
-	    }
-	    this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
-	}
-
-	Game.prototype.clearText = function() {
-		this.scrollBox.html("");
-	}
 
 	Game.prototype.updateStats = function() {
 		$("#nameStat").html(this.hero.name);
@@ -283,154 +168,6 @@ function Game(hero) {
 		this.updateLoads();
 	}
 
-	Game.prototype.advanceTurn = function() {
-		this.whosTurn = !this.whosTurn;
-	}
-
-	Game.prototype.doAttack = function() {
-		var that = this;
-
-		this.hideHUD();
-		zoomOut();
-		console.log("attacking");
-		this.waitingForInput = false;
-		setTimeout(function() {
-			console.log("attacked");
-			that.toast("You hit " + that.currentEnemy.name + " for " + that.hero.attack(that.currentEnemy) + " damage!");
-			setTimeout(function() {
-				that.waitingForInput = false;
-				that.advanceTurn();
-			}, 1000);
-		}, 1000);
-
-	}
-
-	Game.prototype.startBattle = function(enemy) {
-		this.currentEnemy = enemy;
-		this.drawBattle(this.currentEnemy);
-
-		if(this.hero.speed >= this.currentEnemy.speed) {
-			this.whosTurn = true;
-		}
-		else {
-			this.whosTurn = false;
-		}
-		this.waitingForInput = true;
-		this.showBattle();
-		console.log("Started Battle");
-		jQuery.proxy(this.doBattle(), this);
-		//this.doBattle(this);
-	} 
-
-	Game.prototype.doBattle = function(callback) {
-		// console.log("Doing Battle!");
-
-		var that = this;
-		
-		//this.battleLoop();
-		//this.waitingForInput = false;
-
-		this.drawBattle(this.currentEnemy);
-		if(this.hero.isAlive() && this.currentEnemy.isAlive()) {
-				if(!this.whosTurn) {
-					this.advanceTurn();
-					console.log("Enemy is attacking!");
-					setTimeout(function(){
-						that.toast(that.currentEnemy.name + " hit you for " + that.currentEnemy.attack(that.hero) + " damage!");
-						console.log("Enemy attacked!")
-						that.drawBattle(that.currentEnemy);
-						setTimeout(function(){
-							that.waitingForInput = true;
-							zoomIn();
-							that.showHUD();
-						}, 1000);
-					}, 1000);
-					//callback(that);
-				}
-				setTimeout(function(){that.doBattle()}, 100);
-		}
-		else {
-			if(this.hero.isAlive()) {
-				//*****check quest completion*****
-				if(this.currentEnemy.name === "The Master" && this.completeQuest(2)) {
-					this.addText("The Master: \"Dude! You beat me! Radical! Now take this Health Potion and heal up!\"<br>");
-
-					this.addQuest(3);
-				}
-				//********************************
-				alert("Congradulations! You won!");
-				this.hideBattle();
-				return true;
-			}
-			else {
-				alert("Con-sad-ulations. You lost D:");
-				this.hideBattle();
-				return false;
-			}
-		}
-
-		this.drawBattle(this.currentEnemy);
-		//callback();
-	}
-
-
-	Game.prototype.drawBattle = function(enemy) {
-		//this.showBattle();
-		//drawScene();
-		//console.log("Got here");
-
-		this.battleHUD.find("#innerHUD").find("#healthHUD").html(this.hero.health + "/" + this.hero.maxHealth);
-		this.battleHUD.find("#innerHUD").find("#enemyHealth").html(this.currentEnemy.health + "/" + this.currentEnemy.maxHealth);
-
-
-
-		// this.ctx.fillStyle='#000000';
-		// this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
-		// this.ctx.strokeStyle='#FFFFFF';
-		// this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height);
-
-		// var grd=this.ctx.createLinearGradient(0,this.canvas.height/2,0,this.canvas.height-15);
-		// grd.addColorStop(0,"black");
-		// grd.addColorStop(1,"#505050");
-
-		// this.ctx.fillStyle=grd;
-		// this.ctx.fillRect(1,this.canvas.height/2,this.canvas.width-2,this.canvas.height/2-1);
-
-		// this.ctx.strokeStyle='#FFFFFF';
-		// this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height/8);
-
-		// this.ctx.fillStyle='#FFFFFF';
-		// this.ctx.font="16px Verdana,Arial,sans-serif";
-		// this.ctx.fillText("HP: " + this.hero.health + "/" + this.hero.maxHealth,15, this.canvas.height/13);
-
-		// this.ctx.drawImage(this.sprites,0,0,75,100,25,this.canvas.height/2,75,100);
-		// this.ctx.fillText(this.hero.name,50, this.canvas.height/2-20);
-		// this.ctx.drawImage(this.sprites,75,0,75,100,this.canvas.width-100,this.canvas.height/2,75,100);
-		// this.ctx.fillText(enemy.name,this.canvas.width-115, this.canvas.height/2-20);
-
-	}
-
-	Game.prototype.drawDialog = function(character, text) {
-		this.ctx.fillStyle='#000000';
-		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
-		this.ctx.strokeStyle='#FFFFFF';
-		this.ctx.strokeRect(0,0,this.canvas.width,this.canvas.height);
-
-		this.addText(character.name + ": \"" + text + "\"<br>");
-
-		this.ctx.strokeStyle='#FFFFFF';
-		this.ctx.fillStyle='#FFFFFF';
-		this.ctx.font="20px Verdana,Arial,sans-serif";
-
-		this.ctx.strokeRect(50,100,this.canvas.width/2-100,this.canvas.height-150);
-		this.ctx.drawImage(this.sprites,0,0,75,50,50,150,this.canvas.width/2-100,this.canvas.height-200);
-		this.ctx.fillText(this.hero.name,this.canvas.width/4-10, this.canvas.height/5);
-
-		this.ctx.strokeRect(this.canvas.width/2 + 50,100,this.canvas.width/2-100,this.canvas.height-150);
-		this.ctx.drawImage(this.sprites,75,0,75,50,this.canvas.width/2+50,150,this.canvas.width/2-100,this.canvas.height-200);
-		this.ctx.fillText(character.name,this.canvas.width/4*3-45, this.canvas.height/5);
-	}
-
 	Game.prototype.addQuest = function(id) {
 		//this.addText("Quest Added: " + questDB[id].name + "<br>");//Currently makes scroll box very word-y
 		this.hero.addQuest(questDB[id]);
@@ -463,4 +200,5 @@ function Game(hero) {
 	Game.prototype.loadJSON = function(jsonString) {
 		var loadObject = jQuery.parseJSON(jsonString);
 	}
+
 }

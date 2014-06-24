@@ -193,20 +193,6 @@
     var currentlyPressedKeys = {};
 
 
-    function zoomOut() {
-        if(zoom >= -3.375) {
-            zoom -= 0.075;
-            setTimeout(function(){zoomOut()}, 10);
-        }
-    }
-
-    function zoomIn() {
-        if(zoom <= 0.0) {
-            zoom += 0.075;
-            setTimeout(function(){zoomIn()}, 10);
-        }
-    }
-
     function handleKeyDown(event) {
         currentlyPressedKeys[event.keyCode] = true;
 
@@ -225,35 +211,35 @@
 
 
     function handleKeys() {
-        if (currentlyPressedKeys[90]) {
-            // Page Up
-            z -= 0.05;
-        }
-        if (currentlyPressedKeys[88]) {
-            // Page Down
-            z += 0.05;
-        }
-        if (currentlyPressedKeys[37]) {
-            // Left cursor key
-            ySpeed -= 1;
-        }
-        if (currentlyPressedKeys[39]) {
-            // Right cursor key
-            ySpeed += 1;
-        }
-        if (currentlyPressedKeys[38]) {
-            // Up cursor key
-            xSpeed -= 1;
-        }
-        if (currentlyPressedKeys[40]) {
-            // Down cursor key
-            xSpeed += 1;
-        }
-        if (currentlyPressedKeys[13] && zoom >= -3.375) {
-            // Down cursor key
-            zoom -= 0.075;
-            console.log(zoom);
-        }
+        // if (currentlyPressedKeys[90]) {
+        //     // Page Up
+        //     z -= 0.05;
+        // }
+        // if (currentlyPressedKeys[88]) {
+        //     // Page Down
+        //     z += 0.05;
+        // }
+        // if (currentlyPressedKeys[37]) {
+        //     // Left cursor key
+        //     ySpeed -= 1;
+        // }
+        // if (currentlyPressedKeys[39]) {
+        //     // Right cursor key
+        //     ySpeed += 1;
+        // }
+        // if (currentlyPressedKeys[38]) {
+        //     // Up cursor key
+        //     xSpeed -= 1;
+        // }
+        // if (currentlyPressedKeys[40]) {
+        //     // Down cursor key
+        //     xSpeed += 1;
+        // }
+        // if (currentlyPressedKeys[13] && zoom >= -3.375) {
+        //     // Down cursor key
+        //     zoom -= 0.075;
+        //     console.log(zoom);
+        // }
     }
 
 

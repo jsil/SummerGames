@@ -41,6 +41,9 @@
 	<script language="javascript" type="text/javascript" src="js/quests.js"></script>
 	<script language="javascript" type="text/javascript" src="js/people.js"></script>
 	<script language="javascript" type="text/javascript" src="js/game.js"></script>
+	<script language="javascript" type="text/javascript" src="js/dialog.js"></script>
+	<script language="javascript" type="text/javascript" src="js/battle.js"></script>
+	<script language="javascript" type="text/javascript" src="js/display.js"></script>
 	<script language="javascript" type="text/javascript" src="js/cookie.js"></script>
 	<script language="javascript" type="text/javascript" src="js/index.js"></script>
 </head>
