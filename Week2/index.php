@@ -60,6 +60,9 @@
 	<div id="toastHolder">
 		<div id="battleToast">Toast toast toast.</div>
 	</div>
+	<div id="toastHolder2">
+		<div id="battleToast2">Toast toast toast.</div>
+	</div>
 	<div id="battleMenu">
 		<div id="battleOption1" class="battleOption">1. Attack</div>
 		<div id="battleOption2" class="battleOption">2.</div>
@@ -86,7 +89,7 @@
 					<div id="statBox">
 						Name: <span id="nameStat">Hero</span><br>
 						Health: <span id="healthStat">0/0</span><br><br>
-						<!-- Gold: <span id="goldStat">0 G</span><br><br> -->
+						Gold: <span id="goldStat">0 G</span><br><br>
 						Level: <span id="levelStat">0</span><br>
 						XP: <span id="xpStat">0</span> XP<br><br>
 					</div>

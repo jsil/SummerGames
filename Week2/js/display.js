@@ -55,16 +55,20 @@
 			this.gameDiv.hide();
 			//webGLStart();
 			//drawScene();
+			console.log("show battle");
 	}
 
 	Game.prototype.hideBattle = function() {
 		this.battleCanvas.hide();
 		this.battleHUD.hide();
 		this.battleMenu.hide();
+		this.showHUD();
 		this.toastHolder.hide();
+		this.toastHolder2.hide();
 		this.gameDiv.show();
 
 	    this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
+	    console.log("hide battle");
 	}
 
 
@@ -100,6 +104,21 @@
 		}, time);
 	}
 
+	Game.prototype.toast2 = function(string, time) {//may need to be moved to battle
+		var that = this;
+		this.battleToast2.html(string);
+		this.toastHolder2.css("opacity","0.0");
+		this.toastHolder2.show();
+		this.toastHolder2.animate({
+		    opacity: "1.0"
+		  },250, "linear", function() {
+ 		 });
+
+		setTimeout(function() {
+			that.toastHolder2.hide();
+		}, time);
+	}
+
 
 	Game.prototype.toggleBattle = function() {
 		var btlCanvas = document.getElementById("battleCanvas");
@@ -118,11 +137,14 @@
 			this.battleHUD.hide();
 			this.battleMenu.hide();
 			this.toastHolder.hide();
+			this.toastHolder2.hide();
 			//this.resizeBattle();
 			this.gameDiv.show();
+			this.showHUD();
 			this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
 			//console.log("Hide battle");
 		}
+		console.log("toggle battle");
 	}
 
 	Game.prototype.drawBattle = function(enemy) {

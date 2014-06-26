@@ -78,6 +78,20 @@
 				}
 				//********************************
 				var leveledUp = this.hero.giveXP(this.currentEnemy.xpReward);
+				var rewardList = this.currentEnemy.giveRewards();
+				if(rewardList.length > 0) {
+					this.hero.addToInventory(rewardList);
+					var toastString = "Acquired: ";
+					for(var i=0;i<rewardList.length;i++) {
+						if(i===0)
+							toastString += rewardList[i].name;
+						else
+							toastString += ", " + rewardList[i].name;
+					}
+					toastString += "!";
+					setTimeout(function(){that.toast2(toastString,4000)}, 2000);
+				}
+
 				if(!leveledUp)
 					setTimeout(function(){that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained.",4000)}, 1000);
 				else

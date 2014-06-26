@@ -153,6 +153,26 @@ Character.prototype = {
 		this.health -= damage;
 		if(this.health <= 0)
 			this.health = 0;
+	},
+
+	setRewards:function(items, dropChances) {
+		this.rewardList = items;
+		this.dropChances = dropChances;
+	},
+
+	giveRewards:function() {
+		if(this.rewardList != null) {
+			var itemList = [];
+			for(var i=0;i<this.rewardList.length;i++) {
+				var roll = Math.random();
+				if(roll <= this.dropChances[i])
+					itemList.push(this.rewardList[i]);
+			}
+			return itemList;
+		}
+		else {
+			return [];
+		}
 	}
 }
 
@@ -188,12 +208,21 @@ Hero.prototype = {
 	levelUp:function() {
 		this.experience -= 100;
 		this.level++;
+		this.maxHealth += 2;
+		this.health = this.maxHealth;
 		console.log("Level Up");
 	},
 
 	addToInventory:function(item) {
-		this.inventory.push(item);
+		if (item instanceof Array) {
+			for(var i=0;i<item.length;i++)
+				this.inventory.push(item[i]);
+		} 
+		else {
+			this.inventory.push(item);
+		}
 	},
+
 
 	removeFromInventory:function(item) {
 		if(this.inventory.indexOf(item) != -1)
@@ -415,6 +444,8 @@ Hero.prototype = {
 		var jsonString = "\"name\":\"" + this.name + "\", ";
 		jsonString += "\"health\":\"" + this.health.toString() + "\", ";
 		jsonString += "\"maxHealth\":\"" + this.maxHealth.toString() + "\", ";
+		jsonString += "\"level\":\"" + this.level.toString() + "\", ";
+		jsonString += "\"experience\":\"" + this.experience.toString() + "\", ";
 		jsonString += "\"gold\":\"" + this.gold.toString() + "\", ";
 		jsonString += "\"speed\":\"" + this.speed.toString() + "\", ";
 
@@ -483,6 +514,8 @@ Hero.prototype = {
 		this.name = loadObject.name;
 		this.health = parseInt(loadObject.health);
 		this.maxHealth = parseInt(loadObject.maxHealth);
+		this.level = parseInt(loadObject.level);
+		this.experience = parseInt(loadObject.experience);
 		this.gold = parseInt(loadObject.gold);
 		this.speed = parseInt(loadObject.speed);
 
@@ -540,3 +573,6 @@ Hero.prototype = $.extend(
 var characterDB = [];
 
 characterDB[0] = new Character("Generic Dude");
+characterDB[0].health = 5;
+characterDB[0].maxHealth = 5;
+characterDB[0].setRewards([armoryDB[114], armoryDB[121]],[.05,.05]);

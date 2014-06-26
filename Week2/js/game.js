@@ -19,6 +19,8 @@ function Game(hero) {
 	this.battleMenu = $("#battleMenu");
 	this.toastHolder = $("#toastHolder");//may be problematic & moved to battle
 	this.battleToast = $("#battleToast");//may be problematic & moved to battle
+	this.toastHolder2 = $("#toastHolder2");//may be problematic & moved to battle
+	this.battleToast2 = $("#battleToast2");//may be problematic & moved to battle
 
 	this.sideContent = $("#sideContent");
 	this.sidePanel = $("#sidePanel");

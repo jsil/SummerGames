@@ -61,6 +61,28 @@ body {
 
 }
 
+#toastHolder2 {
+	opacity: .9;
+	position:absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	top:65%;
+	height:10%;
+	width:45%;
+	border: 2px solid white;
+	font-family:Verdana,Arial,sans-serif !important;
+   	display: table;
+}
+
+#battleToast2 {
+	display: table-cell;
+   	text-align: center;
+   	vertical-align: middle;
+
+}
+
 #battleMenu {
 	opacity: .9;
 	position:absolute;

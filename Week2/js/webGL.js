@@ -638,20 +638,24 @@
         animate();
     }
 
-
+    var isInitialized = false;
 
     function webGLStart() {
-        var canvas = document.getElementById("battleCanvas");
-        initGL(canvas);
-        initShaders();
-        initBuffers();
-        initTexture();
+        if(!isInitialized) {
+            var canvas = document.getElementById("battleCanvas");
+            initGL(canvas);
+            initShaders();
+            initBuffers();
+            initTexture();
 
-        gl.clearColor(0.0, 0.0, 0.0, 1.0);
-        gl.enable(gl.DEPTH_TEST);
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.enable(gl.DEPTH_TEST);
 
-        document.onkeydown = handleKeyDown;
-        document.onkeyup = handleKeyUp;
+            document.onkeydown = handleKeyDown;
+            document.onkeyup = handleKeyUp;
 
-        tick();
+            tick();
+
+            isInitialized = true;
+        }
     }
