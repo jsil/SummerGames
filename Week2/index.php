@@ -53,7 +53,7 @@
 	<canvas id="battleCanvas">Your browser doesn't support this game. My condolences.</canvas>
 	<div id="battleHUD">
 		<div id="innerHUD">
-			My Health: <span id="healthHUD">20/20</span><!-- FP: <span id="placeholderHUD">20/20</span> Hi. -->
+			My Health: <span id="healthHUD">20/20</span> XP: <span id="xpHUD"></span> XP<!-- FP: <span id="placeholderHUD">20/20</span> Hi. -->
 			<div id="enemyInfo">Enemy Health: <span id="enemyHealth">20/20</span></div>
 		</div>
 	</div>

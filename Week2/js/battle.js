@@ -89,13 +89,22 @@
 							toastString += ", " + rewardList[i].name;
 					}
 					toastString += "!";
-					setTimeout(function(){that.toast2(toastString,4000)}, 2000);
+					setTimeout(function(){
+						that.toast2(toastString,4000);
+					}, 2000);
 				}
-
-				if(!leveledUp)
-					setTimeout(function(){that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained.",4000)}, 1000);
-				else
-					setTimeout(function(){that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained. Level Up!",4000)}, 1000);
+				if(!leveledUp) {
+					setTimeout(function(){
+						that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained.",4000);
+						that.drawBattle();
+					}, 1000);
+				}
+				else {
+					setTimeout(function(){
+						that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained. Level Up!",4000);
+						that.drawBattle();
+					}, 1000);
+				}
 				setTimeout(function(){that.hideBattle()}, 5000);
 				console.log(this.hero.experience + "XP");
 				this.updateEverything();

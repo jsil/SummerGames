@@ -35,6 +35,10 @@ body {
 	margin-right: 25px;
 }
 
+#xpHUD {
+	margin-right: 0px !important;
+}
+
 #enemyInfo {
 	float:right;
 }

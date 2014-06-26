@@ -5,7 +5,7 @@
 *										  Jordan Silver											*
 *																								*
 *		TO DO:																					*														
-*			M-Add more meaningful stats, level up benefits										*
+*			M-Add more meaningful stats, better level up benefits								*
 *			M-Add consequences to losing a battle												*
 *			M-Move WebGL functions into Game object												*
 *			H-Add attack animations																*

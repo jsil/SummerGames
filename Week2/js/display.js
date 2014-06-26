@@ -151,8 +151,26 @@
 		//this.showBattle();
 		//drawScene();
 		//console.log("Got here");
+		var that = this;
 
 		this.battleHUD.find("#innerHUD").find("#healthHUD").html(this.hero.health + "/" + this.hero.maxHealth);
+		var currentXP = parseInt(this.battleHUD.find("#innerHUD").find("#xpHUD").html());
+		console.log("current xp: " + currentXP);
+		if(currentXP != this.hero.experience) {
+			while(currentXP != this.hero.experience) {
+				// setTimeout(function(){
+				// 	currentXP++;
+				// 	if(currentXP > 100)
+				// 		currentXP = 0;
+				// 	that.battleHUD.find("#innerHUD").find("#xpHUD").html(currentXP);
+				// }, 100);
+				currentXP = this.hero.experience;
+				this.battleHUD.find("#innerHUD").find("#xpHUD").html(currentXP);
+			}
+		}
+		else {
+			this.battleHUD.find("#innerHUD").find("#xpHUD").html(this.hero.experience);
+		}
 		this.battleHUD.find("#innerHUD").find("#enemyHealth").html(this.currentEnemy.health + "/" + this.currentEnemy.maxHealth);
 
 	}
