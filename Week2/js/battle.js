@@ -13,7 +13,7 @@
 		this.waitingForInput = false;
 		setTimeout(function() {
 			console.log("attacked");
-			that.toast("You hit " + that.currentEnemy.name + " for " + that.hero.attack(that.currentEnemy) + " damage!");
+			that.toast("You hit " + that.currentEnemy.name + " for " + that.hero.attack(that.currentEnemy) + " damage!", 1000);
 			setTimeout(function() {
 				that.waitingForInput = false;
 				that.advanceTurn();
@@ -23,6 +23,7 @@
 	}
 
 	Game.prototype.startBattle = function(enemy) {
+		webGLStart();
 		this.currentEnemy = enemy;
 		this.drawBattle(this.currentEnemy);
 
@@ -53,7 +54,7 @@
 					this.advanceTurn();
 					console.log("Enemy is attacking!");
 					setTimeout(function(){
-						that.toast(that.currentEnemy.name + " hit you for " + that.currentEnemy.attack(that.hero) + " damage!");
+						that.toast(that.currentEnemy.name + " hit you for " + that.currentEnemy.attack(that.hero) + " damage!", 1000);
 						console.log("Enemy attacked!")
 						that.drawBattle(that.currentEnemy);
 						setTimeout(function(){
@@ -76,13 +77,19 @@
 					this.addQuest(3);
 				}
 				//********************************
-				alert("Congradulations! You won!");
-				this.hideBattle();
+				var leveledUp = this.hero.giveXP(this.currentEnemy.xpReward);
+				if(!leveledUp)
+					setTimeout(function(){that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained.",4000)}, 1000);
+				else
+					setTimeout(function(){that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained. Level Up!",4000)}, 1000);
+				setTimeout(function(){that.hideBattle()}, 5000);
+				console.log(this.hero.experience + "XP");
+				this.updateEverything();
 				return true;
 			}
 			else {
-				alert("Con-sad-ulations. You lost D:");
-				this.hideBattle();
+				setTimeout(function(){that.toast("Con-sad-ulations! You Lost!",4000)}, 1000);
+				setTimeout(function(){that.hideBattle()}, 5000);
 				return false;
 			}
 		}

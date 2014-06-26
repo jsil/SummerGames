@@ -2,8 +2,10 @@ function Character(name) {
 	this.name = name;
 	this.health = 20;
 	this.maxHealth = 20;
+	this.level = 1;
 	this.gold = 100;
 	this.speed = 20;
+	this.xpReward = 15;
 
 	this.weapon = null;
 	this.chest = null;
@@ -161,15 +163,34 @@ function Hero(name) {
 	this.name = name;
 	this.health = 20;
 	this.maxHealth = 20;
+	this.level = 1;
 	this.gold = 100;
 	this.speed = 20;
+	this.experience = 0;
 
 	this.weapon = null;
 	this.inventory = [];
 	this.quests = [];
+	this.completedQuests = [];
 }
 
 Hero.prototype = {
+	giveXP:function(xpReward) {
+		this.experience += xpReward;
+		if(this.experience >= 100) {
+			this.levelUp();
+			return true;
+		}
+		else
+			return false;
+	},
+
+	levelUp:function() {
+		this.experience -= 100;
+		this.level++;
+		console.log("Level Up");
+	},
+
 	addToInventory:function(item) {
 		this.inventory.push(item);
 	},
@@ -326,7 +347,7 @@ Hero.prototype = {
 	},
 
 	checkQuest:function(id) {
-		if(this.quests.indexOf(questDB[id]) != -1)
+		if(this.quests.indexOf(questDB[id]) != -1 && this.completedQuests.indexOf(questDB[id]))
 			return true;
 		else
 			return false;
@@ -338,6 +359,7 @@ Hero.prototype = {
 			for(var i=0;i<completedQuest.reward.length;i++) {
 				this.addToInventory(completedQuest.reward[i]);
 			}
+			this.completedQuests.push(completedQuest);
 			this.quests.pop(completedQuest);
 			return true;
 		}
@@ -353,6 +375,19 @@ Hero.prototype = {
 			}
 			else {
 				listText = listText + "<br><br>" + this.quests[i].printInfo();
+			}
+		}
+		return listText;
+	},
+
+	printCompletedQuests:function() {
+		var listText = "";
+		for(var i=0;i<this.completedQuests.length;i++) {
+			if(i===0) {
+				listText = listText + this.completedQuests[i].printInfo();
+			}
+			else {
+				listText = listText + "<br><br>" + this.completedQuests[i].printInfo();
 			}
 		}
 		return listText;
@@ -429,6 +464,15 @@ Hero.prototype = {
 			else
 				jsonString += ", " + this.quests[i].id;
 		}
+		jsonString += "], ";
+
+		jsonString += "\"completedQuests\":[";
+		for(var i=0;i<this.completedQuests.length;i++) {
+			if(i===0)
+				jsonString +=  this.completedQuests[i].id;
+			else
+				jsonString += ", " + this.completedQuests[i].id;
+		}
 		jsonString += "]";
 
 		return jsonString;
@@ -466,7 +510,7 @@ Hero.prototype = {
 		var inventoryObject = loadObject.inventory;
 		for(var i=0;i<inventoryObject.length;i++) {
 			this.addToInventory(armoryDB[inventoryObject[i]]);
-			console.log(inventoryObject[i]);
+			//console.log(inventoryObject[i]);
 		}
 
 		this.quests = [];
@@ -474,7 +518,14 @@ Hero.prototype = {
 		var questsObject = loadObject.quests;
 		for(var i=0;i<questsObject.length;i++) {
 			this.addQuest(questDB[questsObject[i]]);
-			console.log(questsObject[i]);
+			//console.log(questsObject[i]);
+		}
+
+		this.completedQuests = [];
+
+		var completedQuestsObject = loadObject.completedQuests;
+		for(var i=0;i<completedQuestsObject.length;i++) {
+			this.completedQuests.push(questDB[completedQuestsObject[i]]);
 		}
 	}
 }
@@ -484,3 +535,8 @@ Hero.prototype = $.extend(
             Character.prototype,
             Hero.prototype
         );
+
+
+var characterDB = [];
+
+characterDB[0] = new Character("Generic Dude");

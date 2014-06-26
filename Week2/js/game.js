@@ -52,6 +52,8 @@ function Game(hero) {
 		$("#nameStat").html(this.hero.name);
 		$("#healthStat").html(this.hero.health + "/" + this.hero.maxHealth);
 		$("#goldStat").html(this.hero.gold + " G");
+		$("#levelStat").html(this.hero.level);
+		$("#xpStat").html(this.hero.experience);
 	}
 
 	Game.prototype.updateInventory = function() {
@@ -99,6 +101,7 @@ function Game(hero) {
 
 	Game.prototype.updateQuests = function () {
 		$("#questBox").html(this.hero.printActiveQuests());
+		$("#completedQuestBox").html(this.hero.printCompletedQuests());
 	}
 
 	Game.prototype.updateSaves = function() {

@@ -47,7 +47,7 @@
 	<script language="javascript" type="text/javascript" src="js/cookie.js"></script>
 	<script language="javascript" type="text/javascript" src="js/index.js"></script>
 </head>
-<body onload="webGLStart();">
+<body>
 <img src="./img/sprites.png" id="sprites">
 <div id="battleDiv">
 	<canvas id="battleCanvas">Your browser doesn't support this game. My condolences.</canvas>
@@ -85,8 +85,10 @@
 					Stats:
 					<div id="statBox">
 						Name: <span id="nameStat">Hero</span><br>
-						Health: <span id="healthStat">0/0</span><br>
-						Gold: <span id="goldStat">0 G</span><br><br>
+						Health: <span id="healthStat">0/0</span><br><br>
+						<!-- Gold: <span id="goldStat">0 G</span><br><br> -->
+						Level: <span id="levelStat">0</span><br>
+						XP: <span id="xpStat">0</span> XP<br><br>
 					</div>
 				</div>
 				<div id="tabs-2" class="tab">
@@ -99,8 +101,10 @@
 					<div id="inventoryBox">No items in inventory.</div>
 				</div>
 				<div id="tabs-4" class="tab">
-					Quests:
+					Active Quests:
 					<div id="questBox">No active quests.</div>
+					Completed Quests:
+					<div id="completedQuestBox">No quests completed.</div>
 				</div>
 
 			</div>
@@ -114,6 +118,7 @@
 					<button id="flexButton2">Fight Master</button>
 					<button id="flexButton3">Show</button>
 					<button id="flexButton4">Hide</button>
+					<button id="flexButton5">Generic Encounter</button>
 			</div>
 		</div>
 

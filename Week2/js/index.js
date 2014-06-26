@@ -46,7 +46,7 @@ $(document).ready(function() {
 
 	$("#flexButton2").click(function(event) {
 		if(myGame.checkQuest(2)) {
-			myGame.startBattle(exampleEnemy);
+			myGame.startBattle(jQuery.extend(true, {}, exampleEnemy));
 		}
 		else
 			myGame.drawDialog(exampleEnemy, "Now is not the time for fighting.");
@@ -58,6 +58,10 @@ $(document).ready(function() {
 
 	$("#flexButton4").click(function(event) {
 		myGame.hideBattle();	
+	});
+
+	$("#flexButton5").click(function(event) {
+		myGame.startBattle(jQuery.extend(true, {}, characterDB[0]));
 	});
 
 	//*********************************

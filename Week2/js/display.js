@@ -82,13 +82,22 @@
  		 });
 	}
 
-	Game.prototype.toast = function(string) {//may need to be moved to battle
+	// Game.prototype.toast = function(string) {//may need to be moved to battle
+	// 	var that = this;
+	// 	this.battleToast.html(string);
+	// 	this.toastHolder.show();
+	// 	setTimeout(function() {
+	// 		that.toastHolder.hide();
+	// 	}, 1000);
+	// }
+
+	Game.prototype.toast = function(string, time) {//may need to be moved to battle
 		var that = this;
 		this.battleToast.html(string);
 		this.toastHolder.show();
 		setTimeout(function() {
 			that.toastHolder.hide();
-		}, 1000);
+		}, time);
 	}
 
 
