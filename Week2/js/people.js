@@ -133,7 +133,21 @@ Character.prototype = {
 	},
 
 	attack:function(enemy) {
-		var damage = Math.floor(Math.random() * 4) + 1
+		var damage = Math.floor(Math.random() * 4) + 1;
+		enemy.damage(damage);
+		return damage;
+	},
+
+	jumpAttack:function(enemy, landedQT) {
+		var damage;
+		if(landedQT) {
+			damage = Math.floor(Math.random() * 4) + 5;
+			console.log("***Hit for: " + damage + " damage!!!***");
+		}
+		else {
+			damage = Math.floor(Math.random() * 4) + 1;
+			console.log("Hit for: " + damage + " damage.");
+		}
 		enemy.damage(damage);
 		return damage;
 	},

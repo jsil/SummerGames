@@ -34,6 +34,9 @@ function Game(hero) {
 	this.waitingForInput = false;
 	this.whosTurn = true;
 
+	this.canQT = false;
+	this.landedQT = false;
+
 
 	//Dialog
 

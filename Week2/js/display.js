@@ -155,7 +155,6 @@
 
 		this.battleHUD.find("#innerHUD").find("#healthHUD").html(this.hero.health + "/" + this.hero.maxHealth);
 		var currentXP = parseInt(this.battleHUD.find("#innerHUD").find("#xpHUD").html());
-		console.log("current xp: " + currentXP);
 		if(currentXP != this.hero.experience) {
 			while(currentXP != this.hero.experience) {
 				// setTimeout(function(){

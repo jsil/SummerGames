@@ -239,35 +239,35 @@
 
 
     function handleKeys() {
-        if (currentlyPressedKeys[90]) {
-            // Page Up
-            z -= 0.05;
-        }
-        if (currentlyPressedKeys[88]) {
-            // Page Down
-            z += 0.05;
-        }
-        if (currentlyPressedKeys[37]) {
-            // Left cursor key
-            ySpeed -= 1;
-        }
-        if (currentlyPressedKeys[39]) {
-            // Right cursor key
-            ySpeed += 1;
-        }
-        if (currentlyPressedKeys[38]) {
-            // Up cursor key
-            xSpeed -= 1;
-        }
-        if (currentlyPressedKeys[40]) {
-            // Down cursor key
-            xSpeed += 1;
-        }
-        if (currentlyPressedKeys[13] && zoom >= -3.375) {
-            // Down cursor key
-            zoom -= 0.075;
-            console.log(zoom);
-        }
+    //     if (currentlyPressedKeys[90]) {
+    //         // Page Up
+    //         z -= 0.05;
+    //     }
+    //     if (currentlyPressedKeys[88]) {
+    //         // Page Down
+    //         z += 0.05;
+    //     }
+    //     if (currentlyPressedKeys[37]) {
+    //         // Left cursor key
+    //         ySpeed -= 1;
+    //     }
+    //     if (currentlyPressedKeys[39]) {
+    //         // Right cursor key
+    //         ySpeed += 1;
+    //     }
+    //     if (currentlyPressedKeys[38]) {
+    //         // Up cursor key
+    //         xSpeed -= 1;
+    //     }
+    //     if (currentlyPressedKeys[40]) {
+    //         // Down cursor key
+    //         xSpeed += 1;
+    //     }
+    //     if (currentlyPressedKeys[13] && zoom >= -3.375) {
+    //         // Down cursor key
+    //         zoom -= 0.075;
+    //         console.log(zoom);
+    //     }
     }
 
 
@@ -442,6 +442,9 @@
             idleLoop = 0;
     }
 
+    var heroX = 0;
+    var heroY = 0;
+
 
     function drawScene() {
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
@@ -571,7 +574,8 @@
 
         mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
         mat4.translate(mvMatrix, [-3.5, 0.0, -0.5]);
-        mat4.translate(mvMatrix, [horizontalIdle, verticleIdle, 0.0]);
+        // mat4.translate(mvMatrix, [horizontalIdle, verticleIdle, 0.0]);
+        mat4.translate(mvMatrix, [heroX,heroY, 0.0]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, heroVertexPositionBuffer);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, heroVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -595,7 +599,7 @@
 
         mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
         mat4.translate(mvMatrix, [3.5, 0.0, -0.5]);
-        mat4.translate(mvMatrix, [horizontalIdle, verticleIdle, 0.0]);
+        // mat4.translate(mvMatrix, [horizontalIdle, verticleIdle, 0.0]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, enemyVertexPositionBuffer);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, enemyVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);

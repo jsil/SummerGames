@@ -2,6 +2,7 @@
 
 	Game.prototype.advanceTurn = function() {
 		this.whosTurn = !this.whosTurn;
+		this.landedQT = false;
 	}
 
 	Game.prototype.doAttack = function() {
@@ -11,14 +12,15 @@
 		this.zoomOut();
 		console.log("attacking");
 		this.waitingForInput = false;
-		setTimeout(function() {
-			console.log("attacked");
-			that.toast("You hit " + that.currentEnemy.name + " for " + that.hero.attack(that.currentEnemy) + " damage!", 1000);
-			setTimeout(function() {
-				that.waitingForInput = false;
-				that.advanceTurn();
-			}, 1000);
-		}, 1000);
+		this.animateAttack();
+		// setTimeout(function() {
+		// 	console.log("attacked");
+		// 	that.toast("You hit " + that.currentEnemy.name + " for " + that.hero.attack(that.currentEnemy) + " damage!", 1000);
+		// 	setTimeout(function() {
+		// 		that.waitingForInput = false;
+		// 		that.advanceTurn();
+		// 	}, 1000);
+		// }, 1000);
 
 	}
 
@@ -105,7 +107,10 @@
 						that.drawBattle();
 					}, 1000);
 				}
-				setTimeout(function(){that.hideBattle()}, 5000);
+				setTimeout(function(){
+					that.hideBattle();
+					that.zoomIn();	
+				}, 5000);
 				console.log(this.hero.experience + "XP");
 				this.updateEverything();
 				return true;
@@ -143,4 +148,66 @@
 
     Game.prototype.getEnemyImage = function() {
     	return "./img/hero.png";
+    }
+
+    // Game.prototype.animateAttack = function() {
+    // 	this.animateAttack(0);
+    // 	console.log("started animating");
+    // }
+ 
+    Game.prototype.animateAttack = function(poop) {
+    	var that = this;
+    	if(null == poop) {
+    		this.animateAttack(0);
+    		this.toast2("Hit the space bar to be extra cool!", 1500);
+    	}
+    	else if(poop < 170) {
+    		console.log(poop);
+    		poop++;
+    		if(poop <= 40) {
+    			heroX += 0.1;
+    		}
+    		else if(poop > 60 && poop <= 120) {
+    			heroX = ((poop-60)/14)+ 4;
+    			if(poop <= 100) {
+    				heroY = (-0.004*((poop-60)*(poop-60)))+(poop-60)*0.20;
+    				// if(poop === 100)
+    				// 	console.log("HERO Y: " + heroY);
+    				if(poop === 90) {
+    					this.canQT = true;
+    				}
+    			}
+    			else if(poop > 100 && poop <=119) {
+    				if(poop === 105) {
+    					this.canQT = false;
+    				}
+					heroY = (-0.006*((poop-100)*(poop-100)))+(poop-100)*0.03 + 1.6;
+    			}
+    			else if(poop === 119) {
+    				heroY = 0;
+    			}
+    		}
+    		else if(poop > 120 && poop <=130) {
+    			//nothing
+    		}
+    		else if(poop > 130 && poop <170) {
+    			heroX = heroX - (8/40);
+    		}
+    		setTimeout(function() {
+    			that.animateAttack(poop);
+    		},20);
+    	}
+    	else if(poop===170){
+    		// setTimeout(function() {
+    			heroX = 0;
+    			heroY = 0;
+				console.log("attacked");
+				this.hero.jumpAttack(this.currentEnemy, this.landedQT);
+				//that.toast("You hit " + that.currentEnemy.name + " for " + that.hero.attack(that.currentEnemy) + " damage!", 1000);
+				setTimeout(function() {
+					that.waitingForInput = false;
+					that.advanceTurn();
+				}, 1000);
+			// }, 1000);
+    	}
     }

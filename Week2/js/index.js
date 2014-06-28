@@ -223,8 +223,8 @@ $(document).ready(function() {
 	});
 
 	$(window).keypress(function(e) {
-	  if (e.keyCode === 32) {
-	    myGame.toggleBattle();
+	  if (e.keyCode === 32 && myGame.canQT) {
+	    myGame.landedQT = true;
 	  }
 	});
 

@@ -14,6 +14,9 @@
 *			E-Figure out what to do with dialog canvas......									*
 *			E-Make View Item more useful														*
 *			M-Better resize battle window on resize												*
+*			E-Fix the resize function I somehow broke											*
+*																								*
+*																								*
 *																								*
 *		Bug List:																				*
 *																								*

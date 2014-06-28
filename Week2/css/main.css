@@ -251,17 +251,13 @@ canvas {
 	height:30%;
 	margin-top: 10px;
 }
-	#tabs-4 {
-		/*overflow-y:auto;*/
-		/*height:200px;*/
-	}
 
-	#completedQuestBox {
-		overflow-y:auto;
-		width:100%;
-		height:30%;
-		margin-top: 10px;
-	}
+#completedQuestBox {
+	overflow-y:auto;
+	width:100%;
+	height:30%;
+	margin-top: 10px;
+}
 
 #bottomSpace {
 	text-align: center;
