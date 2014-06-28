@@ -445,6 +445,7 @@
     var heroX = 0;
     var heroY = 0;
 
+    var showIndicator = false;
 
     function drawScene() {
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
@@ -522,48 +523,50 @@
 
         //bushes
 
-        mvPushMatrix();
-        mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
-        mat4.rotate(mvMatrix, degToRad(-5), [0, 1, 0]);
-        mat4.translate(mvMatrix, [4.0, 0.0, -5.0]);
+        if(showIndicator) {
+            mvPushMatrix();
+            mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
+            mat4.rotate(mvMatrix, degToRad(-5), [0, 1, 0]);
+            mat4.translate(mvMatrix, [4.0, 0.0, -5.0]);
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, bushVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexPositionBuffer);
+            gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, bushVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexTextureCoordBuffer);
-        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, bushVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, bushTextures[filter]);
-        gl.uniform1i(shaderProgram.samplerUniform, 0);
-
-        setMatrixUniforms();
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, bushVertexPositionBuffer.numItems);
-
-        mvPopMatrix();
-
-        mvPushMatrix();
-        mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
-        mat4.rotate(mvMatrix, degToRad(5), [0, 1, 0]);
-        mat4.translate(mvMatrix, [-4.0, 0.0, -5.0]);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, bushVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexTextureCoordBuffer);
-        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, bushVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexTextureCoordBuffer);
+            gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, bushVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, bushTextures[filter]);
-        gl.uniform1i(shaderProgram.samplerUniform, 0);
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, bushTextures[filter]);
+            gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+            setMatrixUniforms();
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, bushVertexPositionBuffer.numItems);
+
+            mvPopMatrix();
+
+            mvPushMatrix();
+            mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
+            mat4.rotate(mvMatrix, degToRad(5), [0, 1, 0]);
+            mat4.translate(mvMatrix, [-4.0, 0.0, -5.0]);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexPositionBuffer);
+            gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, bushVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexTextureCoordBuffer);
+            gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, bushVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 
-        setMatrixUniforms();
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, bushVertexPositionBuffer.numItems);
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, bushTextures[filter]);
+            gl.uniform1i(shaderProgram.samplerUniform, 0);
 
-        mvPopMatrix();
+
+            setMatrixUniforms();
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, bushVertexPositionBuffer.numItems);
+
+            mvPopMatrix();
+        }
 
 
         //hero

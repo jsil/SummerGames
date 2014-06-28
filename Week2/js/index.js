@@ -301,6 +301,7 @@ $(document).ready(function() {
 
 	$(window).keypress(function(e) {
 		if(myGame.waitingForInput) {
+			console.log("got an input");
 		    if (e.keyCode === 13) {
 			  	if($("#battleOption1").hasClass("selectedOption")) {
 		  			myGame.doAttack();

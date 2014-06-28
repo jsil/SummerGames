@@ -73,6 +73,7 @@
 
 
 	Game.prototype.showHUD = function() {
+		var that = this;
 		this.battleMenu.animate({
 		    opacity: "0.9"
 		  },250, "linear", function() {

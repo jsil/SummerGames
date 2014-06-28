@@ -8,13 +8,14 @@
 *			M-Add more meaningful stats, better level up benefits								*
 *			M-Add consequences to losing a battle												*
 *			M-Move WebGL functions into Game object												*
-*			H-Add attack animations																*
-*			H-Add QT inputs during animations													*
 *			E-Decide on a filter to use															*
 *			E-Figure out what to do with dialog canvas......									*
 *			E-Make View Item more useful														*
 *			M-Better resize battle window on resize												*
 *			E-Fix the resize function I somehow broke											*
+*			H-Add quick time indicator															*
+*			M-Add enemy attack animation														*
+*			E-Add keyboard shortcuts															*
 *																								*
 *																								*
 *																								*
@@ -23,6 +24,8 @@
 *																								*
 *		Changelog:																				*
 *																								*
+*		v0.0.2.4 - 																				*
+*			Added jump attack animation	with quick time event									*
 *																								*
 *		v0.0.2.3 -																				*
 *			Added item drops																	*
