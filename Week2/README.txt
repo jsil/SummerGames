@@ -13,8 +13,8 @@
 *		E-Fix the resize function I somehow broke											*
 *		H-Add quick time indicator															*
 *		M-Add enemy attack animation														*
-*																							*
-*																							*
+*		H-Add shop keeper/selling items														*
+*		M-Add ability to drop/throw away items												*
 *																							*
 *	Bug List:																				*
 *																							*
@@ -24,7 +24,7 @@
 *	v0.0.2.4 - 																				*
 *		Added jump attack animation	with quick time event									*
 *		Made View Item more useful															*
-*		Added keyboard shortcuts for saving, loading, debug, and 3 tabs						*
+*		Added keyboard shortcuts for saving, loading, debug, modals, and 3 tabs				*
 *		Added animation on experience gain													*
 *																							*
 *	v0.0.2.3 -																				*

@@ -219,6 +219,39 @@ $(document).ready(function() {
 		}
 	}
 
+	$(function(){//handling/disabling backspace
+	    /*
+	     * this swallows backspace keys on any non-input element.
+	     * stops backspace -> back
+	     */
+	    var rx = /INPUT|SELECT|TEXTAREA/i;
+
+	    $(document).bind("keydown keypress", function(e){
+	        if( e.which == 8 ){ // 8 == backspace
+	            if(!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly ){
+	                e.preventDefault();
+	                if($("#saveModal").is(':visible')) {
+	                	closeModal("#saveModal");
+	                }
+	                else if($("#loadModal").is(':visible')) {
+	                	closeModal("#loadModal");
+	                }
+	                else if($("#debugModal").is(':visible')) {
+	                	closeModal("#debugModal");
+	                }
+	                else if($("#armoryModal").is(':visible')) {
+	                	closeModal("#armoryModal");
+	                	openModal("#debugModal");
+	                }
+	                else if($("#questModal").is(':visible')) {
+	                	closeModal("#questModal");
+	                	openModal("#debugModal");
+	                }
+	            }
+	        }
+	    });
+	});
+
 	$(window).resize(function(){
 		myGame.resizeGame();
 	});
@@ -302,7 +335,7 @@ $(document).ready(function() {
 
 	$(window).keypress(function(e) {
 		if(myGame.waitingForInput) {
-		    if (e.keyCode === 13) {
+		    if (e.keyCode === 13 || e.keyCode === 32) {
 			  	if($("#battleOption1").hasClass("selectedOption")) {
 		  			myGame.doAttack();
 			  	}

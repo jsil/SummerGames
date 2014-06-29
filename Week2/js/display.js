@@ -66,6 +66,8 @@
 		this.toastHolder.hide();
 		this.toastHolder2.hide();
 		this.gameDiv.show();
+		this.sidePanel.tabs({active: 0});
+
 
 	    this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
 	    console.log("hide battle");
@@ -86,15 +88,6 @@
 		  },250, "linear", function() {
  		 });
 	}
-
-	// Game.prototype.toast = function(string) {//may need to be moved to battle
-	// 	var that = this;
-	// 	this.battleToast.html(string);
-	// 	this.toastHolder.show();
-	// 	setTimeout(function() {
-	// 		that.toastHolder.hide();
-	// 	}, 1000);
-	// }
 
 	Game.prototype.toast = function(string, time) {//may need to be moved to battle
 		var that = this;
@@ -141,6 +134,7 @@
 			this.toastHolder2.hide();
 			//this.resizeBattle();
 			this.gameDiv.show();
+			this.sidePanel.tabs({active: 0});
 			this.showHUD();
 			this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
 			//console.log("Hide battle");

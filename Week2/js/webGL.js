@@ -445,6 +445,9 @@
     var heroX = 0;
     var heroY = 0;
 
+    var enemyX = 0;
+    var enemyY = 0;
+
     var showIndicator = false;
 
     function drawScene() {
@@ -603,6 +606,7 @@
         mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
         mat4.translate(mvMatrix, [3.5, 0.0, -0.5]);
         // mat4.translate(mvMatrix, [horizontalIdle, verticleIdle, 0.0]);
+         mat4.translate(mvMatrix, [0-(enemyX),enemyY, 0.0]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, enemyVertexPositionBuffer);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, enemyVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);

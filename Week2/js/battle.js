@@ -58,20 +58,22 @@
 				if(!this.whosTurn) {
 					this.advanceTurn();
 					// console.log("Enemy is attacking!");
-					setTimeout(function(){
-						that.toast(that.currentEnemy.name + " hit you for " + that.currentEnemy.attack(that.hero) + " damage!", 1000);
+
+					// setTimeout(function(){
+						//that.toast(that.currentEnemy.name + " hit you for " + that.currentEnemy.attack(that.hero) + " damage!", 1000);
 						// console.log("Enemy attacked!")
-						that.drawBattle(that.currentEnemy);
-						setTimeout(function(){
-							that.zoomIn();
-						}, 1000);
-						setTimeout(function(){
-							that.showHUD();
-						}, 1250);
-						setTimeout(function() {
-							that.waitingForInput = true;
-						}, 1250);
-					}, 1000);
+						// that.drawBattle(that.currentEnemy);
+						// setTimeout(function(){
+						// 	that.zoomIn();
+						// }, 1000);
+						// setTimeout(function(){
+						// 	that.showHUD();
+						// }, 1250);
+						// setTimeout(function() {
+						// 	that.waitingForInput = true;
+						// }, 1250);
+						that.animateEnemyAttack();
+					// }, 800);
 				}
 				setTimeout(function(){that.doBattle()}, 100);
 		}
@@ -238,6 +240,84 @@
 					that.waitingForInput = false;
 					that.advanceTurn();
 				}, 1000);
+			// }, 1000);
+    	}
+    }
+
+    Game.prototype.animateEnemyAttack = function(frame) {
+    	var that = this;
+    	if(null == frame) {
+    		this.animateEnemyAttack(0);
+    		//this.toast2("Hit the space bar to be extra cool!", 1500);
+    	}
+    	else if(frame < 170) {
+    		//console.log(frame);
+    		frame++;
+    		if(frame <= 40) {
+    			enemyX += 0.1;
+    		}
+    		else if(frame > 60 && frame <= 120) {
+    			enemyX = ((frame-60)/14)+ 4;
+    			if(frame <= 100) {
+    				enemyY = (-0.004*((frame-60)*(frame-60)))+(frame-60)*0.20;
+    				// if(frame === 100)
+    				// 	console.log("HERO Y: " + heroY);
+    				if(frame === 90) {
+    					//this.canQT = true;
+    					showIndicator = true;
+    				}
+    			}
+    			else if(frame > 100 && frame <=119) {
+    				if(frame === 105) {
+    					if(!this.landedQT || (this.landedQT && this.canQT)) {
+    						//this.toast2("Hit " + this.currentEnemy.name + " for " + this.hero.jumpAttack(this.currentEnemy, this.landedQT) + " damage!", 1000);
+    						showIndicator = false;
+    						this.toast2(this.currentEnemy.name + " hit you for " + this.currentEnemy.attack(that.hero) + " damage!", 1000);
+    					}
+    					this.canQT = false;
+    				}
+					enemyY = (-0.006*((frame-100)*(frame-100)))+(frame-100)*0.03 + 1.6;
+    			}
+    			else if(frame === 119) {
+    				enemyY = 0;
+    			}
+    			if(frame >= 90 && frame < 105 && this.landedQT && this.canQT) {
+    				//this.toast2("Hit " + this.currentEnemy.name + " for " + this.hero.jumpAttack(this.currentEnemy, this.landedQT) + " damage!", 1000);
+    				//this.canQT = false;
+    				showIndicator = false;
+    			}
+    		}
+    		else if(frame > 120 && frame <=130) {
+    			//nothing
+    		}
+    		else if(frame > 130 && frame <170) {
+    			enemyX = enemyX - (8/40);
+    		}
+    		setTimeout(function() {
+    			that.animateEnemyAttack(frame);
+    		},20);
+    	}
+    	else if(frame===170){
+    		// setTimeout(function() {
+    			enemyX = 0;
+    			enemyY = 0;
+				// console.log("attacked");
+				
+				//that.toast(that.currentEnemy.name + " hit you for " + that.currentEnemy.attack(that.hero) + " damage!", 1000);
+				that.drawBattle(that.currentEnemy);
+				setTimeout(function(){
+					that.zoomIn();
+				}, 1000);
+				setTimeout(function(){
+					that.showHUD();
+				}, 1250);
+				setTimeout(function() {
+					that.waitingForInput = true;
+				}, 1250);
+				// setTimeout(function() {
+				// 	//that.waitingForInput = false;
+				// 	that.advanceTurn();
+				// }, 1000);
 			// }, 1000);
     	}
     }
