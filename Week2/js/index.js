@@ -155,6 +155,7 @@ $(document).ready(function() {
 		}
 	});
 
+
 	$("#saveButton").click(function(event) {
 		event.preventDefault();
 		myGame.updateSaves();
@@ -301,7 +302,6 @@ $(document).ready(function() {
 
 	$(window).keypress(function(e) {
 		if(myGame.waitingForInput) {
-			console.log("got an input");
 		    if (e.keyCode === 13) {
 			  	if($("#battleOption1").hasClass("selectedOption")) {
 		  			myGame.doAttack();
@@ -328,6 +328,30 @@ $(document).ready(function() {
 		    else if(e.keyCode === 52) {
 		 	 	console.log("run");
 		    }
+		}
+		else if($("#saveModal").is(':visible')) {
+			if(e.keyCode >= 48 && e.keyCode <= 57) {//if 1-9 is selected
+				if(e.keyCode != 48)
+					gameSaves[e.keyCode - 49].writeSave(myGame,me);
+				else//if 0 (10) is selected
+					gameSaves[9].writeSave(myGame,me);
+				myGame.updateSaves();
+			}
+		}
+		else if($("#loadModal").is(':visible')) {
+			if(e.keyCode >= 48 && e.keyCode <= 57) {//if 1-9 is selected
+				if(e.keyCode != 48) {
+					myGame.loadJSON(gameSaves[e.keyCode - 49].getGameJSON());
+					me.loadJSON(gameSaves[e.keyCode - 49].getHeroJSON());
+				}
+				else {//if 0 (10) is selected
+					myGame.loadJSON(gameSaves[9].getGameJSON());
+					me.loadJSON(gameSaves[9].getHeroJSON());
+				}
+				myGame.clearText();
+				myGame.updateEverything();
+				closeModal("#loadModal");
+			}
 		}
 		else if(e.keyCode === 83 || e.keyCode === 115) {//save
 			myGame.updateSaves();

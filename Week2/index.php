@@ -53,7 +53,7 @@
 	<canvas id="battleCanvas">Your browser doesn't support this game. My condolences.</canvas>
 	<div id="battleHUD">
 		<div id="innerHUD">
-			My Health: <span id="healthHUD">20/20</span> XP: <span id="xpHUD"></span> XP<!-- FP: <span id="placeholderHUD">20/20</span> Hi. -->
+			My Health: <span id="healthHUD">20/20</span> XP: <span id="xpHUD"></span> XP
 			<div id="enemyInfo">Enemy Health: <span id="enemyHealth">20/20</span></div>
 		</div>
 	</div>
@@ -64,10 +64,10 @@
 		<div id="battleToast2">Toast toast toast.</div>
 	</div>
 	<div id="battleMenu">
-		<div id="battleOption1" class="battleOption">1. Attack</div>
-		<div id="battleOption2" class="battleOption">2.</div>
-		<div id="battleOption3" class="battleOption">3.</div>
-		<div id="battleOption4" class="battleOption">4. Run</div>
+		<div id="battleOption1" class="battleOption"><span class="underlined">1</span>. Attack</div>
+		<div id="battleOption2" class="battleOption"><span class="underlined">2</span>.</div>
+		<div id="battleOption3" class="battleOption"><span class="underlined">3</span>.</div>
+		<div id="battleOption4" class="battleOption"><span class="underlined">4</span>. Run</div>
 	</div>
 </div>
 <div id="gameDiv">
@@ -119,8 +119,8 @@
 					<button id="clearButton">Clear</button><br>
 					<button id="flexButton1">Talk To Master</button>
 					<button id="flexButton2">Fight Master</button>
-					<button id="flexButton3">Show</button>
-					<button id="flexButton4">Hide</button>
+				<!-- 	<button id="flexButton3">Show</button>
+					<button id="flexButton4">Hide</button> -->
 					<button id="flexButton5">Generic Encounter</button>
 			</div>
 		</div>

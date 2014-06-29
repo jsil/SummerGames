@@ -25,6 +25,7 @@
 *		Added jump attack animation	with quick time event									*
 *		Made View Item more useful															*
 *		Added keyboard shortcuts for saving, loading, debug, and 3 tabs						*
+*		Added animation on experience gain													*
 *																							*
 *	v0.0.2.3 -																				*
 *		Added item drops																	*

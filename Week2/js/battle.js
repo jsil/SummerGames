@@ -11,7 +11,7 @@
 		this.waitingForInput = false;
 		this.hideHUD();
 		this.zoomOut();
-		console.log("attacking");
+		// console.log("attacking");
 		setTimeout(function() {
 			that.animateAttack();
 		},800);
@@ -37,9 +37,10 @@
 		else {
 			this.whosTurn = false;
 		}
+		this.battleHUD.find("#innerHUD").find("#xpHUD").html(this.hero.experience);
 		this.showBattle();
 		this.waitingForInput = true;
-		console.log("Started Battle");
+		// console.log("Started Battle");
 		jQuery.proxy(this.doBattle(), this);
 		//this.doBattle(this);
 	} 
@@ -56,10 +57,10 @@
 		if(this.hero.isAlive() && this.currentEnemy.isAlive()) {
 				if(!this.whosTurn) {
 					this.advanceTurn();
-					console.log("Enemy is attacking!");
+					// console.log("Enemy is attacking!");
 					setTimeout(function(){
 						that.toast(that.currentEnemy.name + " hit you for " + that.currentEnemy.attack(that.hero) + " damage!", 1000);
-						console.log("Enemy attacked!")
+						// console.log("Enemy attacked!")
 						that.drawBattle(that.currentEnemy);
 						setTimeout(function(){
 							that.zoomIn();
@@ -98,19 +99,21 @@
 					toastString += "!";
 					setTimeout(function(){
 						that.toast2(toastString,4000);
-					}, 2000);
+					}, 3000);
 				}
 				if(!leveledUp) {
 					setTimeout(function(){
 						that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained.",4000);
 						that.drawBattle();
-					}, 1000);
+						that.animateXP();
+					}, 2000);
 				}
 				else {
 					setTimeout(function(){
 						that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained. Level Up!",4000);
 						that.drawBattle();
-					}, 1000);
+						that.animateXP();
+					}, 2000);
 				}
 				setTimeout(function(){
 					that.hideBattle();
@@ -154,10 +157,23 @@
     	return "./img/hero.png";
     }
 
-    // Game.prototype.animateAttack = function() {
-    // 	this.animateAttack(0);
-    // 	console.log("started animating");
-    // }
+    Game.prototype.animateXP = function(currentXP) {
+    	var that = this;
+    	if(null == currentXP) {
+    		this.animateXP(parseInt(this.battleHUD.find("#innerHUD").find("#xpHUD").html()));
+    	}
+    	else {
+    		if(currentXP != this.hero.experience && currentXP <= 100) {
+    			currentXP++;
+    			if(currentXP === 100)
+    				currentXP = 0;
+    			this.battleHUD.find("#innerHUD").find("#xpHUD").html(currentXP);
+    			setTimeout(function() {
+    				that.animateXP(currentXP);
+    			},75);
+    		}
+    	}
+    }
  
     Game.prototype.animateAttack = function(frame) {
     	var that = this;
@@ -166,7 +182,7 @@
     		this.toast2("Hit the space bar to be extra cool!", 1500);
     	}
     	else if(frame < 170) {
-    		console.log(frame);
+    		//console.log(frame);
     		frame++;
     		if(frame <= 40) {
     			heroX += 0.1;
@@ -184,18 +200,18 @@
     			}
     			else if(frame > 100 && frame <=119) {
     				if(frame === 105) {
-    					this.canQT = false;
-    					if(!this.landedQT) {
+    					if(!this.landedQT || (this.landedQT && this.canQT)) {
     						this.toast2("Hit " + this.currentEnemy.name + " for " + this.hero.jumpAttack(this.currentEnemy, this.landedQT) + " damage!", 1000);
     						showIndicator = false;
     					}
+    					this.canQT = false;
     				}
 					heroY = (-0.006*((frame-100)*(frame-100)))+(frame-100)*0.03 + 1.6;
     			}
     			else if(frame === 119) {
     				heroY = 0;
     			}
-    			if(frame >= 90 && frame <= 115 && this.landedQT && this.canQT) {
+    			if(frame >= 90 && frame < 105 && this.landedQT && this.canQT) {
     				this.toast2("Hit " + this.currentEnemy.name + " for " + this.hero.jumpAttack(this.currentEnemy, this.landedQT) + " damage!", 1000);
     				this.canQT = false;
     				showIndicator = false;
@@ -215,7 +231,7 @@
     		// setTimeout(function() {
     			heroX = 0;
     			heroY = 0;
-				console.log("attacked");
+				// console.log("attacked");
 				
 				//that.toast("You hit " + that.currentEnemy.name + " for " + that.hero.attack(that.currentEnemy) + " damage!", 1000);
 				setTimeout(function() {
