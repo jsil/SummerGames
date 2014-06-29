@@ -138,6 +138,10 @@ button {
 	cursor:pointer;
 }
 
+.underlined {
+	text-decoration:underline;
+}
+
 canvas {
 	margin:3px;
 }

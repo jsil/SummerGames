@@ -77,9 +77,9 @@
 				<ul>
 					<!--This section introduces the tabs and titles them-->
 					<li><a href="#tabs-1">Stats</a></li>
-					<li><a href="#tabs-2">Equipment</a></li>
-					<li><a href="#tabs-3">Inventory</a></li>
-					<li><a href="#tabs-4">Quests</a></li>
+					<li><a href="#tabs-2"><span class="underlined">E</span>quipment</a></li>
+					<li><a href="#tabs-3"><span class="underlined">I</span>nventory</a></li>
+					<li><a href="#tabs-4"><span class="underlined">Q</span>uests</a></li>
 
 				</ul>
 
@@ -112,10 +112,10 @@
 
 			</div>
 			<div id="optionsPanel" class="panel">
-					<button id="saveButton">Save</button>
-					<button id="loadButton">Load</button>
+					<button id="saveButton"><span class="underlined">S</span>ave</button>
+					<button id="loadButton"><span class="underlined">L</span>oad</button>
 					<button id="eraseButton">Erase Data</button>
-					<button id="debugButton">Debug</button>
+					<button id="debugButton"><span class="underlined">D</span>ebug</button>
 					<button id="clearButton">Clear</button><br>
 					<button id="flexButton1">Talk To Master</button>
 					<button id="flexButton2">Fight Master</button>

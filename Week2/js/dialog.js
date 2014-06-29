@@ -7,7 +7,7 @@
 			this.scrollBox.html(this.scrollBox.html() + "<br>" + text);
 	    }
 	    else {
-	    	this.scrollBox.html(this.scrollBox.html() + text);
+	    	this.scrollBox.html(text);
 	    }
 	    this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
 	}

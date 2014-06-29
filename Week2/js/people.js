@@ -142,11 +142,11 @@ Character.prototype = {
 		var damage;
 		if(landedQT) {
 			damage = Math.floor(Math.random() * 4) + 5;
-			console.log("***Hit for: " + damage + " damage!!!***");
+			//console.log("***Hit for: " + damage + " damage!!!***");
 		}
 		else {
 			damage = Math.floor(Math.random() * 4) + 1;
-			console.log("Hit for: " + damage + " damage.");
+			//console.log("Hit for: " + damage + " damage.");
 		}
 		enemy.damage(damage);
 		return damage;

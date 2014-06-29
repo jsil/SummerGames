@@ -1,5 +1,6 @@
 function Item(name, id) {
 	this.name = name;
+	this.description = "";
 	this.price = 40;
 	this.id = id;
 }
@@ -16,27 +17,49 @@ Item.prototype = {
 	},
 	isConsumable:function() {
 		return false;
+	},
+	printView:function() {
+		var viewString = "" + this.name;
+		if(this.description != "") {
+			viewString = viewString + " - " + this.description;
+		}
+		viewString = viewString + "<br>Price: " + this.price;
+		viewString = viewString + "<br>";
+		return viewString;
 	}
 }
 
 function Consumable(name, id) {
 	this.name = name;
+	this.description = "";
 	this.price = 40;
+	this.healValue = 5;
 	this.id = id;
 }
 
 Consumable.prototype = {
 	doEffect:function(consumer) {
 		console.log(consumer.name + " consumed " + this.name);
-		consumer.heal(5);
+		consumer.heal(this.healValue);
 	},
 	isConsumable:function() {
 		return true;
+	},
+	printView:function() {
+		var viewString = "" + this.name;
+		if(this.description != "") {
+			viewString = viewString + " - " + this.description;
+		}
+		viewString = viewString + "<br>Health Restored: " + this.healValue;
+		viewString = viewString + "<br>Price: " + this.price;
+		viewString = viewString + "<br>";
+		return viewString;
 	}
 }
 
 function Equipable(name, id) {
 	this.name = name;
+	this.description = "";
 	this.price = 40;
 	this.id = id;
 	this.isEquiped = false;
@@ -52,11 +75,22 @@ Equipable.prototype = {
 	},
 	isEquipable:function() {
 		return true;
+	},
+	printView:function() {
+	var viewString = "" + this.name;
+	if(this.description != "") {
+		viewString = viewString + " - " + this.description;
 	}
+	viewString = viewString + "<br>Armor: " + "3";
+	viewString = viewString + "<br>Price: " + this.price;
+	viewString = viewString + "<br>";
+	return viewString;
+}
 }
 
 function Weapon(name, id) {
 	this.name = name;
+	this.description = "";
 	this.price = 40;
 	this.id = id;
 	this.damage = 4;
@@ -68,11 +102,22 @@ Weapon.prototype = {
 	},
 	isWeapon:function() {
 		return true;
+	},
+	printView:function() {
+		var viewString = "" + this.name;
+		if(this.description != "") {
+			viewString = viewString + " - " + this.description;
+		}
+		viewString = viewString + "<br>Damage: " + this.damage;
+		viewString = viewString + "<br>Price: " + this.price;
+		viewString = viewString + "<br>";
+		return viewString;
 	}
 }
 
 function Armor(name, id, slot) {
 	this.name = name;
+	this.description = "";
 	this.price = 40;
 	this.id = id;
 	this.defence = 3;
@@ -148,6 +193,7 @@ for(var i=0;i<300;i++) {
 //****************Weapons****************
 
 armoryDB[000] = new Weapon("Sword",000);
+armoryDB[000].description = "This is the sword that The Master gave you for some reason.";
 armoryDB[000].damage = 20;
 
 

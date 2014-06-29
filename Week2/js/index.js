@@ -78,7 +78,7 @@ $(document).ready(function() {
 
 	viewButtonItem = function(i) {
 		//console.log(me.inventory[i].name);//TODO: open item detail modal
-		myGame.addText("It is a " + me.inventory[i].name + ".");
+		myGame.addText(me.inventory[i].printView());
 	}
 
 	equipButton = function(i) {
@@ -328,6 +328,27 @@ $(document).ready(function() {
 		    else if(e.keyCode === 52) {
 		 	 	console.log("run");
 		    }
+		}
+		else if(e.keyCode === 83 || e.keyCode === 115) {//save
+			myGame.updateSaves();
+			openModal("#saveModal");
+		}
+		else if(e.keyCode === 76 || e.keyCode === 108) {//load
+			myGame.updateLoads();
+			openModal("#loadModal");
+		}
+		else if(e.keyCode === 68 || e.keyCode === 100) {//debug
+			myGame.updateDebug();
+			openModal("#debugModal");
+		}
+		else if(e.keyCode === 69 || e.keyCode === 101) {//equipment
+			$("#sidePanel").tabs({active: 1});
+		}
+		else if(e.keyCode === 73 || e.keyCode === 105) {//inventory
+			$("#sidePanel").tabs({active: 2});
+		}
+		else if(e.keyCode === 81 || e.keyCode === 113) {//quests
+			$("#sidePanel").tabs({active: 3});
 		}
 	});
 

@@ -117,6 +117,8 @@
 					that.zoomIn();	
 				}, 5000);
 				console.log(this.hero.experience + "XP");
+				//this.addText("***** Battle ******<br>");
+				// this.clearText();
 				this.updateEverything();
 				return true;
 			}

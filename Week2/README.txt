@@ -1,5 +1,4 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*																							*
 *	Week 2 - The Game																		*
 *	v0.0.2.4																				*
 *	Jordan Silver																			*
@@ -10,12 +9,10 @@
 *		M-Move WebGL functions into Game object												*
 *		E-Decide on a filter to use															*
 *		E-Figure out what to do with dialog canvas......									*
-*		E-Make View Item more useful														*
 *		M-Better resize battle window on resize												*
 *		E-Fix the resize function I somehow broke											*
 *		H-Add quick time indicator															*
 *		M-Add enemy attack animation														*
-*		E-Add keyboard shortcuts															*
 *																							*
 *																							*
 *																							*
@@ -26,6 +23,8 @@
 *																							*
 *	v0.0.2.4 - 																				*
 *		Added jump attack animation	with quick time event									*
+*		Made View Item more useful															*
+*		Added keyboard shortcuts for saving, loading, debug, and 3 tabs						*
 *																							*
 *	v0.0.2.3 -																				*
 *		Added item drops																	*
