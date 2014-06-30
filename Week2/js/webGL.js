@@ -107,6 +107,8 @@
     var wallTextures = Array();
     var heroTextures = Array();
     var enemyTextures = Array();
+    var grassTexturesArray = Array();
+    var indicatorTextures = Array();
 
     function initTexture() {
         var floorImage = new Image();
@@ -174,6 +176,43 @@
             handleLoadedTexture(enemyTextures)
         }
         enemyImage.src = "./img/master.png";//TODO: figure out how to get this from game
+
+        var grassImages = [];
+        for(var i=0;i<7;i++) {
+            grassTexturesArray[i] = [];
+            var pointer = grassTexturesArray[i];
+
+            grassImages[i] = new Image();
+            grassImages[i].pointer = pointer;
+
+            var pointer2 = grassImages[i];
+
+            for (var j=0; j < 3; j++) {
+                var texture = gl.createTexture();
+                texture.image = pointer2;
+                pointer.push(texture);
+            }
+
+            pointer2.onload = function () {
+                handleLoadedTexture(this.pointer);
+            }
+            pointer2.src = "./img/grass/sprite_" + (i+1) + ".png";
+        }
+
+
+
+        var indicatorImage = new Image();
+
+        for (var i=0; i < 3; i++) {
+            var texture = gl.createTexture();
+            texture.image = indicatorImage;
+            indicatorTextures.push(texture);
+        }
+
+        indicatorImage.onload = function () {
+            handleLoadedTexture(indicatorTextures)
+        }
+        indicatorImage.src = "./img/indicator.png";
     }
 
 
@@ -239,35 +278,35 @@
 
 
     function handleKeys() {
-    //     if (currentlyPressedKeys[90]) {
-    //         // Page Up
-    //         z -= 0.05;
-    //     }
-    //     if (currentlyPressedKeys[88]) {
-    //         // Page Down
-    //         z += 0.05;
-    //     }
-    //     if (currentlyPressedKeys[37]) {
-    //         // Left cursor key
-    //         ySpeed -= 1;
-    //     }
-    //     if (currentlyPressedKeys[39]) {
-    //         // Right cursor key
-    //         ySpeed += 1;
-    //     }
-    //     if (currentlyPressedKeys[38]) {
-    //         // Up cursor key
-    //         xSpeed -= 1;
-    //     }
-    //     if (currentlyPressedKeys[40]) {
-    //         // Down cursor key
-    //         xSpeed += 1;
-    //     }
-    //     if (currentlyPressedKeys[13] && zoom >= -3.375) {
-    //         // Down cursor key
-    //         zoom -= 0.075;
-    //         console.log(zoom);
-    //     }
+        if (currentlyPressedKeys[90]) {
+            // Page Up
+            z -= 0.05;
+        }
+        if (currentlyPressedKeys[88]) {
+            // Page Down
+            z += 0.05;
+        }
+        if (currentlyPressedKeys[37]) {
+            // Left cursor key
+            ySpeed -= 1;
+        }
+        if (currentlyPressedKeys[39]) {
+            // Right cursor key
+            ySpeed += 1;
+        }
+        if (currentlyPressedKeys[38]) {
+            // Up cursor key
+            xSpeed -= 1;
+        }
+        if (currentlyPressedKeys[40]) {
+            // Down cursor key
+            xSpeed += 1;
+        }
+        if (currentlyPressedKeys[13] && zoom >= -3.375) {
+            // Down cursor key
+            zoom -= 0.075;
+            console.log(zoom);
+        }
     }
 
 
@@ -275,6 +314,8 @@
     var bushVertexPositionBuffer;
     var wallVertexPositionBuffer;
     var heroVertexPositionBuffer;
+    var grassVertexPositionBuffer;
+    var indicatorVertexPositionBuffer;
 
 
     function initBuffers() {
@@ -331,6 +372,33 @@
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
         bushVertexTextureCoordBuffer.itemSize = 2;
         bushVertexTextureCoordBuffer.numItems = 4;
+
+
+        //grass
+
+        grassVertexPositionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, grassVertexPositionBuffer);
+        vertices = [
+            -0.35, 0.0,  0.0,
+             0.35,  0.0,  0.0,
+            -0.35,  0.75,  0.0,
+             0.35,  0.75,  0.0
+            ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        grassVertexPositionBuffer.itemSize = 3;
+        grassVertexPositionBuffer.numItems = 4;
+
+        grassVertexTextureCoordBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, grassVertexTextureCoordBuffer);
+        textureCoords = [
+            0.0, 1.0,
+            1.0, 1.0,
+            0.0, 0.0,
+            1.0, 0.0
+            ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
+        grassVertexTextureCoordBuffer.itemSize = 2;
+        grassVertexTextureCoordBuffer.numItems = 4;
 
 
 
@@ -418,6 +486,33 @@
         enemyVertexTextureCoordBuffer.numItems = 4;
 
 
+        //indicator
+
+        indicatorVertexPositionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, indicatorVertexPositionBuffer);
+        vertices = [
+            -1.0, 0.0,  0.0,
+             1.0,  0.0,  0.0,
+            -1.0,  1.0,  0.0,
+             1.0,  1.0,  0.0
+            ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        indicatorVertexPositionBuffer.itemSize = 3;
+        indicatorVertexPositionBuffer.numItems = 4;
+
+        indicatorVertexTextureCoordBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, indicatorVertexTextureCoordBuffer);
+        textureCoords = [
+            0.0, 1.0,
+            1.0, 1.0,
+            0.0, 0.0,
+            1.0, 0.0
+            ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
+        indicatorVertexTextureCoordBuffer.itemSize = 2;
+        indicatorVertexTextureCoordBuffer.numItems = 4;
+
+
     }
 
     var canIdle = false;
@@ -456,6 +551,12 @@
     var enemyY = 0;
 
     var showIndicator = false;
+    var whosTurn = false;
+
+    var grassLoop = 0;
+
+    var waitLoop = 0;
+
 
     function drawScene() {
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
@@ -475,7 +576,7 @@
         mat4.rotate(mvMatrix, degToRad(xRot), [1, 0, 0]);
         mat4.rotate(mvMatrix, degToRad(yRot), [0, 1, 0]);
 
-                //wall
+        //wall
 
         mvPushMatrix();
         mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
@@ -531,52 +632,153 @@
 
 
 
-        //bushes
+        //grass
 
-        if(showIndicator) {
+
+        for(var i=0;i<64;i++) {
+
             mvPushMatrix();
+            // mat4.rotate(mvMatrix, degToRad(rSquare), [1, 0, 0]);
             mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
-            mat4.rotate(mvMatrix, degToRad(-5), [0, 1, 0]);
-            mat4.translate(mvMatrix, [4.0, 0.0, -5.0]);
+            mat4.translate(mvMatrix, [(11-(i*.35)), -0.25, -5.4]);
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexPositionBuffer);
-            gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, bushVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, grassVertexPositionBuffer);
+            gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, grassVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexTextureCoordBuffer);
-            gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, bushVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, grassVertexTextureCoordBuffer);
+            gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, grassVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 
             gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, bushTextures[filter]);
+            gl.bindTexture(gl.TEXTURE_2D, grassTexturesArray[((grassLoop+(i*3))%7)][filter]);
             gl.uniform1i(shaderProgram.samplerUniform, 0);
 
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            gl.uniform1f(shaderProgram.alphaUniform, 0.6);
+            gl.enable(gl.BLEND);
+            gl.depthFunc(gl.LESS);
+            gl.disable(gl.DEPTH_TEST);
+
+
+
             setMatrixUniforms();
-            gl.drawArrays(gl.TRIANGLE_STRIP, 0, bushVertexPositionBuffer.numItems);
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, grassVertexPositionBuffer.numItems);
 
             mvPopMatrix();
 
+
+        }
+
+        for(var i=0;i<3;i++) {
             mvPushMatrix();
+            // mat4.rotate(mvMatrix, degToRad(rSquare), [1, 0, 0]);
             mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
-            mat4.rotate(mvMatrix, degToRad(5), [0, 1, 0]);
-            mat4.translate(mvMatrix, [-4.0, 0.0, -5.0]);
+            mat4.translate(mvMatrix, [(4-(i*.35)), -0.25, 0.5]);
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexPositionBuffer);
-            gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, bushVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, grassVertexPositionBuffer);
+            gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, grassVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexTextureCoordBuffer);
-            gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, bushVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
+            gl.bindBuffer(gl.ARRAY_BUFFER, grassVertexTextureCoordBuffer);
+            gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, grassVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
             gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, bushTextures[filter]);
+            gl.bindTexture(gl.TEXTURE_2D, grassTexturesArray[((grassLoop+(i+3))%7)][filter]);
             gl.uniform1i(shaderProgram.samplerUniform, 0);
 
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            gl.uniform1f(shaderProgram.alphaUniform, 0.6);
+            gl.enable(gl.BLEND);
+            gl.depthFunc(gl.LESS);
+            gl.disable(gl.DEPTH_TEST);
 
             setMatrixUniforms();
-            gl.drawArrays(gl.TRIANGLE_STRIP, 0, bushVertexPositionBuffer.numItems);
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, grassVertexPositionBuffer.numItems);
 
             mvPopMatrix();
         }
+
+        for(var i=0;i<4;i++) {
+            mvPushMatrix();
+            // mat4.rotate(mvMatrix, degToRad(rSquare), [1, 0, 0]);
+            mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
+            mat4.translate(mvMatrix, [(-2.5-(i*.35)), -0.25, 1.0]);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, grassVertexPositionBuffer);
+            gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, grassVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, grassVertexTextureCoordBuffer);
+            gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, grassVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, grassTexturesArray[((grassLoop+(i+3))%7)][filter]);
+            gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            gl.uniform1f(shaderProgram.alphaUniform, 0.6);
+            gl.enable(gl.BLEND);
+            gl.depthFunc(gl.LESS);
+            gl.disable(gl.DEPTH_TEST);
+
+            setMatrixUniforms();
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, grassVertexPositionBuffer.numItems);
+
+            mvPopMatrix();
+        }
+
+        waitLoop++;
+        if(waitLoop === 50){
+            grassLoop++;
+            if(grassLoop >= 7)
+                grassLoop = 0;
+            waitLoop = 0;
+        }
+
+
+
+        //bushes
+
+        mvPushMatrix();
+        mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
+        mat4.rotate(mvMatrix, degToRad(-5), [0, 1, 0]);
+        mat4.translate(mvMatrix, [4.0, 0.0, -5.0]);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, bushVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexTextureCoordBuffer);
+        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, bushVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, bushTextures[filter]);
+        gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+        setMatrixUniforms();
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, bushVertexPositionBuffer.numItems);
+
+        mvPopMatrix();
+
+        mvPushMatrix();
+        mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
+        mat4.rotate(mvMatrix, degToRad(5), [0, 1, 0]);
+        mat4.translate(mvMatrix, [-4.0, 0.0, -5.0]);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, bushVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, bushVertexTextureCoordBuffer);
+        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, bushVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, bushTextures[filter]);
+        gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+
+        setMatrixUniforms();
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, bushVertexPositionBuffer.numItems);
+
+        mvPopMatrix();
 
 
         //hero
@@ -631,6 +833,34 @@
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, enemyVertexPositionBuffer.numItems);
 
         mvPopMatrix();
+
+        //indicator
+
+        if(showIndicator) {
+            mvPushMatrix();
+
+            mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
+            if(whosTurn)
+                mat4.translate(mvMatrix, [3.5, 2.5, -0.5]);
+            else
+                mat4.translate(mvMatrix, [-3.5, 2.5, -0.5]);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, indicatorVertexPositionBuffer);
+            gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, indicatorVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, indicatorVertexTextureCoordBuffer);
+            gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, indicatorVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, indicatorTextures[filter]);
+            gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+            setMatrixUniforms();
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, indicatorVertexPositionBuffer.numItems);
+
+            mvPopMatrix();
+        }
 
 
     }

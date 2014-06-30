@@ -16,9 +16,10 @@
 *		H-Add shop keeper/selling items														*
 *		M-Add ability to drop/throw away items												*
 *		M-Move button onclicks to button creation (using 'that')							*
-*		H-Add grass																			*
 *																							*
 *	Bug List:																				*
+*		Sometimes you drink necklaces														*
+*																							*
 *																							*
 *																							*
 *	Changelog:																				*
@@ -30,6 +31,9 @@
 *		Added animation on experience gain													*
 *		Added enemy attack animation														*
 *		Added ability to use consumables in battle											*
+*		Added grass to battlefield with looping texture										*
+*																							*
+*																							*
 *																							*
 *	v0.0.2.3 -																				*
 *		Added item drops																	*

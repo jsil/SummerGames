@@ -3,6 +3,10 @@
 	Game.prototype.advanceTurn = function() {
 		this.whosTurn = !this.whosTurn;
 		this.landedQT = false;
+		if(!whosTurn)
+			whosTurn = true;
+		else
+			whosTurn = false;
 	}
 
 	Game.prototype.doAttack = function() {
@@ -33,9 +37,11 @@
 
 		if(this.hero.speed >= this.currentEnemy.speed) {
 			this.whosTurn = true;
+			whosTurn = true;
 		}
 		else {
 			this.whosTurn = false;
+			whosTurn = false;
 		}
 		this.battleHUD.find("#innerHUD").find("#xpHUD").html(this.hero.experience);
 		this.showBattle();
@@ -56,7 +62,7 @@
 		this.drawBattle(this.currentEnemy);
 		if(this.hero.isAlive() && this.currentEnemy.isAlive()) {
 				if(!this.whosTurn) {
-					this.advanceTurn();
+					//this.advanceTurn();
 					// console.log("Enemy is attacking!");
 
 					// setTimeout(function(){
@@ -75,7 +81,8 @@
 						that.animateEnemyAttack();
 					// }, 800);
 				}
-				setTimeout(function(){that.doBattle()}, 100);
+				else
+					setTimeout(function(){that.doBattle()}, 100);
 		}
 		else {
 			this.waitingForInput = false;
@@ -329,6 +336,8 @@
 				}, 1250);
 				setTimeout(function() {
 					that.waitingForInput = true;
+					that.advanceTurn();
+					that.doBattle();
 				}, 1500);
 				// setTimeout(function() {
 				// 	//that.waitingForInput = false;
