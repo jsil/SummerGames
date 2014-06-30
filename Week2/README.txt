@@ -12,9 +12,11 @@
 *		M-Better resize battle window on resize												*
 *		E-Fix the resize function I somehow broke											*
 *		H-Add quick time indicator															*
-*		M-Add enemy attack animation														*
+*		M-Add enemy quick time event														*
 *		H-Add shop keeper/selling items														*
 *		M-Add ability to drop/throw away items												*
+*		M-Move button onclicks to button creation (using 'that')							*
+*		H-Add grass																			*
 *																							*
 *	Bug List:																				*
 *																							*
@@ -26,6 +28,8 @@
 *		Made View Item more useful															*
 *		Added keyboard shortcuts for saving, loading, debug, modals, and 3 tabs				*
 *		Added animation on experience gain													*
+*		Added enemy attack animation														*
+*		Added ability to use consumables in battle											*
 *																							*
 *	v0.0.2.3 -																				*
 *		Added item drops																	*

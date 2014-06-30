@@ -420,26 +420,33 @@
 
     }
 
+    var canIdle = false;
     var idleLoop = 0;
     var horizontalIdle = 0;
     var verticleIdle = 0;
 
     function moveIdle() {
-        if(idleLoop < 25) {
-            horizontalIdle = horizontalIdle + 0.01;
-        }
-        else if(idleLoop < 50) {
-            verticleIdle = verticleIdle + 0.01;
-        }
-        else if(idleLoop < 75) {
-            horizontalIdle = horizontalIdle - 0.01;
+        if(canIdle) {
+            if(idleLoop < 25) {
+                horizontalIdle = horizontalIdle + 0.01;
+            }
+            else if(idleLoop < 50) {
+                verticleIdle = verticleIdle + 0.01;
+            }
+            else if(idleLoop < 75) {
+                horizontalIdle = horizontalIdle - 0.01;
+            }
+            else {
+                verticleIdle = verticleIdle - 0.01;
+            }
+            idleLoop++;
+            if(idleLoop > 100)
+                idleLoop = 0;
         }
         else {
-            verticleIdle = verticleIdle - 0.01;
+            horizontalIdle = 0;
+            verticleIdel = 0;
         }
-        idleLoop++;
-        if(idleLoop > 100)
-            idleLoop = 0;
     }
 
     var heroX = 0;
@@ -580,7 +587,8 @@
 
         mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
         mat4.translate(mvMatrix, [-3.5, 0.0, -0.5]);
-        // mat4.translate(mvMatrix, [horizontalIdle, verticleIdle, 0.0]);
+        if(canIdle)
+            mat4.translate(mvMatrix, [horizontalIdle, verticleIdle, 0.0]);
         mat4.translate(mvMatrix, [heroX,heroY, 0.0]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, heroVertexPositionBuffer);

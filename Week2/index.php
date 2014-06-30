@@ -65,7 +65,7 @@
 	</div>
 	<div id="battleMenu">
 		<div id="battleOption1" class="battleOption"><span class="underlined">1</span>. Attack</div>
-		<div id="battleOption2" class="battleOption"><span class="underlined">2</span>.</div>
+		<div id="battleOption2" class="battleOption"><span class="underlined">2</span>. Use Item</div>
 		<div id="battleOption3" class="battleOption"><span class="underlined">3</span>.</div>
 		<div id="battleOption4" class="battleOption"><span class="underlined">4</span>. Run</div>
 	</div>

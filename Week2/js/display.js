@@ -139,7 +139,7 @@
 			this.scrollBox.animate({ scrollTop: this.scrollBox.prop('scrollHeight') }, "fast");
 			//console.log("Hide battle");
 		}
-		console.log("toggle battle");
+		//console.log("toggle battle");
 	}
 
 	Game.prototype.drawBattle = function(enemy) {

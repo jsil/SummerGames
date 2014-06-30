@@ -56,6 +56,7 @@ body {
 	border: 2px solid white;
 	font-family:Verdana,Arial,sans-serif !important;
    	display: table;
+   	z-index: 22;
 }
 
 #battleToast {
@@ -78,6 +79,7 @@ body {
 	border: 2px solid white;
 	font-family:Verdana,Arial,sans-serif !important;
    	display: table;
+   	z-index: 22;
 }
 
 #battleToast2 {

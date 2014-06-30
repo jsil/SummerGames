@@ -105,23 +105,26 @@
 				}
 				if(!leveledUp) {
 					setTimeout(function(){
-						that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained.",4000);
+						that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained.",5000);
+						canIdle = true;
 						that.drawBattle();
 						that.animateXP();
 					}, 2000);
 				}
 				else {
 					setTimeout(function(){
-						that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained. Level Up!",4000);
+						that.toast(that.currentEnemy.name + " defeated. " + that.currentEnemy.xpReward + " XP gained. Level Up!",5000);
+						canIdle = true;
 						that.drawBattle();
 						that.animateXP();
 					}, 2000);
 				}
 				setTimeout(function(){
 					that.hideBattle();
-					that.zoomIn();	
-				}, 5000);
-				console.log(this.hero.experience + "XP");
+					that.zoomIn();
+					canIdle = false;	
+				}, 7000);
+				//console.log(this.hero.experience + "XP");
 				//this.addText("***** Battle ******<br>");
 				// this.clearText();
 				this.updateEverything();
@@ -190,7 +193,8 @@
     			heroX += 0.1;
     		}
     		else if(frame > 60 && frame <= 120) {
-    			heroX = ((frame-60)/14)+ 4;
+    			//heroX = ((frame-60)/14)+ 4;
+    			heroX += (1/15);
     			if(frame <= 100) {
     				heroY = (-0.004*((frame-60)*(frame-60)))+(frame-60)*0.20;
     				// if(frame === 100)
@@ -203,18 +207,24 @@
     			else if(frame > 100 && frame <=119) {
     				if(frame === 105) {
     					if(!this.landedQT || (this.landedQT && this.canQT)) {
-    						this.toast2("Hit " + this.currentEnemy.name + " for " + this.hero.jumpAttack(this.currentEnemy, this.landedQT) + " damage!", 1000);
+    						this.toast2("Hit " + this.currentEnemy.name + " for " + this.hero.jumpAttack(this.currentEnemy, this.landedQT) + " damage!", 1400);
     						showIndicator = false;
     					}
     					this.canQT = false;
     				}
-					heroY = (-0.006*((frame-100)*(frame-100)))+(frame-100)*0.03 + 1.6;
+    				if(frame <= 100 || !this.landedQT)
+						heroY = (-0.006*((frame-100)*(frame-100)))+(frame-100)*0.03 + 1.6;
+					else{
+						//console.log("hero y: " + heroY);
+						heroX += (1/20);
+						heroY = (-0.00981*((frame-100)*(frame-100)))+(frame-100)*0.102 + 1.6;
+					}
     			}
     			else if(frame === 119) {
-    				heroY = 0;
+    				//heroY = 0;
     			}
     			if(frame >= 90 && frame < 105 && this.landedQT && this.canQT) {
-    				this.toast2("Hit " + this.currentEnemy.name + " for " + this.hero.jumpAttack(this.currentEnemy, this.landedQT) + " damage!", 1000);
+    				this.toast2("Hit " + this.currentEnemy.name + " for " + this.hero.jumpAttack(this.currentEnemy, this.landedQT) + " damage!", 1400);
     				this.canQT = false;
     				showIndicator = false;
     			}
@@ -223,7 +233,13 @@
     			//nothing
     		}
     		else if(frame > 130 && frame <170) {
-    			heroX = heroX - (8/40);
+    			if(!this.landedQT)
+    				heroX = heroX - (8/40);
+    			else {
+    				//console.log("hero x: " + heroX);
+    				heroX = heroX - (8.89/40);
+    			}
+
     		}
     		setTimeout(function() {
     			that.animateAttack(frame);
@@ -313,11 +329,44 @@
 				}, 1250);
 				setTimeout(function() {
 					that.waitingForInput = true;
-				}, 1250);
+				}, 1500);
 				// setTimeout(function() {
 				// 	//that.waitingForInput = false;
 				// 	that.advanceTurn();
 				// }, 1000);
 			// }, 1000);
     	}
+    }
+
+    Game.prototype.openUseMenu = function(frame) {
+    	if(this.hero.printConsumables() != "") {
+    		var that = this;
+    		$("#useDiv").html(this.hero.printConsumables());
+    		var battleConsumeButtons = document.getElementsByClassName("battleConsumeButton");
+			for(var i=0;i<battleConsumeButtons.length;i++) {
+				battleConsumeButtons[i].onclick = function() {
+					event.preventDefault();
+					if(that.hero.canHeal()) {
+						that.toast2("You drank the " + that.hero.inventory[this.getAttribute("data-num")].name + " and gained " + that.hero.inventory[this.getAttribute("data-num")].healValue + " HP!", 2000);
+						that.hero.consume(that.hero.inventory[this.getAttribute("data-num")]);
+						that.drawBattle();
+						closeModal("#useModal");
+						$("#useDiv").html("You currently have no consumable items.");
+						//TODO: add consume animation
+						that.advanceTurn();
+					}
+					else {
+						that.toast2("You are already at full HP!",1500);
+					}
+				}
+			}
+			var battleViewButtons = document.getElementsByClassName("battleViewButton");
+			for(var i=0;i<battleViewButtons.length;i++) {
+				battleViewButtons[i].onclick = function() {
+					event.preventDefault();
+					that.toast2(that.hero.inventory[this.getAttribute("data-num")].printDescription(),1500);
+				}
+			}
+    	}
+    	openModal("#useModal");
     }

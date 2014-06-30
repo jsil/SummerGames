@@ -32,24 +32,23 @@ $(document).ready(function() {
 	myGame.addQuest(0);
 	myGame.updateEverything();
 
-	var exampleEnemy = new Character("The Master");
 
 
 	$("#flexButton1").click(function(event) {
 		if(myGame.completeQuest(0)) {
-			myGame.drawDialog(exampleEnemy, "Hello " + me.name + ". I've been expecting you. For your first task, take this sword and equip it.");
+			myGame.drawDialog(characterDB[1], "Hello " + me.name + ". I've been expecting you. For your first task, take this sword and equip it.");
 			myGame.addQuest(1);
 		}
 		else
-			myGame.drawDialog(exampleEnemy, "Now is not the time for words.");
+			myGame.drawDialog(characterDB[1], "Now is not the time for words.");
 	});
 
 	$("#flexButton2").click(function(event) {
 		if(myGame.checkQuest(2)) {
-			myGame.startBattle(jQuery.extend(true, {}, exampleEnemy));
+			myGame.startBattle(jQuery.extend(true, {}, characterDB[1]));
 		}
 		else
-			myGame.drawDialog(exampleEnemy, "Now is not the time for fighting.");
+			myGame.drawDialog(characterDB[1], "Now is not the time for fighting.");
 	});
 
 	$("#flexButton3").click(function(event) {
@@ -85,7 +84,7 @@ $(document).ready(function() {
 		//*******Check quest stuff*******
 		if(me.inventory[i].id === 000) {
 			myGame.completeQuest(1);
-			myGame.drawDialog(exampleEnemy, "Excellent, now fight me, unless you're scaaaaaaared!!!");
+			myGame.drawDialog(characterDB[1], "Excellent, now fight me, unless you're scaaaaaaared!!!");
 			myGame.addQuest(2);
 		}
 		//********************************
@@ -101,7 +100,7 @@ $(document).ready(function() {
 		//*******Check quest stuff*******
 		if(me.inventory[i].id === 200) {
 			myGame.completeQuest(3);
-			myGame.drawDialog(exampleEnemy, "I hope that left a good taste in your mouth, because this is the abrupt end of the demo. For making it through the demo, you have earned this dumb trinket. Wear it proudly, " + me.name + ".");
+			myGame.drawDialog(characterDB[1], "I hope that left a good taste in your mouth, because this is the abrupt end of the demo. For making it through the demo, you have earned this dumb trinket. Wear it proudly, " + me.name + ".");
 		}
 		//********************************
 		me.consume(me.inventory[i]);
@@ -247,6 +246,10 @@ $(document).ready(function() {
 	                	closeModal("#questModal");
 	                	openModal("#debugModal");
 	                }
+	                else if($("#useModal").is(':visible')) {
+	                	closeModal("#useModal");
+	                	$("#useDiv").html("You currently have no consumable items.");
+	                }
 	            }
 	        }
 	    });
@@ -340,7 +343,7 @@ $(document).ready(function() {
 		  			myGame.doAttack();
 			  	}
 			  	if($("#battleOption2").hasClass("selectedOption")) {
-			  		console.log("2");
+	  				myGame.openUseMenu();
 			  	}
 			  	if($("#battleOption3").hasClass("selectedOption")) {
 			  		console.log("3");
@@ -353,7 +356,7 @@ $(document).ready(function() {
   				myGame.doAttack();
 		    }
 		    else if(e.keyCode === 50) {
-		  		console.log("2");
+		  		myGame.openUseMenu();
 		    }
 		    else if(e.keyCode === 51) {
 		  		console.log("3");
@@ -418,6 +421,9 @@ $(document).ready(function() {
 
 	$("#battleOption2").click(function(event) {
 		event.preventDefault();
+		if(myGame.waitingForInput) {
+	  			myGame.openUseMenu();
+	  		}
 	});
 
 	$("#battleOption3").click(function(event) {

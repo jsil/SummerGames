@@ -159,6 +159,13 @@ Character.prototype = {
 		}
 	},
 
+	canHeal:function() {
+		if(this.health < this.maxHealth)
+			return true;
+		else
+			return false;
+	},
+
 	consume:function(consumable) {
 		consumable.doEffect(this);
 	},
@@ -255,6 +262,19 @@ Hero.prototype = {
 				listText = listText + "<button type=button class=\"itemConsumeButton\" data-num=" + i + ">Consume</button>";
 			listText = listText + "<button type=button class=\"itemViewButton\" data-num=" + i + ">View</button>";
 			listText = listText + "</div>";
+		}
+		return listText;
+	},
+
+	printConsumables:function() {
+		var listText = "";
+		for(var i=0;i<this.inventory.length;i++) {
+			if(this.inventory[i].isConsumable()) {
+				listText = listText + "<div>" + this.inventory[i].name;
+				listText = listText + "<button type=button class=\"battleConsumeButton\" data-num=" + i + ">Consume</button>";
+				listText = listText + "<button type=button class=\"battleViewButton\" data-num=" + i + ">View</button>";
+				listText = listText + "</div>";
+			}
 		}
 		return listText;
 	},
@@ -589,4 +609,8 @@ var characterDB = [];
 characterDB[0] = new Character("Generic Dude");
 characterDB[0].health = 5;
 characterDB[0].maxHealth = 5;
-characterDB[0].setRewards([armoryDB[114], armoryDB[121]],[.05,.05]);
+characterDB[0].setRewards([armoryDB[114], armoryDB[121], armoryDB[200]],[.05,.05,.35]);
+
+
+characterDB[1] = new Character("The Master");
+characterDB[1].xpReward = 35;

@@ -26,6 +26,13 @@ Item.prototype = {
 		viewString = viewString + "<br>Price: " + this.price;
 		viewString = viewString + "<br>";
 		return viewString;
+	},
+	printDescription:function() {
+		var viewString = "" + this.name;
+		if(this.description != "") {
+			viewString = viewString + " - " + this.description;
+		}
+		return viewString;
 	}
 }
 
@@ -237,3 +244,4 @@ armoryDB[141] = new Armor("Helpful Necklace",141, 4);
 //***************Consumables****************
 
 armoryDB[200] = new Consumable("Health Potion",200);
+armoryDB[200].description = "Heals 5 HP";
