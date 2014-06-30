@@ -15,18 +15,9 @@
 		this.waitingForInput = false;
 		this.hideHUD();
 		this.zoomOut();
-		// console.log("attacking");
 		setTimeout(function() {
 			that.animateAttack();
 		},800);
-		// setTimeout(function() {
-		// 	console.log("attacked");
-		// 	that.toast("You hit " + that.currentEnemy.name + " for " + that.hero.attack(that.currentEnemy) + " damage!", 1000);
-		// 	setTimeout(function() {
-		// 		that.waitingForInput = false;
-		// 		that.advanceTurn();
-		// 	}, 1000);
-		// }, 1000);
 
 	}
 
@@ -46,7 +37,6 @@
 		this.battleHUD.find("#innerHUD").find("#xpHUD").html(this.hero.experience);
 		this.showBattle();
 		this.waitingForInput = true;
-		// console.log("Started Battle");
 		jQuery.proxy(this.doBattle(), this);
 		//this.doBattle(this);
 	} 
@@ -62,24 +52,7 @@
 		this.drawBattle(this.currentEnemy);
 		if(this.hero.isAlive() && this.currentEnemy.isAlive()) {
 				if(!this.whosTurn) {
-					//this.advanceTurn();
-					// console.log("Enemy is attacking!");
-
-					// setTimeout(function(){
-						//that.toast(that.currentEnemy.name + " hit you for " + that.currentEnemy.attack(that.hero) + " damage!", 1000);
-						// console.log("Enemy attacked!")
-						// that.drawBattle(that.currentEnemy);
-						// setTimeout(function(){
-						// 	that.zoomIn();
-						// }, 1000);
-						// setTimeout(function(){
-						// 	that.showHUD();
-						// }, 1250);
-						// setTimeout(function() {
-						// 	that.waitingForInput = true;
-						// }, 1250);
 						that.animateEnemyAttack();
-					// }, 800);
 				}
 				else
 					setTimeout(function(){that.doBattle()}, 100);
@@ -321,12 +294,8 @@
     		},20);
     	}
     	else if(frame===170){
-    		// setTimeout(function() {
     			enemyX = 0;
     			enemyY = 0;
-				// console.log("attacked");
-				
-				//that.toast(that.currentEnemy.name + " hit you for " + that.currentEnemy.attack(that.hero) + " damage!", 1000);
 				that.drawBattle(that.currentEnemy);
 				setTimeout(function(){
 					that.zoomIn();
@@ -339,11 +308,6 @@
 					that.advanceTurn();
 					that.doBattle();
 				}, 1500);
-				// setTimeout(function() {
-				// 	//that.waitingForInput = false;
-				// 	that.advanceTurn();
-				// }, 1000);
-			// }, 1000);
     	}
     }
 

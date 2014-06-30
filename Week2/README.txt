@@ -11,7 +11,6 @@
 *		E-Figure out what to do with dialog canvas......									*
 *		M-Better resize battle window on resize												*
 *		E-Fix the resize function I somehow broke											*
-*		H-Add quick time indicator															*
 *		M-Add enemy quick time event														*
 *		H-Add shop keeper/selling items														*
 *		M-Add ability to drop/throw away items												*
@@ -32,6 +31,7 @@
 *		Added enemy attack animation														*
 *		Added ability to use consumables in battle											*
 *		Added grass to battlefield with looping texture										*
+*		Added quick time indicator															*
 *																							*
 *																							*
 *																							*
