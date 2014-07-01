@@ -14,11 +14,11 @@
 *		M-Add enemy quick time event														*
 *		H-Add shop keeper/selling items														*
 *		M-Add ability to drop/throw away items												*
-*		M-Move button onclicks to button creation (using 'that')							*
+*		E-Rewrite view equipment button function to get descriptions from item object		*
 *																							*
 *	Bug List:																				*
 *		Sometimes you drink necklaces														*
-*																							*
+*		Consuming a potion triggers demo quest 4 dialog even if not active					*
 *																							*
 *																							*
 *	Changelog:																				*
@@ -32,6 +32,7 @@
 *		Added ability to use consumables in battle											*
 *		Added grass to battlefield with looping texture										*
 *		Added quick time indicator															*
+*		Moved several button onclick functions into Game object								*
 *																							*
 *																							*
 *																							*

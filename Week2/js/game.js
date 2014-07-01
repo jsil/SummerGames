@@ -62,44 +62,95 @@ function Game(hero) {
 	}
 
 	Game.prototype.updateInventory = function() {
+		var that = this;
 		$("#inventoryBox").html(this.hero.printInventory());
 		var viewButtons = document.getElementsByClassName("itemViewButton");
 		for(var i=0;i<viewButtons.length;i++) {
 			viewButtons[i].onclick = function() {
 				event.preventDefault();
-				viewButtonItem(this.getAttribute("data-num"));
+				that.addText(that.hero.inventory[this.getAttribute("data-num")].printView());
 			}
 		}
 		var equipButtons = document.getElementsByClassName("itemEquipButton");
 		for(var i=0;i<equipButtons.length;i++) {
 			equipButtons[i].onclick = function() {
 				event.preventDefault();
-				equipButton(this.getAttribute("data-num"));
+				//*******Check quest stuff*******
+				if(that.hero.inventory[this.getAttribute("data-num")].id === 000) {
+					that.completeQuest(1);
+					that.drawDialog(characterDB[1], "Excellent, now fight me, unless you're scaaaaaaared!!!");
+					that.addQuest(2);
+				}
+				//********************************
+
+				if(that.hero.inventory[this.getAttribute("data-num")].isWeapon())
+						that.hero.equipWeapon(that.hero.inventory[this.getAttribute("data-num")]);
+				else if(that.hero.inventory[this.getAttribute("data-num")].isArmor())
+					that.hero.equipArmor(that.hero.inventory[this.getAttribute("data-num")]);
+				that.updateEverything();
 			}
 		}
 		var consumeButtons = document.getElementsByClassName("itemConsumeButton");
 		for(var i=0;i<consumeButtons.length;i++) {
 			consumeButtons[i].onclick = function() {
 				event.preventDefault();
-				consumeButton(this.getAttribute("data-num"));
+				//consumeButton(this.getAttribute("data-num"));
+				//*******Check quest stuff*******
+				if(that.hero.inventory[this.getAttribute("data-num")].id === 200) {
+					that.completeQuest(3);
+					that.drawDialog(characterDB[1], "I hope that left a good taste in your mouth, because this is the abrupt end of the demo. For making it through the demo, you have earned this dumb trinket. Wear it proudly, " + that.hero.name + ".");
+				}
+				//********************************
+				that.hero.consume(that.hero.inventory[this.getAttribute("data-num")]);
+				that.updateEverything();
 			}
 		}
 	}
 
 	Game.prototype.updateEquipment = function() {
+		var that = this;
 		$("#equipmentBox").html(this.hero.printEquipment());
 		var viewButtons = document.getElementsByClassName("equipmentViewButton");
 		for(var i=0;i<viewButtons.length;i++) {
-			viewButtons[i].onclick = function() {
+			viewButtons[i].onclick = function() {//TODO: Descriptions are now part of item objects, so this isn't needed. Rewrite it!
 				event.preventDefault();
-				viewButtonEquipment(this.getAttribute("data-num"));
+				var type = parseInt(this.getAttribute("data-num"));
+				if(type===-1) {
+					console.log(that.hero.getWeaponName());
+					that.addText("You are holding " + that.hero.getWeaponName() + ".");
+				}
+				else if(type===0) {
+					console.log(that.hero.getChestName());
+					that.addText("You are wearing " + that.hero.getChestName() + ".");
+				}
+				else if(type===1) {
+					console.log(that.hero.getLegsName());
+					that.addText("You are wearing " + that.hero.getLegsName() + ".");
+				}
+				if(type===2) {
+					console.log(that.hero.getHeadName());
+					that.addText("You are wearing " + that.hero.getHeadName() + ".");
+				}
+				if(type===3) {
+					console.log(that.hero.getFeetName());
+					that.addText("You are wearing " + that.hero.getFeetName() + ".");
+				}
+				if(type===4) {
+					console.log(that.hero.getNeckName());
+					that.addText("You are wearing " + that.hero.getNeckName() + ".");
+				}
 			}
 		}
 		var unequipButtons = document.getElementsByClassName("equipmentUnequipButton");
 		for(var i=0;i<unequipButtons.length;i++) {
 			unequipButtons[i].onclick = function() {
 				event.preventDefault();
-				unequipButton(this.getAttribute("data-num"));
+				var type = parseInt(this.getAttribute("data-num"));
+				if(type===-1)
+					that.hero.unequipWeapon();
+				else
+					that.hero.unequipArmor(type);
+				that.updateEverything();
 			}
 		}
 	}
@@ -110,6 +161,7 @@ function Game(hero) {
 	}
 
 	Game.prototype.updateSaves = function() {
+		var that = this;
 		var saveNames = document.getElementsByClassName("saveName");
 		for(var i=0;i<saveNames.length;i++) {
 			if(gameSaves[i].save != "[]")
@@ -117,9 +169,18 @@ function Game(hero) {
 			else
 				saveNames[i].innerHTML = "(No save data)";
 		}
+		var saveModalButtons = document.getElementsByClassName("saveModalButton");
+		for(var i=0;i<saveModalButtons.length;i++) {
+			saveModalButtons[i].onclick = function() {
+				console.log("Saving in Slot " + (parseInt(this.getAttribute("data-num")) + 1));
+				gameSaves[this.getAttribute("data-num")].writeSave(that,that.hero);
+				that.updateSaves();
+			}
+		}
 	}
 
 	Game.prototype.updateLoads = function() {
+		var that = this;
 		var loadNames = document.getElementsByClassName("loadName");
 		var loadModalButtons = document.getElementsByClassName("loadModalButton");
 		for(var i=0;i<loadNames.length;i++) {
@@ -133,9 +194,21 @@ function Game(hero) {
 				loadModalButtons[i].style.display = "none";
 			}
 		}
+		var loadModalButtons = document.getElementsByClassName("loadModalButton");
+		for(var i=0;i<loadModalButtons.length;i++) {
+			loadModalButtons[i].onclick = function() {
+				console.log("Loading in Slot " + (parseInt(this.getAttribute("data-num")) + 1));
+				that.loadJSON(gameSaves[this.getAttribute("data-num")].getGameJSON());
+				that.hero.loadJSON(gameSaves[this.getAttribute("data-num")].getHeroJSON());
+				that.clearText();
+				that.updateEverything();
+				closeModal("#loadModal");
+			}
+		}
 	}
 
 	Game.prototype.updateDebug = function() {
+		var that = this;
 		var armoryHTML = "";
 
 		for(var i=0;i<armoryDB.length;i++) {
@@ -147,7 +220,8 @@ function Game(hero) {
 		for(var i=0;i<unlockArmoryButtons.length;i++) {
 			unlockArmoryButtons[i].onclick = function() {
 				event.preventDefault();
-				debugAddItem(this.getAttribute("data-num"));
+				that.hero.addToInventory(armoryDB[this.getAttribute("data-num")]);
+				that.updateInventory();
 			}
 		}
 
@@ -161,7 +235,8 @@ function Game(hero) {
 		for(var i=0;i<unlockQuestButtons.length;i++) {
 			unlockQuestButtons[i].onclick = function() {
 				event.preventDefault();
-				debugAddQuest(this.getAttribute("data-num"));
+				that.hero.addQuest(questDB[this.getAttribute("data-num")]);
+				that.updateQuests();
 			}
 		}
 	}

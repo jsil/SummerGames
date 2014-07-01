@@ -635,12 +635,12 @@
         //grass
 
 
-        for(var i=0;i<64;i++) {
+        for(var i=0;i<56;i++) {
 
             mvPushMatrix();
             // mat4.rotate(mvMatrix, degToRad(rSquare), [1, 0, 0]);
             mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
-            mat4.translate(mvMatrix, [(11-(i*.35)), -0.25, -5.4]);
+            mat4.translate(mvMatrix, [(11-(i*.4)), -0.25, -5.4]);
 
             gl.bindBuffer(gl.ARRAY_BUFFER, grassVertexPositionBuffer);
             gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, grassVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -650,7 +650,7 @@
 
 
             gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, grassTexturesArray[((grassLoop+(i*3))%7)][filter]);
+            gl.bindTexture(gl.TEXTURE_2D, grassTexturesArray[((grassLoop+(i*2))%7)][filter]);
             gl.uniform1i(shaderProgram.samplerUniform, 0);
 
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -673,7 +673,7 @@
             mvPushMatrix();
             // mat4.rotate(mvMatrix, degToRad(rSquare), [1, 0, 0]);
             mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
-            mat4.translate(mvMatrix, [(4-(i*.35)), -0.25, 0.5]);
+            mat4.translate(mvMatrix, [(3.5-(i*.4)), -0.25, 1.25]);
 
             gl.bindBuffer(gl.ARRAY_BUFFER, grassVertexPositionBuffer);
             gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, grassVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -682,7 +682,7 @@
             gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, grassVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
             gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, grassTexturesArray[((grassLoop+(i+3))%7)][filter]);
+            gl.bindTexture(gl.TEXTURE_2D, grassTexturesArray[((grassLoop+(i*2))%7)][filter]);
             gl.uniform1i(shaderProgram.samplerUniform, 0);
 
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -701,7 +701,7 @@
             mvPushMatrix();
             // mat4.rotate(mvMatrix, degToRad(rSquare), [1, 0, 0]);
             mat4.rotate(mvMatrix, degToRad(90), [1, 0, 0]);
-            mat4.translate(mvMatrix, [(-2.5-(i*.35)), -0.25, 1.0]);
+            mat4.translate(mvMatrix, [(-2.5-(i*.4)), -0.25, 1.0]);
 
             gl.bindBuffer(gl.ARRAY_BUFFER, grassVertexPositionBuffer);
             gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, grassVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -710,7 +710,7 @@
             gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, grassVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
             gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, grassTexturesArray[((grassLoop+(i+3))%7)][filter]);
+            gl.bindTexture(gl.TEXTURE_2D, grassTexturesArray[((grassLoop+(i*2))%7)][filter]);
             gl.uniform1i(shaderProgram.samplerUniform, 0);
 
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
