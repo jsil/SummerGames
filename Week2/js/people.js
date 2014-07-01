@@ -469,9 +469,12 @@ Hero.prototype = {
 	},
 
 	consume:function(consumable) {
+		var hpDifference = this.health;
 		consumable.doEffect(this);
 		if(this.inventory.indexOf(consumable) != -1)
 			this.inventory.splice(this.inventory.indexOf(consumable), 1);
+		hpDifference = this.health - hpDifference;
+		return hpDifference;
 	},
 
 	getJSON:function() {

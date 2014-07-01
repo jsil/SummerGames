@@ -96,8 +96,7 @@ function Game(hero) {
 				event.preventDefault();
 				//consumeButton(this.getAttribute("data-num"));
 				//*******Check quest stuff*******
-				if(that.hero.inventory[this.getAttribute("data-num")].id === 200) {
-					that.completeQuest(3);
+				if(that.hero.inventory[this.getAttribute("data-num")].id === 200 && that.completeQuest(3)) {
 					that.drawDialog(characterDB[1], "I hope that left a good taste in your mouth, because this is the abrupt end of the demo. For making it through the demo, you have earned this dumb trinket. Wear it proudly, " + that.hero.name + ".");
 				}
 				//********************************

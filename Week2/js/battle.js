@@ -320,12 +320,14 @@
 				battleConsumeButtons[i].onclick = function() {
 					event.preventDefault();
 					if(that.hero.canHeal()) {
-						that.toast2("You drank the " + that.hero.inventory[this.getAttribute("data-num")].name + " and gained " + that.hero.inventory[this.getAttribute("data-num")].healValue + " HP!", 2000);
-						that.hero.consume(that.hero.inventory[this.getAttribute("data-num")]);
+						that.toast2("You drank the " + that.hero.inventory[this.getAttribute("data-num")].name + " and gained " + that.hero.consume(that.hero.inventory[this.getAttribute("data-num")]) + " HP!", 2000);
 						that.drawBattle();
 						closeModal("#useModal");
 						$("#useDiv").html("You currently have no consumable items.");
 						//TODO: add consume animation
+						that.waitingForInput = false;
+						that.hideHUD();
+						that.zoomOut();
 						that.advanceTurn();
 					}
 					else {

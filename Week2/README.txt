@@ -18,8 +18,6 @@
 *																							*
 *	Bug List:																				*
 *		Sometimes you drink necklaces														*
-*		Consuming a potion triggers demo quest 4 dialog even if not active					*
-*																							*
 *																							*
 *	Changelog:																				*
 *																							*
@@ -33,7 +31,7 @@
 *		Added grass to battlefield with looping texture										*
 *		Added quick time indicator															*
 *		Moved several button onclick functions into Game object								*
-*																							*
+*		Fixed several bugs caused by consuming items in battle								*
 *																							*
 *																							*
 *	v0.0.2.3 -																				*
